@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
+using Serilog;
 namespace GACDRest.Controllers
 {
     [ApiController]
@@ -20,7 +20,9 @@ namespace GACDRest.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
-            _logger = logger;
+            
+             _logger = logger;
+            // _logger = logger?.ForContext<WeatherForecastController>() ?? throw new ArgumentNullException(nameof(_logger));
         }
 
         [HttpGet]

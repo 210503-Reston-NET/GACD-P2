@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using GACDDL;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Serilog;
 
 namespace GACDRest
 {
@@ -57,7 +58,14 @@ namespace GACDRest
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GACDRest v1"));
             }
 
+            //Setup Serilog
+            Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(Configuration)
+            .CreateLogger();
+
             app.UseHttpsRedirection();
+            
+            //app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
@@ -65,7 +73,7 @@ namespace GACDRest
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                 endpoints.MapControllers();
             });
         }
     }

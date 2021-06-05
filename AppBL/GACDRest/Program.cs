@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace GACDRest
 {
@@ -13,7 +14,16 @@ namespace GACDRest
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+           try
+            {
+                CreateHostBuilder(args).Build().Run();
+                Log.Error("Started web host");
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                return;
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
