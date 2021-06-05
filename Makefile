@@ -12,7 +12,9 @@ solution_dl = $(solution_root_BL)/GACDDL
 
 #log_dir is the name of directory with logs relative to solution_root
 log_dir = logs
-
+restore:
+	dotnet restore ./$(solution_root_BL);
+	dotnet restore ./$(solution_root_UI)
 build:
 	dotnet build $(solution_root_BL);
 	dotnet build $(solution_root_UI)
