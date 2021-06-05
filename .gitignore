@@ -806,3 +806,5 @@ _Pvt_Extensions
 *.tlog
 
 # End of https://www.toptal.com/developers/gitignore/api/angular,csharp,visualstudio,visualstudiocode
+GACDAngular/appsettings.json
+GACDAngular/appsettings.json
