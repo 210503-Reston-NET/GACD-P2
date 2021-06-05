@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GACDModels
 {
-    class Competition
+    public class Competition
     {
         public Competition() { }
         public int Id { get; set; }

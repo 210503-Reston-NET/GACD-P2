@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GACDModels
 {
-    class Category
+    public class Category
     {
         public Category() { }
         public int Id { get; set; }

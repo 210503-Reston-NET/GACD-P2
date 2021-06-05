@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GACDModels
 {
-    class UserStatCatJoin
+    public class UserStatCatJoin
     { 
         public UserStatCatJoin() { }
         public int UserId { get; set; }

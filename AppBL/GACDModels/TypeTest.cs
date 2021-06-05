@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GACDModels
 {
-    class TypeTest
+    public class TypeTest
     {
         public TypeTest() { }
         public int Id { get; set; }
