@@ -49,5 +49,21 @@ namespace GACDBL
                 return null;
             }
         }
+        TypeTest SaveTypeTest(UserStat userStat, int errors, int charactersTyped, int timeTaken, DateTime date, double wpm)
+        {
+            TypeTest test = new TypeTest();
+                test.UserStat = userStat;
+            test.UserStatId = userStat.Id;
+            test.NumberOfErrors = errors;
+            test.NumberOfWords = (charactersTyped/5);
+            test.TimeTaken = timeTaken;
+            test.Date = date;
+            test.WPM = ((test.NumberOfWords - test.NumberOfErrors) / (test.TimeTaken/60));
+            _repo.AddTest(test);
+            return test;
+
+               
+
+        }
     }
 }
