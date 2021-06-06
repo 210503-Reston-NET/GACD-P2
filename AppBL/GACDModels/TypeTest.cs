@@ -14,6 +14,7 @@ namespace GACDModels
         public UserStat UserStat { get; set; }
         public int NumberOfErrors { get; set; }
         public int NumberOfWords { get; set; }
+        public int TimeTaken { get; set; }
         public DateTime Date { get; set; }
         public double WPM { get; set; }
     }

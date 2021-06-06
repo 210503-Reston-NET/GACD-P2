@@ -13,6 +13,7 @@ namespace GACDModels
         public double AverageWPM{ get; set; }
         public double AverageAccuracy { get; set; }
         public int NumberOfTests { get; set; }
+        public int TotalTestTime { get; set; }
         public UserStatCatJoin UserStatCatJoin { get; set; }
         public List<TypeTest> TypeTests { get; set; }
     }

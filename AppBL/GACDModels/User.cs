@@ -12,6 +12,7 @@ namespace GACDModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
+        public string Email { get; set; }
         public List<UserStatCatJoin> UserStatCatJoins { get; set; }
         public List<CompetitionStat> CompetitionStats { get; set; }
     }

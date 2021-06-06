@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GACDDL\GACDDL.csproj" />
+    <ProjectReference Include="..\GACDModels\GACDModels.csproj" />
+  </ItemGroup>
+
 </Project>
