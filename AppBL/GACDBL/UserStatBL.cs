@@ -31,9 +31,11 @@ namespace GACDBL
                     userStat.NumberOfTests = 0;
                     userStat.TotalTestTime = 0;
                 }
-                userStat.NumberOfTests += 1;
+                
                 userStat.TotalTestTime += typeTest.TimeTaken;
-                //TODO:other math
+                userStat.AverageAccuracy = ((userStat.AverageAccuracy * userStat.NumberOfTests) + ((typeTest.NumberOfWords - typeTest.NumberOfErrors) / typeTest.NumberOfWords)) / (userStat.NumberOfTests + 1);
+                userStat.AverageWPM = ((userStat.AverageWPM * userStat.NumberOfTests) + typeTest.WPM) / (userStat.NumberOfTests + 1);
+                userStat.NumberOfTests += 1;
                 userStat = _repo.AddUpdateStats(userId, categoryId, userStat);
                 typeTest.UserStatId = userStat.Id;
                 _repo.AddTest(typeTest);
