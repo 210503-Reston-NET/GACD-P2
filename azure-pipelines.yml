@@ -82,12 +82,12 @@ steps:
       zipAfterPublish: true
       projects: '**/AppBL/GACDRest/*.csproj'
 
-
   - task: AzureRmWebAppDeployment@4
     inputs:
       ConnectionType: 'AzureRM'
-      azureSubscription: 'Azure subscription 1(b9ea6d04-6500-4af6-adfa-84ac2185ff53)'
+      azureSubscription: 'kwikcode-azure'
       appType: 'webAppLinux'
-      WebAppName: 'watches-n-such'
+      WebAppName: 'KwickKoderRest'
       packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
       RuntimeStack: 'DOTNETCORE|5.0'
+
