@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GACDBL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Octokit;
 
 namespace GACDRest
 {
@@ -22,6 +23,12 @@ namespace GACDRest
         {
             return await _snippetsService.GetRandomQuote();
         }
-
+        [HttpGet]
+        [Route("CodeSnippet/{Language}")]
+        public async Task<String> CodeSnippet(string lang)
+        {
+            var l = Language.CSharp;
+            return await _snippetsService.GetCodeSnippet(l);
+        }
     }
 }
