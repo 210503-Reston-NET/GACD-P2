@@ -32,7 +32,8 @@ namespace GACDRest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDDB"))));
-            services.AddScoped<ISnippets, Snippets>();
+            services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
+            services.AddSingleton<ISnippets, Snippets>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
