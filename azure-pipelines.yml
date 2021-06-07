@@ -24,7 +24,7 @@ steps:
   
   - task: SonarCloudPrepare@1
     inputs:
-      SonarCloud: 'Sonar-Cloud-Service'
+      SonarCloud: 'sonar-cloud-kwik'
       organization: '210503-reston-net'
       scannerMode: 'MSBuild'
       projectKey: '210503-Reston-NET_GACD-P2'
