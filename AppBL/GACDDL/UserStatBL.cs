@@ -59,6 +59,7 @@ namespace GACDBL
             test.TimeTaken = timeTaken/60;
             test.Date = date;
             test.WPM = ((test.NumberOfWords - test.NumberOfErrors) / (test.TimeTaken/60));
+            await _repo.AddTest(test);
             return test;
 
                
