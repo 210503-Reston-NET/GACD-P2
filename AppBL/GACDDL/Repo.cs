@@ -86,6 +86,7 @@ namespace GACDDL
         {
             try
             {
+                if (GetUser(user.UserName, user.Email) != null) return null;
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 return user;
