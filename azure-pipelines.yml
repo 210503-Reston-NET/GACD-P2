@@ -1,24 +1,7 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 trigger:
 - main
 
 pool: Default
-
-
-# - task: VSBuild@1
-#   inputs:
-#     solution: '$(solution)'
-#     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-#     platform: '$(buildPlatform)'
-#     configuration: '$(buildConfiguration)'
-
-
-
-
 
 variables:
   solution: '**/AppBL/*.sln'
@@ -28,14 +11,6 @@ variables:
   solution_root: 'AppBL'
 
 
-  # - task: SonarCloudPrepare@1
-  #   inputs:
-  #     SonarCloud: 'Sonar-Cloud-Service'
-  #     organization: '210503-reston-net'
-  #     scannerMode: 'MSBuild'
-  #     projectKey: '210503-Reston-NET_Ruffner-Garrett-P1'
-  #     projectName: 'Ruffner-Garrett-P1'
-  #     extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml'
 
 steps:
 
@@ -47,11 +22,20 @@ steps:
       projects: '$(solution)'
       feedsToUse: 'select'
   
-#   - task: DotNetCoreCLI@2
-#     displayName: Build Projects
-#     inputs:
-#       command: 'build'
-#       projects: '$(solution)'
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'Sonar-Cloud-Service'
+      organization: '210503-reston-net'
+      scannerMode: 'MSBuild'
+      projectKey: '210503-Reston-NET_GACD-P2'
+      projectName: 'GACD-P2'
+      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml'
+
+  - task: DotNetCoreCLI@2
+    displayName: Build Projects
+    inputs:
+      command: 'build'
+      projects: '$(solution)'
     
 # #V2
 #   - task: DotNetCoreCLI@2
@@ -69,10 +53,10 @@ steps:
 #       summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 #       reportDirectory: '$(Build.SourcesDirectory)/App/Tests/' 
 
-#   - task: SonarCloudAnalyze@1
-#     displayName: Run Code Analysis
-#   - task: SonarCloudPublish@1
-#     displayName: Publish Code Analysis
+  - task: SonarCloudAnalyze@1
+    displayName: Run Code Analysis
+  - task: SonarCloudPublish@1
+    displayName: Publish Code Analysis
   
   - task: DotNetCoreCLI@2
     displayName: Publish
