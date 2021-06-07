@@ -15,6 +15,7 @@ using GACDDL;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Serilog;
+using GACDBL;
 
 namespace GACDRest
 {
@@ -31,6 +32,7 @@ namespace GACDRest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDDB"))));
+            services.AddScoped<ISnippets, Snippets>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
