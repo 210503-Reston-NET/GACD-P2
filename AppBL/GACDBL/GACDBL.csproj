@@ -9,4 +9,8 @@
     <ProjectReference Include="..\GACDModels\GACDModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Octokit" Version="0.50.0" />
+  </ItemGroup>
+
 </Project>
