@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GACDDL\GACDDL.csproj" />
     <ProjectReference Include="..\GACDBL\GACDBL.csproj" />
+    <ProjectReference Include="..\GACDBL\GACDModels.csproj" />
   </ItemGroup>
 
 </Project>
