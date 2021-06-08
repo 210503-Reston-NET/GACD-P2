@@ -23,9 +23,9 @@ namespace GACDDL
             try
             {
                 //Make sure category doesn't already exists
-                Category category = (from c in _context.Categories
+                Category category = await (from c in _context.Categories
                                      where c.Name == cat.Name
-                                     select c).Single();
+                                     select c).SingleAsync();
                 return null;
             }catch (Exception)
             {
@@ -55,13 +55,13 @@ namespace GACDDL
             //Assuming these categories and users exist
             try 
             {
-                int userStatId = (from uscj in _context.UserStatCatJoins
+                int userStatId = await (from uscj in _context.UserStatCatJoins
                                   where uscj.CategoryId == categoryid &&
                                   uscj.UserId == userid
-                                  select uscj.UserStatId).Single();
-                UserStat uStatInDB = (from uS in _context.UserStats
+                                  select uscj.UserStatId).SingleAsync();
+                UserStat uStatInDB = await (from uS in _context.UserStats
                                       where uS.Id == userStatId
-                                      select uS).Single();
+                                      select uS).SingleAsync();
                 uStatInDB.AverageWPM = userStat.AverageWPM;
                 uStatInDB.AverageAccuracy = userStat.AverageAccuracy;
                 uStatInDB.NumberOfTests = userStat.NumberOfTests;
@@ -87,7 +87,8 @@ namespace GACDDL
         {
             try
             {
-               await _context.Users.AddAsync(user);
+                if (await GetUser(user.UserName, user.Email) != null) return null;
+                await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;
             }
@@ -129,10 +130,10 @@ namespace GACDDL
         {
             try
             {
-                int userStatId = (from uscj in _context.UserStatCatJoins
+                int userStatId = await (from uscj in _context.UserStatCatJoins
                                   where uscj.CategoryId == categoryId &&
                                   uscj.UserId == userId
-                                  select uscj.UserStatId).Single();
+                                  select uscj.UserStatId).SingleAsync();
                 UserStat uStatInDB = await (from uS in _context.UserStats
                                       where uS.Id == userStatId
                                       select uS).SingleAsync();
