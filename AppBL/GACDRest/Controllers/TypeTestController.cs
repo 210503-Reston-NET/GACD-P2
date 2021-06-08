@@ -13,37 +13,26 @@ using GACDModels;
 /// </summary>
 namespace GACDRest.Controllers
 {
-
-	public class TypeTestController : ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TypeTestController : ControllerBase
 	{
 		private ISnippets _snippetsService;
-        private int language;
+        
         private IUserStatBL _userStatService;
 
-        public TypeTestController(ISnippets snip, int l, IUserStatBL _userstat)
+        public TypeTestController(ISnippets snip, IUserStatBL _userstat)
 
         {
             _snippetsService = snip;
             _userStatService = _userstat;
-            language = l;
         }
         [HttpGet]
         public async Task<TestMaterial> GetQuote()
         {
             return await _snippetsService.GetRandomQuote();
         }
-        [HttpGet]
-        public async Task<String> GetSnippet()
-        {
-            var snippetLanguage = Language.CSharp;
-            switch (language)
-            {
-                case 1:
-                    snippetLanguage = Octokit.Language.CSharp;
-                    break;
-            }
-            return await _snippetsService.GetCodeSnippet(snippetLanguage);
-        }
+        
         /// <summary>
         /// Method which adds a test to the database
         /// </summary>
