@@ -20,7 +20,7 @@ run:
 test:
 	dotnet test $(solution_root)
 publish:
- 	dotnet publish  $(solution_root)/$(solution_main) -c Release -o $(solution_root)/$(solution_main)/publish
+	dotnet publish  $(solution_root)/$(solution_main) -c Release -o $(solution_root)/$(solution_main)/publish
 rebuild-db:
     #dotnet ef database drop -c StoreDBContext --startup-project ../$(solution_root)
 	cd ./$(solution_dl) && dotnet ef migrations remove --startup-project ../$(solution_main_BL);

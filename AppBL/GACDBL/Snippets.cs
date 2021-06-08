@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
+using System;
 using System.Net.Http;
-using System.Runtime.Serialization.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
+using GACDModels;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Octokit;
 using Serilog;
 
@@ -18,58 +17,85 @@ namespace GACDBL
             _ApiSettings = settings.Value;
         }
 
-        public async Task<string> GetRandomQuote()
+        public async Task<TestMaterial> GetRandomQuote()
         {
-            Log.Debug("Getting Random Quote From API");
-            var client = new HttpClient();
-            var uri = new Uri("http://api.quotable.io/random");
-                        
-            dynamic responseContent = null;
-            HttpResponseMessage response = await client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-               responseContent = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
-               Log.Debug($"Retrieved Quote {responseContent.content}");
-            }else{
-                Log.Warning("Getting Quote Failed");
-            }
-            return responseContent.content;
-            //Should we return content, author, length?           
+            try{
+                Log.Debug("Getting Random Quote From API");
+
+                string endpoint = "http://api.quotable.io/random";
+
+                var response = DoHttpRequest(endpoint);
+
+                //convert response string to TestMaterial
+                
+                TestMaterial quote = await JsonSerializer.DeserializeAsync<TestMaterial>(await response);
+                Log.Debug("Content: {0}", quote.content);           
+                return quote;
+            }catch(Exception ex){
+                Log.Error("Error Getting Random Quote {0}\nStackTrace: {1}", ex.Message, ex.StackTrace);
+                return null;
+            }       
         }
 
         public async Task<string> GetCodeSnippet(Octokit.Language language)
         {
-            var client = new GitHubClient(new ProductHeaderValue("Not-sure-why-I-need-this"));
-            var tokenAuth = new Credentials(_ApiSettings.githubApiKey); // NOTE: not real token
-            client.Credentials = tokenAuth;
+            try{
+                Log.Debug("Getting code snipped for language: {0}",language);
+                var client = new GitHubClient(new ProductHeaderValue("Not-sure-why-I-need-this"));
+                var tokenAuth = new Credentials(_ApiSettings.githubApiKey); // NOTE: not real token
+                client.Credentials = tokenAuth;
 
-            var request = new SearchCodeRequest{
-                Language = language, 
-            };
+                var request = new SearchCodeRequest{
+                    Language = language
+                };
 
-            SearchCodeResult searchResult= await client.Search.SearchCode(request);
-            
-            String htmlUrl = searchResult.Items[0].HtmlUrl;
-            //convert html url to raw.githubusercontent
-            htmlUrl = htmlUrl.Replace("/blob/", "/");
-            htmlUrl = htmlUrl.Replace("https://github.com/", "https://raw.githubusercontent.com/");
-            
-            //collect text from site
-            var httpClient = new HttpClient();
-            var uri = new Uri(htmlUrl);
+                SearchCodeResult searchResult= await client.Search.SearchCode(request);
+                
+                String htmlUrl = searchResult.Items[0].HtmlUrl;
+                //convert html url to raw.githubusercontent
+                htmlUrl = htmlUrl.Replace("/blob/", "/");
+                htmlUrl = htmlUrl.Replace("https://github.com/", "https://raw.githubusercontent.com/");
+                
+                //collect text from site
+                var rawSnippet = await DoHttpRequest(htmlUrl);
+                
+                //parse rawSnippet
+                    //remove Comments
+                    //remove usings
+                    //remove trailing empty lines
+                    //remove trainling spaces
+                    //Make sure to return clean code
 
-            dynamic responseContent = null;
-            HttpResponseMessage response = await httpClient.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-               responseContent = await response.Content.ReadAsStringAsync();
-               Log.Debug("Retrieved Code snippet");
-            }else{
-                Log.Warning("Getting Code Snippet Failed");
+                //Check Length?
+                StreamReader reader = new StreamReader(rawSnippet);
+                string parsedSnippet = await reader.ReadToEndAsync();
+
+                return parsedSnippet;
+            }catch(Exception ex){
+                Log.Error("Error Getting Code Snippet {0}\nStackTrace: {1}", ex.Message, ex.StackTrace);
+                return null;
             }
-
-            return responseContent;
            
+        }
+
+        private async Task<Stream> DoHttpRequest(string uri){
+            try{
+                var httpClient = new HttpClient();
+                var URI = new Uri(uri);
+                HttpResponseMessage response = await httpClient.GetAsync(URI);
+                if (response.IsSuccessStatusCode)
+                {
+                    Log.Debug( $"Retrieved Http Response for uri: {uri}");
+                    return await response.Content.ReadAsStreamAsync();
+                   
+                }else{
+                    Log.Warning($"Http Requst for uri: {uri} Failed. Status code:{response.StatusCode}");
+                    return null;
+                }
+            }catch(Exception ex){
+                Log.Error("Error doing Http Request {0}\nStack Trace: {1}",ex.Message,ex.StackTrace);
+                return null;
+            }
         }
     }
 }

@@ -1,8 +1,10 @@
+using System.Net.Mime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GACDBL;
+using GACDModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
@@ -19,7 +21,7 @@ namespace GACDRest
         }
         [HttpGet]
         [Route("RandomQuote")]
-        public async Task<String> GetRandomQuote()
+        public async Task<TestMaterial> GetRandomQuote()
         {
             return await _snippetsService.GetRandomQuote();
         }
