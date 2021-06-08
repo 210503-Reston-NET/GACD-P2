@@ -68,5 +68,11 @@ namespace GACDDL
         /// <param name="typeTest">TypeTest to add</param>
         /// <returns>test added</returns>
         Task<TypeTest> AddTest(TypeTest typeTest);
+        /// <summary>
+        /// Method that returns all stats for a given user
+        /// </summary>
+        /// <param name="userId">Id for user whose stats are being requested</param>
+        /// <returns>List of stats if found, null otherwise</returns>
+        Task<List<UserStat>> GetUserStats(int userId);
     }
 }

@@ -49,6 +49,35 @@ namespace GACDBL
                 return null;
             }
         }
+
+        public async Task<UserStat> GetAvgUserStat(int userId)
+        {
+            List <UserStat> userStats = await _repo.GetUserStats(userId);
+            if (userStats.Count == 0) return new UserStat();
+            else
+            {
+                UserStat userStat = new UserStat();
+                userStat.TotalTestTime = 0;
+                userStat.NumberOfTests = 0;
+                userStat.AverageAccuracy = 0;
+                userStat.AverageWPM = 0;
+                foreach (UserStat u in userStats) userStat.TotalTestTime += u.TotalTestTime;
+                foreach (UserStat us in userStats)
+                {
+                    userStat.NumberOfTests += us.NumberOfTests;
+                    userStat.AverageAccuracy += (us.AverageAccuracy * us.TotalTestTime) / userStat.TotalTestTime;
+                    userStat.AverageWPM += (us.AverageWPM * us.TotalTestTime) / us.TotalTestTime;
+                }
+                return userStat;
+            }
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<UserStat>> GetUserStats(int userId)
+        {
+            return await _repo.GetUserStats(userId);
+        }
+
         public async Task<TypeTest> SaveTypeTest(UserStat userStat, int errors, int charactersTyped, int timeTaken, DateTime date)
         {
             TypeTest test = new TypeTest();

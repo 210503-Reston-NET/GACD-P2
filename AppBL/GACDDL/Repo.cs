@@ -176,6 +176,30 @@ namespace GACDDL
             }
         }
 
+        public async Task<List<UserStat>> GetUserStats(int userId)
+        {
+            try
+            {
+                List<int> userStatIds = await (from uscj in _context.UserStatCatJoins
+                                        where uscj.UserId == userId
+                                        select uscj.UserStatId).ToListAsync();
+                List<UserStat> userStats = new List<UserStat>();
+                foreach (int i in userStatIds) {
+                    UserStat uStatInDB = await (from uS in _context.UserStats
+                                                where uS.Id == i
+                                                select uS).SingleAsync();
+                    userStats.Add(uStatInDB);
+                }
+                return userStats;
+            }catch(Exception e)
+            {
+                Log.Error("No stats for user were found");
+                Log.Error(e.Message);
+                return new List<UserStat>();
+            }
+            throw new NotImplementedException();
+        }
+
         public async Task<User> UpdateUser(User user)
         {
             try
