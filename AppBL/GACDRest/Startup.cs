@@ -16,6 +16,11 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Serilog;
 using GACDBL;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GACDRest
 {
@@ -31,10 +36,26 @@ namespace GACDRest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string authAddress = $"https://{Configuration["Auth0:Domain"]}/";
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = authAddress;
+                options.Audience = Configuration["Auth0:Audience"];
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
+            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new CheckScopeAuth("read:messages", authAddress)));
+            });
             services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDDB"))));
             services.AddScoped<ISnippets, Snippets>();
             services.AddScoped<IUserStatBL, UserStatBL>();
             services.AddScoped<IUserBL, UserBL>();
+            services.AddSingleton<IAuthorizationHandler, CheckScopeHandle>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -72,6 +93,8 @@ namespace GACDRest
             //app.UseSerilogRequestLogging();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

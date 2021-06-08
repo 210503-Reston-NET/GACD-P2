@@ -816,3 +816,4 @@ _Pvt_Extensions
 # End of https://www.toptal.com/developers/gitignore/api/angular,csharp,visualstudio,visualstudiocode
 GACDAngular/appsettings.json
 GACDAngular/appsettings.json
+/auth0stuff
