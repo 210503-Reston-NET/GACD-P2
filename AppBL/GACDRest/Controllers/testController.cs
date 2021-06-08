@@ -8,6 +8,7 @@ using GACDModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GACDRest
 {
@@ -28,6 +29,13 @@ namespace GACDRest
         [HttpGet]
         [Route("CodeSnippet/{Language}")]
         public async Task<String> CodeSnippet(string lang)
+        {
+            var l = Language.CSharp;
+            return await _snippetsService.GetCodeSnippet(l);
+        }
+        [HttpGet("CodeSnippet/Secret")]
+        [Authorize("read:Account")]
+        public async Task<String> CodeSnippetSecret()
         {
             var l = Language.CSharp;
             return await _snippetsService.GetCodeSnippet(l);

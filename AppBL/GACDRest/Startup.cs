@@ -49,7 +49,7 @@ namespace GACDRest
             });
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new CheckScopeAuth("read:messages", authAddress)));
+                options.AddPolicy("read:Account", policy => policy.Requirements.Add(new CheckScopeAuth("read:Account", authAddress)));
             });
             services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDDB"))));
             services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
