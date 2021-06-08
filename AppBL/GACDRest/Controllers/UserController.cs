@@ -34,7 +34,8 @@ namespace GACDRest.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] string userName, [FromBody] string email, [FromBody] string name)
+        [Route("CreateUser/{userName}/{email}/{name}")]
+        public async Task<ActionResult> Post(string userName, string email, string name)
         {
             User u = new User();
             u.Email = email;
