@@ -1,4 +1,5 @@
 ﻿using GACDModels;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace GACDDL
             Log.Debug("Repo instantiated");
         }
 
-        public Category AddCategory(Category cat)
+        public async Task<Category> AddCategory(Category cat)
         {
             try
             {
@@ -28,18 +29,18 @@ namespace GACDDL
                 return null;
             }catch (Exception)
             {
-                _context.Categories.Add(cat);
-                _context.SaveChanges();
+               await _context.Categories.AddAsync(cat);
+               await _context.SaveChangesAsync();
                 return cat;
             }
         }
 
-        public TypeTest AddTest(TypeTest typeTest)
+        public async Task<TypeTest> AddTest(TypeTest typeTest)
         {
             try
             {
-                _context.TypeTests.Add(typeTest);
-                _context.SaveChanges();
+                await _context.TypeTests.AddAsync(typeTest);
+                await _context.SaveChangesAsync();
                 Log.Information("Test added");
                 return typeTest;
             } catch(Exception)
@@ -49,7 +50,7 @@ namespace GACDDL
             }
         }
 
-        public UserStat AddUpdateStats(int categoryid, int userid, UserStat userStat)
+        public async Task<UserStat> AddUpdateStats(int categoryid, int userid, UserStat userStat)
         {
             //Assuming these categories and users exist
             try 
@@ -65,30 +66,29 @@ namespace GACDDL
                 uStatInDB.AverageAccuracy = userStat.AverageAccuracy;
                 uStatInDB.NumberOfTests = userStat.NumberOfTests;
                 uStatInDB.TotalTestTime = userStat.TotalTestTime;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return uStatInDB;
             } catch (Exception)
             {
-                _context.UserStats.Add(userStat);
-                _context.SaveChanges();
+                await _context.UserStats.AddAsync(userStat);
+                await _context.SaveChangesAsync();
                 //this might miss timing just call me if you have an issue
                 UserStatCatJoin uscj = new UserStatCatJoin();
                 uscj.CategoryId = categoryid;
                 uscj.UserId = userid;
                 uscj.UserStatId = userStat.Id;
-                _context.UserStatCatJoins.Add(uscj);
-                _context.SaveChanges();
+                await _context.UserStatCatJoins.AddAsync(uscj);
+                await _context.SaveChangesAsync();
             }
             return userStat;
         }
 
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
             try
             {
-                if (GetUser(user.UserName, user.Email) != null) return null;
-                _context.Users.Add(user);
-                _context.SaveChanges();
+               await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
                 return user;
             }
             catch(Exception e)
@@ -98,12 +98,12 @@ namespace GACDDL
             }
         }
 
-        public List<Category> GetAllCategories()
+        public async Task<List<Category>> GetAllCategories()
         {
             try
             {
-                return (from c in _context.Categories
-                        select c).ToList();
+                return await (from c in _context.Categories
+                        select c).ToListAsync();
             }
             catch(Exception e)
             {
@@ -112,11 +112,11 @@ namespace GACDDL
             }
         }
 
-        public List<User> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
             try {
-                return (from u in _context.Users
-                        select u).ToList();
+                return await (from u in _context.Users
+                        select u).ToListAsync();
             }
             catch(Exception e)
             {
@@ -125,7 +125,7 @@ namespace GACDDL
             }
         }
 
-        public UserStat GetSatUserCat(int categoryId, int userId)
+        public async Task<UserStat> GetSatUserCat(int categoryId, int userId)
         {
             try
             {
@@ -133,9 +133,9 @@ namespace GACDDL
                                   where uscj.CategoryId == categoryId &&
                                   uscj.UserId == userId
                                   select uscj.UserStatId).Single();
-                UserStat uStatInDB = (from uS in _context.UserStats
+                UserStat uStatInDB = await (from uS in _context.UserStats
                                       where uS.Id == userStatId
-                                      select uS).Single();
+                                      select uS).SingleAsync();
                 return uStatInDB;
             } catch (Exception)
             {
@@ -144,13 +144,13 @@ namespace GACDDL
             }
         }
 
-        public User GetUser(int id)
+        public async  Task<User> GetUser(int id)
         {
             try
             {
-                return (from u in _context.Users
+                return await (from u in _context.Users
                         where u.Id == id
-                        select u).Single();
+                        select u).SingleAsync();
             }
             catch (Exception)
             {
@@ -159,14 +159,14 @@ namespace GACDDL
             }
         }
 
-        public User GetUser(string userName, string email)
+        public async Task<User> GetUser(string userName, string email)
         {
             try
             {
-                return (from u in _context.Users
+                return await (from u in _context.Users
                         where u.UserName == userName &&
                         u.Email == email
-                        select u).Single();
+                        select u).SingleAsync();
             }
             catch(Exception)
             {
@@ -175,12 +175,12 @@ namespace GACDDL
             }
         }
 
-        public User UpdateUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
             try
             {
-                _context.Users.Update(user);
-                _context.SaveChanges();
+               _context.Users.Update(user);
+               await _context.SaveChangesAsync();
                 return user;
             }
             catch (Exception e)
