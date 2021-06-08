@@ -6,7 +6,7 @@ namespace GACDBL
 {
     public interface ISnippets
     {
-        Task<string> GetRandomQuote();
+        Task<TestMaterial> GetRandomQuote();
         Task<string> GetCodeSnippet(Language language);
     }
 }
