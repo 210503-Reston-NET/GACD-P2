@@ -20,6 +20,11 @@ namespace GACDBL
         /// <param name="u">User to be added to the db</param>
         /// <returns>user added, null otherwise</returns>
         User AddUser(User u);
-
+        /// <summary>
+        /// Get a user by his or her ID
+        /// </summary>
+        /// <param name="id">ID of requested user</param>
+        /// <returns></returns>
+        User GetUser(int id);
     }
 }

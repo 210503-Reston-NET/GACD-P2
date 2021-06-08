@@ -1,5 +1,6 @@
 ﻿using GACDDL;
 using GACDModels;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +20,23 @@ namespace GACDBL
 
         public User AddUser(User u)
         {
-            Regex emailRegex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([azA-Z]{2,4}|[0-9]{1,3})(\]?)$");
-            bool emailCheck = !emailRegex.IsMatch(u.Email);
             Regex nameRegex = new Regex(@"^[a-zA-Z]{2,}\s[a-zA-Z]{1,}$");
             bool nameCheck = !nameRegex.IsMatch(u.Name);
+            Log.Debug(nameCheck.ToString());
             Regex usernameRegex = new Regex(@"[a-zA-Z0-9]{3,20}");
             bool usernameCheck = !usernameRegex.IsMatch(u.UserName);
-            if (emailCheck || nameCheck || usernameCheck)
+            Log.Debug(usernameCheck.ToString());
+            if (usernameCheck || nameCheck)
             {
                 return null;
             }
-            else return _repo.AddUser(u);
+            return _repo.AddUser(u);
             
+        }
+
+        public User GetUser(int id)
+        {
+            return null;
         }
 
         public List<User> GetUsers()
