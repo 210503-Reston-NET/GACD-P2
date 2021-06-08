@@ -13,18 +13,18 @@ namespace GACDBL
         /// Method to get users from the database
         /// </summary>
         /// <returns>List of Users in the database</returns>
-        List<User> GetUsers();
+        Task<List<User>> GetUsers();
         /// <summary>
         /// Method that adds a user to the db if able
         /// </summary>
         /// <param name="u">User to be added to the db</param>
         /// <returns>user added, null otherwise</returns>
-        User AddUser(User u);
+        Task<User> AddUser(User u);
         /// <summary>
         /// Get a user by his or her ID
         /// </summary>
         /// <param name="id">ID of requested user</param>
         /// <returns></returns>
-        User GetUser(int id);
+        Task<User> GetUser(int id);
     }
 }

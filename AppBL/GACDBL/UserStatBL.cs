@@ -9,7 +9,7 @@ using Serilog;
 
 namespace GACDBL
 {
-    class UserStatBL:IUserStatBL
+    public class UserStatBL : IUserStatBL
     {
         private Repo _repo;
         public UserStatBL(GACDDBContext context)

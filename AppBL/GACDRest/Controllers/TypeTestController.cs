@@ -28,9 +28,9 @@ namespace GACDRest.Controllers
             language = l;
         }
         [HttpGet]
-        public async Task<String> GetQuote()
+        public async Task<TestMaterial> GetQuote()
         {
-            return await _snippetsService.GetRandomQuote()
+            return await _snippetsService.GetRandomQuote();
         }
         [HttpGet]
         public async Task<String> GetSnippet()
@@ -44,13 +44,18 @@ namespace GACDRest.Controllers
             }
             return await _snippetsService.GetCodeSnippet(snippetLanguage);
         }
+        /// <summary>
+        /// Method which adds a test to the database
+        /// </summary>
+        /// <param name="typeTest">Typetest to insert</param>
+        /// <returns>400 if request can't be processed, 200 if successful</returns>
         [HttpPost]
-        public async Task<TypeTest> CreateTypeTest(int user, int cgory,  UserStat userStats, int errors, int words, int timeTaken, DateTime date)
+        public async Task<ActionResult> CreateTypeTest(TypeTestInput typeTest)
         {
-            
-            TypeTest t = await _userStatService.SaveTypeTest(userStats, errors, words, timeTaken, date);
-            await _userStatService.AddTestUpdateStat(user, cgory, t);
-            return t;
+            TypeTest testToBeInserted = typeTest;
+            bool typeTestFlag =  (await _userStatService.AddTestUpdateStat(typeTest.UserId, typeTest.CategoryId, testToBeInserted) == null);
+            if (typeTestFlag) return BadRequest();
+            else return Ok();
         }
 	}
 }

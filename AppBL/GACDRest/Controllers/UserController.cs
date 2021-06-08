@@ -20,17 +20,25 @@ namespace GACDRest.Controllers
             _userBL = userBL;
         }
         // GET: api/<UserController>
+        /// <summary>
+        /// Gets all the users in the database
+        /// </summary>
+        /// <returns>List of Users</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<User>> GetAsync()
         {
-            return new string[] { "value1", "value2" };
+            return await _userBL.GetUsers();
         }
-
+        /// <summary>
+        /// Gets a user with a given ID
+        /// </summary>
+        /// <param name="id">Id for the user</param>
+        /// <returns>User with Id</returns>
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public User Get(int id)
+        public async Task<User> GetAsync(int id)
         {
-            return "value";
+            return await _userBL.GetUser(id);
         }
         /// <summary>
         /// Posting a new user to the db
@@ -50,7 +58,7 @@ namespace GACDRest.Controllers
             u.Email = user.Email;
             u.UserName = user.UserName;
             u.Name = user.Name;
-            bool AddUserFlag = (_userBL.AddUser(u)==null);
+            bool AddUserFlag = (await _userBL.AddUser(u) == null);
             if (!AddUserFlag) return Ok();
             else return BadRequest();
         }
