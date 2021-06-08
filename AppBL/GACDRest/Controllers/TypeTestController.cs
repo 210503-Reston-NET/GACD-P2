@@ -28,9 +28,9 @@ namespace GACDRest.Controllers
             language = l;
         }
         [HttpGet]
-        public async Task<String> GetQuote()
+        public async Task<TestMaterial> GetQuote()
         {
-            return await _snippetsService.GetRandomQuote()
+            return await _snippetsService.GetRandomQuote();
         }
         [HttpGet]
         public async Task<String> GetSnippet()

@@ -18,7 +18,7 @@ namespace GACDBL
             _repo = new Repo(context);
         }
 
-        public User AddUser(User u)
+        public async Task<User> AddUser(User u)
         {
             Regex nameRegex = new Regex(@"^[a-zA-Z]{2,}\s[a-zA-Z]{1,}$");
             bool nameCheck = !nameRegex.IsMatch(u.Name);
@@ -30,18 +30,18 @@ namespace GACDBL
             {
                 return null;
             }
-            return _repo.AddUser(u);
+            return await _repo.AddUser(u);
             
         }
 
-        public User GetUser(int id)
+        public async Task<User> GetUser(int id)
         {
-            return null;
+            return await _repo.GetUser(id);
         }
 
-        public List<User> GetUsers()
+        public async Task<List<User>> GetUsers()
         {
-            throw new NotImplementedException();
+            return await _repo.GetAllUsers();
         }
     }
 }
