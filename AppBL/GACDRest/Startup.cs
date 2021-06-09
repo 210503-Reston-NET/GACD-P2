@@ -89,9 +89,9 @@ namespace GACDRest
             }
 
             //Setup Serilog
-            Log.Logger = new LoggerConfiguration()
-            .ReadFrom.Configuration(Configuration)
-            .CreateLogger();
+            // Log.Logger = new LoggerConfiguration()
+            // .ReadFrom.Configuration(Configuration)
+            // .CreateLogger();
             
             app.UseCors(x => x
             .AllowAnyOrigin()
@@ -100,7 +100,7 @@ namespace GACDRest
 
             app.UseHttpsRedirection();
             
-            //app.UseSerilogRequestLogging();
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 

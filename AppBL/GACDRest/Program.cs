@@ -14,6 +14,13 @@ namespace GACDRest
     {
         public static void Main(string[] args)
         {
+
+            //Setup Serilog
+            Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .CreateLogger();
+            
            try
             {
                 CreateHostBuilder(args).Build().Run();
@@ -28,6 +35,7 @@ namespace GACDRest
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
