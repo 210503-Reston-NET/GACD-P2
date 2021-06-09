@@ -37,21 +37,21 @@ steps:
       command: 'build'
       projects: '$(solution)'
     
-# #V2
-#   - task: DotNetCoreCLI@2
-#     displayName: 'Run unit tests - $(buildConfiguration)'
-#     inputs:
-#       command: 'test'
-#       arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"opencover,Cobertura\"" /p:Exclude=\"[Data.Migrations.*]*\"'
-#       publishTestResults: true
-#       projects: '$(solution)'
+#V2
+  - task: DotNetCoreCLI@2
+    displayName: 'Run unit tests - $(buildConfiguration)'
+    inputs:
+      command: 'test'
+      arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"opencover,Cobertura\"" /p:Exclude=\"[Data.Migrations.*]*\"'
+      publishTestResults: true
+      projects: '$(solution)'
 
-#   - task: PublishCodeCoverageResults@1
-#     displayName: 'Publish code coverage report'
-#     inputs:
-#       codeCoverageTool: Cobertura
-#       summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
-#       reportDirectory: '$(Build.SourcesDirectory)/App/Tests/' 
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage report'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+      reportDirectory: '$(Build.SourcesDirectory)/App/Tests/' 
 
   - task: SonarCloudAnalyze@1
     displayName: Run Code Analysis
