@@ -50,6 +50,32 @@ namespace GACDTests
                 Assert.Equal(expected, catCount);
             }
         }
+        [Fact]
+        public async Task UserStatShouldAddUserStatAsync()
+        {
+            using(var context = new GACDDBContext(options))
+            {
+                IUserBL userBL = new UserBL(context);
+                User user = new User();
+                user.Email = "abc@xyz.com";
+                user.Name = "Jack Ryan";
+                user.UserName = "abc123";
+                user = await userBL.AddUser(user);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                category = await categoryBL.AddCategory(category);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                TypeTest typeTest = new TypeTest();
+                typeTest.Date = DateTime.Now;
+                typeTest.NumberOfErrors = 1;
+                typeTest.NumberOfWords = 3;
+                typeTest.WPM = 30;
+                typeTest.TimeTaken = 5;
+                UserStat ust = await userStatBL.AddTestUpdateStat(1, 1, typeTest);
+                Assert.NotNull(ust);
+            }
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))

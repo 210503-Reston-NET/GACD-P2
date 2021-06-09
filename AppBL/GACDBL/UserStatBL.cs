@@ -22,7 +22,7 @@ namespace GACDBL
            UserStat userStat;
             try
             {
-                if(_repo.GetSatUserCat(userId, categoryId) != null) userStat = await _repo.GetSatUserCat(userId, categoryId);
+                if(await _repo.GetSatUserCat(userId, categoryId) != null) userStat = await _repo.GetSatUserCat(userId, categoryId);
                 else
                 {
                     userStat = new UserStat();
