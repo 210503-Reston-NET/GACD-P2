@@ -35,7 +35,7 @@ namespace GACDRest
             return await _snippetsService.GetCodeSnippet(l);
         }
         [HttpGet("CodeSnippet/Secret")]
-        [Authorize("read:Account")]
+        [Authorize]
         [EnableCors("AllowOrigin")]
         public async Task<String> CodeSnippetSecret()
         {
