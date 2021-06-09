@@ -8,5 +8,6 @@ namespace GACDBL
     {
         Task<TestMaterial> GetRandomQuote();
         Task<string> GetCodeSnippet(Language language);
+        Task<string> GetAuth0String();
     }
 }
