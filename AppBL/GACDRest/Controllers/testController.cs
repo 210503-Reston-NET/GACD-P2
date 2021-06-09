@@ -1,3 +1,4 @@
+
 using System.Net.Mime;
 using System;
 using System.Collections.Generic;
@@ -24,14 +25,12 @@ namespace GACDRest
     {
         private readonly ApiSettings _ApiSettings;
         private ISnippets _snippetsService;
-        private readonly  JwtBearerOptions _jwtOptions;
-        public testController(ISnippets snip, IOptionsMonitor<JwtBearerOptions> jwtOptions, IOptions<ApiSettings> settings)
+
+        public testController(ISnippets snip, IOptions<ApiSettings> settings)
         {
             _snippetsService = snip;
             _ApiSettings = settings.Value;
-            _jwtOptions = jwtOptions.Get(JwtBearerDefaults.AuthenticationScheme);
         }
-            
         [HttpGet]
         [Route("RandomQuote")]
         public async Task<TestMaterial> GetRandomQuote()
@@ -47,7 +46,7 @@ namespace GACDRest
         }
         [HttpGet("CodeSnippet/Secret")]
         [Authorize]
-        // [EnableCors("AllowOrigin")]
+        [EnableCors("AllowOrigin")]
         public async Task<String> CodeSnippetSecret()
         {
             var l = Language.CSharp;
@@ -68,6 +67,8 @@ namespace GACDRest
             var request1 = new RestRequest(Method.GET);
             request1.AddHeader("authorization", "Bearer " + JSONresponse.access_token);
             IRestResponse restResponse = client1.Execute(request1);
+            dynamic JSONrestResponse = restResponse.Content;
+
             return restResponse;
         }
     }
