@@ -70,7 +70,62 @@ namespace GACDBL
                 }
                 return userStat;
             }
-            throw new NotImplementedException();
+            
+        }
+
+        public async Task<List<Tuple<User, double, double>>> GetBestUsersForCategory(int categoryId)
+        {
+            try
+            {
+                List<User> users = await _repo.GetAllUsers();
+                List<Tuple<User, double, double>> userStats = new List<Tuple<User, double, double>>();
+
+                foreach (User u in users)
+                {
+                    if (await _repo.GetSatUserCat(categoryId, u.Id) != null)
+                    {
+                        UserStat userStat = await _repo.GetSatUserCat(categoryId, u.Id);
+                        Tuple<User, double, double> statTuple = Tuple.Create(u, userStat.AverageWPM, userStat.AverageAccuracy);
+
+                        if (statTuple.Item2 != 0) userStats.Add(statTuple);
+                    }
+                }
+                List<Tuple<User, double, double>> returnUsers = (from tuple in userStats
+                                                                orderby tuple.Item2 descending
+                                                                select tuple).ToList();
+                return returnUsers;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message + "Issue getting overallbestusers, returning empty list");
+                return new List<Tuple<User, double, double>>();
+            }
+        }
+
+        public async Task<List<Tuple<User, double, double>>> GetOverallBestUsers()
+        {
+            try {
+                List<User> users = await _repo.GetAllUsers();
+                List<Tuple<User, double, double>> userStats = new List<Tuple<User, double, double>>();
+                UserStat userStat;
+
+                foreach(User u in users)
+                {
+                    userStat = await GetAvgUserStat(u.Id);
+                    Tuple<User, double, double> statTuple = Tuple.Create(u, userStat.AverageWPM, userStat.AverageAccuracy);
+
+                    if (statTuple.Item2 != 0) userStats.Add(statTuple);
+                }
+                List<Tuple<User, double, double>> returnUsers = (from tuple in userStats
+                                          orderby tuple.Item2 descending
+                                          select tuple).ToList();
+                return returnUsers;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message + "Issue getting overallbestusers, returning empty list");
+                return new List<Tuple<User, double, double>>();
+            }
         }
 
         public async Task<List<UserStat>> GetUserStats(int userId)
