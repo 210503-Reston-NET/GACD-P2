@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using GACDRest.DTO;
 using RestSharp;
 using System.Text.Json;
+using System.Security.Claims;
 
 namespace GACDRest
 {
@@ -54,7 +55,6 @@ namespace GACDRest
         }
         [HttpGet("Test/Secret")]
         [Authorize]
-        [EnableCors("AllowOrigin")]
         public async Task<TestUserObject> TestUserSecret()
         {
             var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
@@ -63,7 +63,8 @@ namespace GACDRest
             request.AddParameter("application/json", _ApiSettings.authString, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             dynamic JSONresponse = response.Content;
-            var client1 = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
+            
+            var client1 = new RestClient($"https://kwikkoder.us.auth0.com/api/v2/users/{this.User.FindFirst(ClaimTypes.NameIdentifier).Value}");
             var request1 = new RestRequest(Method.GET);
             request1.AddHeader("authorization", "Bearer " + JSONresponse.access_token);
             IRestResponse restResponse = client1.Execute(request1);
