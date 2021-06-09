@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GACDDL", "GACDDL\GACDDL.csproj", "{C1A9BA0E-6601-401B-8AC8-23E41092798B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GACDDL", "GACDDL\GACDDL.csproj", "{C1A9BA0E-6601-401B-8AC8-23E41092798B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GACDModels", "GACDModels\GACDModels.csproj", "{3F149E6F-04CF-4494-85CA-7C48EF2D5D27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GACDModels", "GACDModels\GACDModels.csproj", "{3F149E6F-04CF-4494-85CA-7C48EF2D5D27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GACDRest", "GACDRest\GACDRest.csproj", "{130A5842-2456-4671-B4EE-23CD1ADCB00F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GACDRest", "GACDRest\GACDRest.csproj", "{130A5842-2456-4671-B4EE-23CD1ADCB00F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GACDBL", "GACDBL\GACDBL.csproj", "{1F5A737D-F771-43EF-9538-AC75141AAF4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GACDBL", "GACDBL\GACDBL.csproj", "{1F5A737D-F771-43EF-9538-AC75141AAF4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GACDTests", "GACDTests\GACDTests.csproj", "{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C1A9BA0E-6601-401B-8AC8-23E41092798B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,5 +71,23 @@ Global
 		{1F5A737D-F771-43EF-9538-AC75141AAF4C}.Release|x64.Build.0 = Release|Any CPU
 		{1F5A737D-F771-43EF-9538-AC75141AAF4C}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F5A737D-F771-43EF-9538-AC75141AAF4C}.Release|x86.Build.0 = Release|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Debug|x64.Build.0 = Debug|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Debug|x86.Build.0 = Debug|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Release|x64.Build.0 = Release|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E0BC0F2-593A-40AB-B923-D6EC2372A82E}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9DE8B559-E45F-4D6D-92A7-E4F08AE08BA4}
 	EndGlobalSection
 EndGlobal
