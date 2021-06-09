@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using GACDRest.DTO;
+using RestSharp;
+using System.Text.Json;
 
 namespace GACDRest
 {
@@ -45,6 +48,17 @@ namespace GACDRest
         {
             var l = Language.CSharp;
             return await _snippetsService.GetCodeSnippet(l);
+        }
+        [HttpGet("Test/Secret")]
+        [Authorize]
+        [EnableCors("AllowOrigin")]
+        public async Task<IRestResponse> TestUserSecret()
+        {
+            var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("authorization", $"Bearer ACS_TOKEN");
+            IRestResponse restResponse = client.Execute(request);
+            return restResponse;
         }
     }
 }
