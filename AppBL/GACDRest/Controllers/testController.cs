@@ -56,7 +56,7 @@ namespace GACDRest
         }
         [HttpGet("Test/Secret")]
         [Authorize]
-        public async Task<TestUserObject> TestUserSecret()
+        public async Task<String> TestUserSecret()
         {
             //LOTS OF Exceptions handleing needs to be done here
             
@@ -70,7 +70,7 @@ namespace GACDRest
             var request = new RestRequest(Method.GET);
             request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
             IRestResponse restResponse = await client.ExecuteAsync(request);            
-            dynamic JSONrestResponse = JsonConvert.DeserializeObject(restResponse.Content);
+            string JSONrestResponse = JsonConvert.DeserializeObject(restResponse.Content).ToString();
 
             Log.Information("response from call:{0}",JSONrestResponse);
 
