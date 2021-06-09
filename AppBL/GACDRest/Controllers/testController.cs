@@ -55,7 +55,7 @@ namespace GACDRest
         [HttpGet("Test/Secret")]
         [Authorize]
         [EnableCors("AllowOrigin")]
-        public async Task<IRestResponse> TestUserSecret()
+        public async Task<TestUserObject> TestUserSecret()
         {
             var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
             var request = new RestRequest(Method.POST);
