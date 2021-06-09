@@ -68,8 +68,11 @@ namespace GACDRest
             request1.AddHeader("authorization", "Bearer " + JSONresponse.access_token);
             IRestResponse restResponse = client1.Execute(request1);
             dynamic JSONrestResponse = restResponse.Content;
-
-            return restResponse;
+            TestUserObject testUserObject = new TestUserObject();
+            testUserObject.Email = JSONrestResponse.email;
+            testUserObject.Name = JSONrestResponse.name;
+            testUserObject.UserName = JSONrestResponse.username;
+            return testUserObject;
         }
     }
 }
