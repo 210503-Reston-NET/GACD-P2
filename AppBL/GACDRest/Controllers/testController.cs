@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace GACDRest
 {
@@ -27,14 +28,15 @@ namespace GACDRest
             return await _snippetsService.GetRandomQuote();
         }
         [HttpGet]
-        [Route("CodeSnippet/{Language}")]
-        public async Task<String> CodeSnippet(string lang)
+        [Route("CodeSnippet")]
+        public async Task<String> CodeSnippet()
         {
             var l = Language.CSharp;
             return await _snippetsService.GetCodeSnippet(l);
         }
         [HttpGet("CodeSnippet/Secret")]
         [Authorize("read:Account")]
+        [EnableCors("AllowOrigin")]
         public async Task<String> CodeSnippetSecret()
         {
             var l = Language.CSharp;

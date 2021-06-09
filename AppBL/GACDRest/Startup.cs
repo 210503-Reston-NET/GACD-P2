@@ -51,6 +51,10 @@ namespace GACDRest
             {
                 options.AddPolicy("read:Account", policy => policy.Requirements.Add(new CheckScopeAuth("read:Account", authAddress)));
             });
+            services.AddCors(c =>  
+                {  
+                    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());  
+                });
             services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDDB"))));
             services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
             services.AddScoped<ISnippets, Snippets>();
