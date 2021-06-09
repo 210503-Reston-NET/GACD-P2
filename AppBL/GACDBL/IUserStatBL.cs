@@ -32,6 +32,16 @@ namespace GACDBL
         /// <param name="userId">Id of User whose stats you are looking for</param>
         /// <returns>List of user stats associated with the user</returns>
         Task<List<UserStat>> GetUserStats(int userId);
-        
+        /// <summary>
+        /// Leaderboard method that returns a list of Users with the best WPM
+        /// </summary>
+        /// <returns>List of users ranked by WPM</returns>
+        Task<List<User>> GetOverallBestUsers();
+        /// <summary>
+        /// Leaderboard method that returns list of Users with the best WPM in the given category 
+        /// </summary>
+        /// <param name="categoryId">Id of category that users participated in/param>
+        /// <returns>List of Users ordered by their performance in a category</returns>
+        Task<List<User>> GetBestUsersForCategory(int categoryId);
     }
 }
