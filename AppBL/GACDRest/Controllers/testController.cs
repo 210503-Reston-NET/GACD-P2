@@ -31,6 +31,7 @@ namespace GACDRest
             _ApiSettings = settings.Value;
             _jwtOptions = jwtOptions.Get(JwtBearerDefaults.AuthenticationScheme);
         }
+            
         [HttpGet]
         [Route("RandomQuote")]
         public async Task<TestMaterial> GetRandomQuote()
@@ -46,7 +47,7 @@ namespace GACDRest
         }
         [HttpGet("CodeSnippet/Secret")]
         [Authorize]
-        [EnableCors("AllowOrigin")]
+        // [EnableCors("AllowOrigin")]
         public async Task<String> CodeSnippetSecret()
         {
             var l = Language.CSharp;
