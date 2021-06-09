@@ -22,10 +22,13 @@ namespace GACDRest
     [ApiController]
     public class testController : ControllerBase
     {
+        private readonly ApiSettings _ApiSettings;
         private ISnippets _snippetsService;
         private readonly  JwtBearerOptions _jwtOptions;
-        public testController(ISnippets snip, IOptionsMonitor<JwtBearerOptions> jwtOptions){
+        public testController(ISnippets snip, IOptionsMonitor<JwtBearerOptions> jwtOptions, IOptions<ApiSettings> settings)
+        {
             _snippetsService = snip;
+            _ApiSettings = settings.Value;
             _jwtOptions = jwtOptions.Get(JwtBearerDefaults.AuthenticationScheme);
         }
         [HttpGet]
@@ -55,9 +58,15 @@ namespace GACDRest
         public async Task<IRestResponse> TestUserSecret()
         {
             var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("authorization", $"Bearer ACS_TOKEN");
-            IRestResponse restResponse = client.Execute(request);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddParameter("application/json", _ApiSettings.authString, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            dynamic JSONresponse = response.Content;
+            var client1 = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
+            var request1 = new RestRequest(Method.GET);
+            request1.AddHeader("authorization", "Bearer " + JSONresponse.access_token);
+            IRestResponse restResponse = client1.Execute(request1);
             return restResponse;
         }
     }

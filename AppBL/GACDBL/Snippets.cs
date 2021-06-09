@@ -36,7 +36,10 @@ namespace GACDBL
                 return null;
             }       
         }
-
+        public async Task<string> GetAuth0String()
+        {
+            return _ApiSettings.authString;
+        }
         public async Task<string> GetCodeSnippet(Octokit.Language language)
         {
             try{
