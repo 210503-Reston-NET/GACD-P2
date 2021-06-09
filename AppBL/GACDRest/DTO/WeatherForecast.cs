@@ -1,6 +1,6 @@
 using System;
 
-namespace GACDRest
+namespace GACDRest.DTO
 {
     public class WeatherForecast
     {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
 using GACDModels;
+using GACDRest.DTO;
 
 /// <summary>
 /// Summary description for Class1

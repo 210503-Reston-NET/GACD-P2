@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GACDModels;
 using GACDBL;
 using Serilog;
+using GACDRest.DTO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GACDRest.Controllers
