@@ -20,11 +20,11 @@ namespace GACDRest
             .Enrich.FromLogContext()
             .WriteTo.Console()
             .CreateLogger();
-            
+
            try
             {
                 CreateHostBuilder(args).Build().Run();
-                Log.Error("Started web host");
+                Log.Information("Started web host");
             }
             catch (Exception ex)
             {
