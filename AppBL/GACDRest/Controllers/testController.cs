@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Octokit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace GACDRest
 {
@@ -18,8 +20,10 @@ namespace GACDRest
     public class testController : ControllerBase
     {
         private ISnippets _snippetsService;
-        public testController(ISnippets snip){
+        private readonly  JwtBearerOptions _jwtOptions;
+        public testController(ISnippets snip, IOptionsMonitor<JwtBearerOptions> jwtOptions){
             _snippetsService = snip;
+            _jwtOptions = jwtOptions.Get(JwtBearerDefaults.AuthenticationScheme);
         }
         [HttpGet]
         [Route("RandomQuote")]
