@@ -41,17 +41,17 @@ namespace GACDRest
         }
         [HttpGet]
         [Route("CodeSnippet")]
-        public async Task<String> CodeSnippet()
+        public async Task<TestMaterial> CodeSnippet()
         {
             var l = Language.CSharp;
-            return await _snippetsService.GetCodeSnippet(l);
+            return await _snippetsService.GetCodeSnippet(32);
         }
         [HttpGet("CodeSnippet/Secret")]
         [Authorize]
-        public async Task<String> CodeSnippetSecret()
+        public async Task<TestMaterial> CodeSnippetSecret()
         {
             var l = Language.CSharp;
-            return await _snippetsService.GetCodeSnippet(l);
+            return await _snippetsService.GetCodeSnippet(32);
         }
         [HttpGet("Test/Secret")]
         [Authorize]

@@ -40,7 +40,7 @@ namespace GACDBL
         {
             return _ApiSettings.authString;
         }
-        public async Task<string> GetCodeSnippet(Octokit.Language language)
+        public async Task<TestMaterial> GetCodeSnippet(int language)
         {
             try{
                 Log.Debug("Getting code snipped for language: {0}",language);
@@ -49,7 +49,7 @@ namespace GACDBL
                 client.Credentials = tokenAuth;
 
                 var request = new SearchCodeRequest{
-                    Language = language
+                    Language = (Language)language
                 };
 
                 SearchCodeResult searchResult= await client.Search.SearchCode(request);
@@ -57,6 +57,8 @@ namespace GACDBL
                 String htmlUrl = searchResult.Items[0].HtmlUrl;
                 //convert html url to raw.githubusercontent
                 htmlUrl = htmlUrl.Replace("/blob/", "/");
+                String author = searchResult.Items[0].Repository.FullName;
+
                 htmlUrl = htmlUrl.Replace("https://github.com/", "https://raw.githubusercontent.com/");
                 
                 //collect text from site
@@ -72,8 +74,9 @@ namespace GACDBL
                 //Check Length?
                 StreamReader reader = new StreamReader(rawSnippet);
                 string parsedSnippet = await reader.ReadToEndAsync();
-
-                return parsedSnippet;
+                TestMaterial testMaterial = new TestMaterial(parsedSnippet, author, parsedSnippet.Length );
+                testMaterial.categoryId = language;
+                return testMaterial;
             }catch(Exception ex){
                 Log.Error("Error Getting Code Snippet {0}\nStackTrace: {1}", ex.Message, ex.StackTrace);
                 return null;

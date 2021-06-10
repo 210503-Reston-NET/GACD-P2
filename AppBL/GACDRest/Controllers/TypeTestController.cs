@@ -33,11 +33,17 @@ namespace GACDRest.Controllers
             _userStatService = _userstat;
         }
         [HttpGet]
-        public async Task<TestMaterial> GetQuote(int id)
+        public async Task<TestMaterial> GetQuote()
         {
             return await _snippetsService.GetRandomQuote();
         }
-        
+        [HttpGet("{id}")]
+        public async Task<TestMaterial> CodeSnippet(int id)
+        {
+            
+            return await _snippetsService.GetCodeSnippet(id);
+        }
+
         /// <summary>
         /// Method which adds a test to the database
         /// </summary>
