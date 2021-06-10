@@ -27,9 +27,7 @@ namespace GACDTests
             {
                 IUserBL userBL = new UserBL(context);
                 User user = new User();
-                user.Email = "abc@xyz.com";
-                user.Name = "Jack Ryan";
-                user.UserName = "abc123";
+                user.Auth0Id = "test";
                 await userBL.AddUser(user);
                 int userCount = (await userBL.GetUsers()).Count;
                 int expected = 1;
@@ -57,9 +55,7 @@ namespace GACDTests
             {
                 IUserBL userBL = new UserBL(context);
                 User user = new User();
-                user.Email = "abc@xyz.com";
-                user.Name = "Jack Ryan";
-                user.UserName = "abc123";
+                user.Auth0Id = "testid";
                 user = await userBL.AddUser(user);
                 ICategoryBL categoryBL = new CategoryBL(context);
                 Category category = new Category();

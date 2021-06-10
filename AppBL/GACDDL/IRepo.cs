@@ -49,6 +49,12 @@ namespace GACDDL
         /// <returns>List of categories found</returns>
         Task<List<Category>> GetAllCategories();
         /// <summary>
+        /// Gets a category by it's Octokit.Language int name
+        /// </summary>
+        /// <param name="name">name of category requested</param>
+        /// <returns>Category requested</returns>
+        Task<Category> GetCategoryByName(int name);
+        /// <summary>
         /// Versatile method to update a user's stats for a given category
         /// </summary>
         /// <param name="categoryid">category user participated in</param>
