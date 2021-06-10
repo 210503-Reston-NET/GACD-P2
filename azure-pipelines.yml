@@ -22,14 +22,14 @@ steps:
       projects: '$(solution)'
       feedsToUse: 'select'
   
-#  - task: SonarCloudPrepare@1
-#    inputs:
-#      SonarCloud: 'sonar-cloud-kwik'
-#      organization: '210503-reston-net'
-#      scannerMode: 'MSBuild'
-#      projectKey: '210503-Reston-NET_GACD-P2'
-#      projectName: 'GACD-P2'
-#      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml'
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'sonar-cloud-kwik'
+      organization: '210503-reston-net'
+      scannerMode: 'MSBuild'
+      projectKey: '210503-Reston-NET_GACD-P2'
+      projectName: 'GACD-P2'
+      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml'
 
   - task: DotNetCoreCLI@2
     displayName: Build Projects
@@ -46,18 +46,18 @@ steps:
       publishTestResults: true
       projects: '$(solution)'
 
-  # - task: PublishCodeCoverageResults@1
-  #   displayName: 'Publish code coverage report'
-  #   inputs:
-  #     codeCoverageTool: Cobertura
-  #     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
-  #     reportDirectory: '$(Build.SourcesDirectory)/App/Tests/' 
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage report'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+      reportDirectory: '$(Build.SourcesDirectory)/App/Tests/' 
 
-#  - task: SonarCloudAnalyze@1
-#    displayName: Run Code Analysis
-#  - task: SonarCloudPublish@1
-#    displayName: Publish Code Analysis
-  
+  - task: SonarCloudAnalyze@1
+    displayName: Run Code Analysis
+  - task: SonarCloudPublish@1
+    displayName: Publish Code Analysis
+    
   - task: DotNetCoreCLI@2
     displayName: Publish
     inputs:
