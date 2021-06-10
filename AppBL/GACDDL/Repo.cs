@@ -87,7 +87,7 @@ namespace GACDDL
         {
             try
             {
-                if (await GetUser(user.UserName, user.Email) != null) return null;
+                if (await GetUser(user.Auth0Id) != null) return null;
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;
@@ -160,13 +160,12 @@ namespace GACDDL
             }
         }
 
-        public async Task<User> GetUser(string userName, string email)
+        public async Task<User> GetUser(string auth0Id)
         {
             try
             {
                 return await (from u in _context.Users
-                        where u.UserName == userName &&
-                        u.Email == email
+                        where u.Auth0Id == auth0Id
                         select u).SingleAsync();
             }
             catch(Exception)

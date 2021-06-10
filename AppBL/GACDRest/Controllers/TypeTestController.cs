@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Octokit;
 using GACDModels;
 using GACDRest.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 /// <summary>
 /// Summary description for Class1
@@ -40,8 +41,10 @@ namespace GACDRest.Controllers
         /// <param name="typeTest">Typetest to insert</param>
         /// <returns>400 if request can't be processed, 200 if successful</returns>
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> CreateTypeTest(TypeTestInput typeTest)
         {
+            
             TypeTest testToBeInserted = typeTest;
             bool typeTestFlag =  (await _userStatService.AddTestUpdateStat(typeTest.UserId, typeTest.CategoryId, testToBeInserted) == null);
             if (typeTestFlag) return BadRequest();

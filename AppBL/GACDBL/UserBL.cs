@@ -20,16 +20,7 @@ namespace GACDBL
 
         public async Task<User> AddUser(User u)
         {
-            Regex nameRegex = new Regex(@"^[a-zA-Z]{2,}\s[a-zA-Z]{1,}$");
-            bool nameCheck = !nameRegex.IsMatch(u.Name);
-            Log.Debug(nameCheck.ToString());
-            Regex usernameRegex = new Regex(@"[a-zA-Z0-9]{3,20}");
-            bool usernameCheck = !usernameRegex.IsMatch(u.UserName);
-            Log.Debug(usernameCheck.ToString());
-            if (usernameCheck || nameCheck)
-            {
-                return null;
-            }
+            
             return await _repo.AddUser(u);
             
         }
