@@ -13,7 +13,7 @@ namespace GACDDL
         /// <param name="userName">username of user</param>
         /// <param name="email">email of user</param>
         /// <returns>User with the given username and email</returns>
-        Task<User> GetUser(string userName, string email);
+        Task<User> GetUser(string auth0id);
         /// <summary>
         /// Return a user based on id
         /// </summary>

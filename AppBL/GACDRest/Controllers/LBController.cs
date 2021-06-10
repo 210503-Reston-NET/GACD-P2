@@ -36,8 +36,8 @@ namespace GACDRest.Controllers
                 LBUserModel lBUserModel = new LBUserModel();
                 lBUserModel.AverageWPM = tuple.Item2;
                 lBUserModel.AverageAcc = tuple.Item3;
-                lBUserModel.Name = tuple.Item1.Name;
-                lBUserModel.UserName = tuple.Item1.UserName;
+                //lBUserModel.Name = tuple.Item1.Name;
+                //lBUserModel.UserName = tuple.Item1.UserName;
                 lBUserModels.Add(lBUserModel);
             }
             return lBUserModels;
@@ -58,8 +58,8 @@ namespace GACDRest.Controllers
                 LBUserModel lBUserModel = new LBUserModel();
                 lBUserModel.AverageWPM = tuple.Item2;
                 lBUserModel.AverageAcc = tuple.Item3;
-                lBUserModel.Name = tuple.Item1.Name;
-                lBUserModel.UserName = tuple.Item1.UserName;
+                //lBUserModel.Name = tuple.Item1.Name;
+                //lBUserModel.UserName = tuple.Item1.UserName;
                 lBUserModels.Add(lBUserModel);
             }
             return lBUserModels;

@@ -10,6 +10,6 @@ namespace GACDRest.DTO
     {
         public TypeTestInput() { }
         public int CategoryId { get; set; }
-        public int UserId { get; set; }
+        
     }
 }
