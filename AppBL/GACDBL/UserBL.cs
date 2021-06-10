@@ -30,6 +30,11 @@ namespace GACDBL
             return await _repo.GetUser(id);
         }
 
+        public async Task<User> GetUser(string userID)
+        {
+            return await _repo.GetUser(userID);
+        }
+
         public async Task<List<User>> GetUsers()
         {
             return await _repo.GetAllUsers();

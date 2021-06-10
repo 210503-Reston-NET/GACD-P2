@@ -9,6 +9,7 @@ using Octokit;
 using GACDModels;
 using GACDRest.DTO;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 /// <summary>
 /// Summary description for Class1
@@ -22,15 +23,17 @@ namespace GACDRest.Controllers
 		private ISnippets _snippetsService;
         
         private IUserStatBL _userStatService;
+        private IUserBL _userBL;
 
-        public TypeTestController(ISnippets snip, IUserStatBL _userstat)
+        public TypeTestController(ISnippets snip, IUserStatBL _userstat, IUserBL userBL)
 
         {
+            _userBL = userBL;
             _snippetsService = snip;
             _userStatService = _userstat;
         }
         [HttpGet]
-        public async Task<TestMaterial> GetQuote()
+        public async Task<TestMaterial> GetQuote(int id)
         {
             return await _snippetsService.GetRandomQuote();
         }
@@ -44,9 +47,16 @@ namespace GACDRest.Controllers
         [Authorize]
         public async Task<ActionResult> CreateTypeTest(TypeTestInput typeTest)
         {
-            
+            string UserID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if(await _userBL.GetUser(UserID) == null)
+            {
+                GACDModels.User user = new GACDModels.User();
+                user.Auth0Id = UserID;
+                await _userBL.AddUser(user);
+            }
+            GACDModels.User user1 = await _userBL.GetUser(UserID);
             TypeTest testToBeInserted = typeTest;
-            bool typeTestFlag =  (await _userStatService.AddTestUpdateStat(typeTest.UserId, typeTest.CategoryId, testToBeInserted) == null);
+            bool typeTestFlag =  (await _userStatService.AddTestUpdateStat(user1.Id, typeTest.CategoryId, testToBeInserted) == null);
             if (typeTestFlag) return BadRequest();
             else return Ok();
         }

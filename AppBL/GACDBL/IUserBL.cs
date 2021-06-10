@@ -26,5 +26,6 @@ namespace GACDBL
         /// <param name="id">ID of requested user</param>
         /// <returns></returns>
         Task<User> GetUser(int id);
+        Task<User> GetUser(string userID);
     }
 }

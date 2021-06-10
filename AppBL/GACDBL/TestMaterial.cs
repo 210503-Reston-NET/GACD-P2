@@ -16,5 +16,6 @@ namespace GACDModels
         public string content { get; set; }
         public string author { get; set; }
         public int length { get; set; }
+        public int categoryId { get; set; }
     }
 }
