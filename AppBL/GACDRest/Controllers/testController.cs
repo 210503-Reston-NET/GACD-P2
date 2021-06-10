@@ -48,7 +48,6 @@ namespace GACDRest
         }
         [HttpGet("CodeSnippet/Secret")]
         [Authorize]
-        [EnableCors("AllowOrigin")]
         public async Task<String> CodeSnippetSecret()
         {
             var l = Language.CSharp;
@@ -60,7 +59,7 @@ namespace GACDRest
         {
             //LOTS OF Exceptions handleing needs to be done here
             
-            string UserID = "auth0|"+this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string UserID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             
             Log.Information("UserID?: {0}", UserID);
 
