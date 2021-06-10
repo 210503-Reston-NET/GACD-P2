@@ -58,7 +58,7 @@ namespace GACDRest
                 {  
                     c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());  
                 });
-            services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDDB"))));
+            services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDB"))));
             services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
             services.AddScoped<ISnippets, Snippets>();
             services.AddScoped<IUserStatBL, UserStatBL>();
