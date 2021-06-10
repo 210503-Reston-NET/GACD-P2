@@ -20,5 +20,11 @@ namespace GACDBL
         /// </summary>
         /// <returns>List of all categories</returns>
         Task<List<Category>> GetAllCategories();
+        /// <summary>
+        /// Get a category by it's number name (defined in Octokit.Language)
+        /// </summary>
+        /// <param name="name">name of language </param>
+        /// <returns>category requested</returns>
+        Task<Category> GetCategory(int name);
     }
 }

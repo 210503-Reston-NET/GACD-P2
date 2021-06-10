@@ -24,13 +24,14 @@ namespace GACDRest.Controllers
         
         private IUserStatBL _userStatService;
         private IUserBL _userBL;
-
-        public TypeTestController(ISnippets snip, IUserStatBL _userstat, IUserBL userBL)
+        private ICategoryBL _categoryBL;
+        public TypeTestController(ISnippets snip, IUserStatBL _userstat, IUserBL userBL, ICategoryBL categoryBL)
 
         {
             _userBL = userBL;
             _snippetsService = snip;
             _userStatService = _userstat;
+            _categoryBL = categoryBL;
         }
         [HttpGet]
         public async Task<TestMaterial> GetQuote()
@@ -53,6 +54,7 @@ namespace GACDRest.Controllers
         [Authorize]
         public async Task<ActionResult> CreateTypeTest(TypeTestInput typeTest)
         {
+            
             string UserID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if(await _userBL.GetUser(UserID) == null)
             {
@@ -60,9 +62,16 @@ namespace GACDRest.Controllers
                 user.Auth0Id = UserID;
                 await _userBL.AddUser(user);
             }
+            if(await _categoryBL.GetCategory(typeTest.CategoryId) == null)
+            {
+                GACDModels.Category category = new GACDModels.Category();
+                category.Name = typeTest.CategoryId;
+                await _categoryBL.AddCategory(category);
+            }
+            Category category1 = await _categoryBL.GetCategory(typeTest.CategoryId);
             GACDModels.User user1 = await _userBL.GetUser(UserID);
             TypeTest testToBeInserted = typeTest;
-            bool typeTestFlag =  (await _userStatService.AddTestUpdateStat(user1.Id, typeTest.CategoryId, testToBeInserted) == null);
+            bool typeTestFlag =  (await _userStatService.AddTestUpdateStat(user1.Id, category1.Id, testToBeInserted) == null);
             if (typeTestFlag) return BadRequest();
             else return Ok();
         }

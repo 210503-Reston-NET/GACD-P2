@@ -63,6 +63,7 @@ namespace GACDRest
             services.AddScoped<ISnippets, Snippets>();
             services.AddScoped<IUserStatBL, UserStatBL>();
             services.AddScoped<IUserBL, UserBL>();
+            services.AddScoped<ICategoryBL, CategoryBL>();
             services.AddSingleton<IAuthorizationHandler, CheckScopeHandle>();
             services.AddControllers();
             services.AddSwaggerGen(c =>

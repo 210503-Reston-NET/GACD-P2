@@ -29,8 +29,9 @@ namespace GACDDL
                 return null;
             }catch (Exception)
             {
-               await _context.Categories.AddAsync(cat);
-               await _context.SaveChangesAsync();
+                await _context.Categories.AddAsync(cat);
+                await _context.SaveChangesAsync();
+                Log.Information("New category created.");
                 return cat;
             }
         }
@@ -123,6 +124,21 @@ namespace GACDDL
             {
                 Log.Error(e.Message);
                 return new List<User>();
+            }
+        }
+
+        public async Task<Category> GetCategoryByName(int name)
+        {
+            try
+            {
+                return await (from cat in _context.Categories
+                             where cat.Name == name
+                             select cat).SingleAsync();
+            } catch(Exception e)
+            {
+                Log.Information("No such category found");
+                return null;
+
             }
         }
 
