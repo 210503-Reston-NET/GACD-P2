@@ -41,8 +41,8 @@ namespace GACDRest.Controllers
         [HttpGet("{id}")]
         public async Task<TestMaterial> CodeSnippet(int id)
         {
-            
-            return await _snippetsService.GetCodeSnippet(id);
+            if (id == -1) return await _snippetsService.GetRandomQuote();
+            else return await _snippetsService.GetCodeSnippet(id);
         }
 
         /// <summary>
