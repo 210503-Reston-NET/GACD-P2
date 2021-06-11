@@ -2,6 +2,10 @@
 using GACDModels;
 using GACDRest.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using RestSharp;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +19,12 @@ namespace GACDRest.Controllers
     [ApiController]
     public class LBController : ControllerBase
     {
+        private readonly ApiSettings _ApiSettings;
         private IUserStatBL _userStatBL;
-        public LBController(IUserStatBL userStatBL)
+        public LBController(IUserStatBL userStatBL, IOptions<ApiSettings> settings)
         {
             _userStatBL = userStatBL;
+            _ApiSettings = settings.Value;
         }
         // GET: api/<LBController>
         /// <summary>
@@ -56,6 +62,22 @@ namespace GACDRest.Controllers
             foreach (Tuple<User, double, double> tuple in statTuples)
             {
                 LBUserModel lBUserModel = new LBUserModel();
+                try
+                {
+                    dynamic AppBearerToken = GetApplicationToken();
+                    var client = new RestClient($"https://kwikkoder.us.auth0.com/api/v2/users/{tuple.Item1.Auth0Id}");
+                    var request = new RestRequest(Method.GET);
+                    request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
+                    IRestResponse restResponse = await client.ExecuteAsync(request);
+                    dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
+
+                    lBUserModel.UserName = deResponse.username;
+                }
+                catch(Exception e)
+                {
+                    Log.Error(e.Message);
+                    Log.Error("Unexpected error occured in LBController");
+                }
                 lBUserModel.AverageWPM = tuple.Item2;
                 lBUserModel.AverageAcc = tuple.Item3;
                 //lBUserModel.Name = tuple.Item1.Name;
@@ -63,6 +85,16 @@ namespace GACDRest.Controllers
                 lBUserModels.Add(lBUserModel);
             }
             return lBUserModels;
+        }
+        private dynamic GetApplicationToken()
+        {
+            var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddParameter("application/json", _ApiSettings.authString, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            //Log.Information("Response: {0}",response.Content);
+            return JsonConvert.DeserializeObject(response.Content);
         }
 
         // POST api/<LBController>
