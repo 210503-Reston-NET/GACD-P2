@@ -64,15 +64,15 @@ namespace GACDRest.Controllers
                 user.Auth0Id = UserID;
                 await _userBL.AddUser(user);
             }
-            if(await _categoryBL.GetCategory(typeTest.CategoryId) == null)
+            if(await _categoryBL.GetCategory(typeTest.Category) == null)
             {
                 GACDModels.Category category = new GACDModels.Category();
-                category.Name = typeTest.CategoryId;
+                category.Name = typeTest.Category;
                 await _categoryBL.AddCategory(category);
             }
-            Category category1 = await _categoryBL.GetCategory(typeTest.CategoryId);
+            Category category1 = await _categoryBL.GetCategory(typeTest.Category);
             GACDModels.User user1 = await _userBL.GetUser(UserID);
-            TypeTest testToBeInserted = typeTest;
+            TypeTest testToBeInserted = await _userStatService.SaveTypeTest(user1.Id,typeTest.CharTyped,typeTest.TimeTaken,typeTest.Date);
             bool typeTestFlag =  (await _userStatService.AddTestUpdateStat(user1.Id, category1.Id, testToBeInserted) == null);
             if (typeTestFlag) return BadRequest();
             else return Ok();

@@ -43,5 +43,14 @@ namespace GACDBL
         /// <param name="categoryId">Id of category that users participated in/param>
         /// <returns>List of Users and their WPM, acuraccies and ranking ordered by their performance in a category</returns>
         Task<List<Tuple<User, double, double, int>>> GetBestUsersForCategory(int categoryId);
+        /// <summary>
+        /// Makes a type test to send to db
+        /// </summary>
+        /// <param name="errors">errors from the test</param>
+        /// <param name="charactersTyped">total char typed</param>
+        /// <param name="timeTaken">how long type test has taken</param>
+        /// <param name="date">date test performed</param>
+        /// <returns>type test for database</returns>
+        Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, DateTime date);
     }
 }

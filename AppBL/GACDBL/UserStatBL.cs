@@ -149,11 +149,9 @@ namespace GACDBL
             return await _repo.GetUserStats(userId);
         }
 
-        public async Task<TypeTest> SaveTypeTest(UserStat userStat, int errors, int charactersTyped, int timeTaken, DateTime date)
+        public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, DateTime date)
         {
             TypeTest test = new TypeTest();
-                test.UserStat = userStat;
-            test.UserStatId = userStat.Id;
             test.NumberOfErrors = errors;
             test.NumberOfWords = (charactersTyped/5);
             test.TimeTaken = timeTaken/60;
