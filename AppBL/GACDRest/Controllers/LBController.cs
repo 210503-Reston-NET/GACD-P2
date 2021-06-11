@@ -35,9 +35,9 @@ namespace GACDRest.Controllers
         public async Task<IEnumerable<LBUserModel>> GetAsync()
         {
 
-            List<Tuple<User, double, double>> statTuples = await _userStatBL.GetOverallBestUsers();
+            List<Tuple<User, double, double, int>> statTuples = await _userStatBL.GetOverallBestUsers();
             List<LBUserModel> lBUserModels = new List<LBUserModel>();
-            foreach (Tuple<User, double, double> tuple in statTuples)
+            foreach (Tuple<User, double, double, int> tuple in statTuples)
             {
                 LBUserModel lBUserModel = new LBUserModel();
                 lBUserModel.AverageWPM = tuple.Item2;
@@ -57,9 +57,9 @@ namespace GACDRest.Controllers
         [HttpGet("{id}")]
         public async Task<IEnumerable<LBUserModel>> GetAsync(int id)
         {
-            List<Tuple<User, double, double>> statTuples = await _userStatBL.GetBestUsersForCategory(id);
+            List<Tuple<User, double, double,int>> statTuples = await _userStatBL.GetBestUsersForCategory(id);
             List<LBUserModel> lBUserModels = new List<LBUserModel>();
-            foreach (Tuple<User, double, double> tuple in statTuples)
+            foreach (Tuple<User, double, double,int> tuple in statTuples)
             {
                 LBUserModel lBUserModel = new LBUserModel();
                 try
@@ -80,6 +80,7 @@ namespace GACDRest.Controllers
                 }
                 lBUserModel.AverageWPM = tuple.Item2;
                 lBUserModel.AverageAcc = tuple.Item3;
+                lBUserModel.Ranking = tuple.Item4;
                 //lBUserModel.Name = tuple.Item1.Name;
                 //lBUserModel.UserName = tuple.Item1.UserName;
                 lBUserModels.Add(lBUserModel);

@@ -35,13 +35,13 @@ namespace GACDBL
         /// <summary>
         /// Leaderboard method that returns a list of Users with the best WPM
         /// </summary>
-        /// <returns>List of users ranked by WPM and their WPM and acuraccies</returns>
-        Task<List<Tuple<User, double, double>>> GetOverallBestUsers();
+        /// <returns>List of users ranked by WPM and their WPM, acuraccies and ranking</returns>
+        Task<List<Tuple<User, double, double, int>>> GetOverallBestUsers();
         /// <summary>
         /// Leaderboard method that returns list of Users with the best WPM in the given category 
         /// </summary>
         /// <param name="categoryId">Id of category that users participated in/param>
-        /// <returns>List of Users and their WPM and acuraccies ordered by their performance in a category</returns>
-        Task<List<Tuple<User, double, double>>> GetBestUsersForCategory(int categoryId);
+        /// <returns>List of Users and their WPM, acuraccies and ranking ordered by their performance in a category</returns>
+        Task<List<Tuple<User, double, double, int>>> GetBestUsersForCategory(int categoryId);
     }
 }

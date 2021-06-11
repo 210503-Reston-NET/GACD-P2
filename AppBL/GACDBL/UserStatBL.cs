@@ -73,7 +73,7 @@ namespace GACDBL
             
         }
 
-        public async Task<List<Tuple<User, double, double>>> GetBestUsersForCategory(int categoryId)
+        public async Task<List<Tuple<User, double, double, int>>> GetBestUsersForCategory(int categoryId)
         {
             try
             {
@@ -93,16 +93,24 @@ namespace GACDBL
                 List<Tuple<User, double, double>> returnUsers = (from tuple in userStats
                                                                 orderby tuple.Item2 descending
                                                                 select tuple).ToList();
-                return returnUsers;
+                List<Tuple<User, double, double, int>> usersRanked = new List<Tuple<User, double, double, int>>();
+                int i = 0;
+                foreach (Tuple<User, double, double> t in returnUsers)
+                {
+                    i += 1;
+                    Tuple<User, double, double, int> tuple = Tuple.Create(t.Item1, t.Item2, t.Item3, i);
+                    usersRanked.Add(tuple);
+                }
+                return usersRanked;
             }
             catch (Exception e)
             {
                 Log.Error(e.Message + "Issue getting overallbestusers, returning empty list");
-                return new List<Tuple<User, double, double>>();
+                return new List<Tuple<User, double, double, int>>();
             }
         }
 
-        public async Task<List<Tuple<User, double, double>>> GetOverallBestUsers()
+        public async Task<List<Tuple<User, double, double, int>>> GetOverallBestUsers()
         {
             try {
                 List<User> users = await _repo.GetAllUsers();
@@ -119,12 +127,20 @@ namespace GACDBL
                 List<Tuple<User, double, double>> returnUsers = (from tuple in userStats
                                           orderby tuple.Item2 descending
                                           select tuple).ToList();
-                return returnUsers;
+                int i = 0;
+                List<Tuple<User, double, double, int>> usersRanked = new List<Tuple<User, double, double, int>>();
+                foreach (Tuple<User, double, double> t in returnUsers)
+                {
+                    i += 1;
+                    Tuple<User, double, double, int> tuple = Tuple.Create(t.Item1, t.Item2, t.Item3, i);
+                    usersRanked.Add(tuple);
+                }
+                return usersRanked;
             }
             catch (Exception e)
             {
                 Log.Error(e.Message + "Issue getting overallbestusers, returning empty list");
-                return new List<Tuple<User, double, double>>();
+                return new List<Tuple<User, double, double, int>>();
             }
         }
 

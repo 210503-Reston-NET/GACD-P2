@@ -12,5 +12,6 @@ namespace GACDRest.DTO
         public string Name { get; set; }
         public double AverageWPM { get; set; }
         public double AverageAcc { get; set; }
+        public int Ranking { get; set; }
     }
 }
