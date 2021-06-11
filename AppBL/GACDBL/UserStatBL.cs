@@ -30,13 +30,14 @@ namespace GACDBL
                     userStat.AverageWPM = 0;
                     userStat.NumberOfTests = 0;
                     userStat.TotalTestTime = 0;
+             
                 }
                 
                 userStat.TotalTestTime += typeTest.TimeTaken;
                 userStat.AverageAccuracy = ((userStat.AverageAccuracy * userStat.NumberOfTests) + ((typeTest.NumberOfWords - typeTest.NumberOfErrors) / typeTest.NumberOfWords)) / (userStat.NumberOfTests + 1);
                 userStat.AverageWPM = ((userStat.AverageWPM * userStat.NumberOfTests) + typeTest.WPM) / (userStat.NumberOfTests + 1);
                 userStat.NumberOfTests += 1;
-                userStat = await _repo.AddUpdateStats(userId, categoryId, userStat);
+                userStat = await _repo.AddUpdateStats(categoryId, userId, userStat);
                 typeTest.UserStatId = userStat.Id;
                 await _repo.AddTest(typeTest);
                 return userStat;

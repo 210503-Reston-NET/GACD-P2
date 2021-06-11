@@ -5,7 +5,7 @@ using GACDBL;
 using GACDDL;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-
+using Serilog;
 namespace GACDTests
 {
     public class GACDUnitTests
@@ -112,6 +112,38 @@ namespace GACDTests
                 await userStatBL.AddTestUpdateStat(3, 3, testToBeInserted);
                 int expected = 3;
                 int actual = (await userStatBL.GetOverallBestUsers()).Count;
+                Assert.Equal(expected, actual);
+            }
+        }
+        [Fact]
+        public async Task CategoryLeaderBoardShouldReturnUsers()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                IUserBL userBL = new UserBL(context);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                await categoryBL.AddCategory(category);
+                
+                User user = new User();
+                user.Auth0Id = "test";
+                await userBL.AddUser(user);
+                User user1 = new User();
+                user1.Auth0Id = "test1";
+                await userBL.AddUser(user1);
+                User user2 = new User();
+                user2.Auth0Id = "test2";
+                await userBL.AddUser(user2);
+                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, DateTime.Now);
+                await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
+                TypeTest testToBeInserted1 = await userStatBL.SaveTypeTest(2, 50, 100, DateTime.Now);
+                await userStatBL.AddTestUpdateStat(2, 1, testToBeInserted1);
+                TypeTest testToBeInserted2 = await userStatBL.SaveTypeTest(3, 50, 100, DateTime.Now);
+                await userStatBL.AddTestUpdateStat(3, 1, testToBeInserted2);
+                int expected = 3;
+                int actual = (await userStatBL.GetBestUsersForCategory(1)).Count;
                 Assert.Equal(expected, actual);
             }
         }

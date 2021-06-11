@@ -53,6 +53,7 @@ namespace GACDDL
 
         public async Task<UserStat> AddUpdateStats(int categoryid, int userid, UserStat userStat)
         {
+            int userIdsave = userid;
             //Assuming these categories and users exist
             try 
             {
@@ -76,7 +77,7 @@ namespace GACDDL
                 //this might miss timing just call me if you have an issue
                 UserStatCatJoin uscj = new UserStatCatJoin();
                 uscj.CategoryId = categoryid;
-                uscj.UserId = userid;
+                uscj.UserId = userIdsave;
                 uscj.UserStatId = userStat.Id;
                 await _context.UserStatCatJoins.AddAsync(uscj);
                 await _context.SaveChangesAsync();

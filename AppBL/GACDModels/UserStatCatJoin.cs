@@ -14,5 +14,6 @@ namespace GACDModels
         public int UserStatId { get; set; }
         public UserStat UserStat { get; set; }
         public int CategoryId { get; set; }
+        public int Id { get; set; }
     }
 }
