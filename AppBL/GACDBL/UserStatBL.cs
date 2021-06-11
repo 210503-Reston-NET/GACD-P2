@@ -134,6 +134,8 @@ namespace GACDBL
                     i += 1;
                     Tuple<User, double, double, int> tuple = Tuple.Create(t.Item1, t.Item2, t.Item3, i);
                     usersRanked.Add(tuple);
+                    Log.Information(tuple.Item1.Auth0Id);
+                    Console.WriteLine(tuple.Item1.Auth0Id);
                 }
                 return usersRanked;
             }
@@ -154,9 +156,15 @@ namespace GACDBL
             TypeTest test = new TypeTest();
             test.NumberOfErrors = errors;
             test.NumberOfWords = (charactersTyped/5);
-            test.TimeTaken = timeTaken/60;
+            test.TimeTaken = timeTaken;
             test.Date = date;
-            test.WPM = ((test.NumberOfWords - test.NumberOfErrors) / (test.TimeTaken/60));
+            //double time = timeTaken / 60000;
+            double numerator = (test.NumberOfWords - test.NumberOfErrors) * 60000;
+            try
+            {
+                test.WPM = (numerator) / (timeTaken);
+            }
+            catch (Exception) { Log.Error("Error in calculation"); }
             return test;
 
                
