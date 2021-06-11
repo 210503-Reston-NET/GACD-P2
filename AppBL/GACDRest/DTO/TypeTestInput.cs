@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace GACDRest.DTO
 {
-    public class TypeTestInput : TypeTest
+    public class TypeTestInput 
     {
         public TypeTestInput() { }
-        public int CategoryId { get; set; }
-        
+        public int Category { get; set; }
+        public int Errors { get; set; }
+        public int CharTyped { get; set; }
+        public int TimeTaken { get; set; }
+        public DateTime Date { get; set; }
     }
 }
