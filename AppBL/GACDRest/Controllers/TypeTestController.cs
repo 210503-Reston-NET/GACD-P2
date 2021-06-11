@@ -10,6 +10,8 @@ using GACDModels;
 using GACDRest.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using RestSharp;
+using Newtonsoft.Json;
 
 /// <summary>
 /// Summary description for Class1
@@ -75,5 +77,6 @@ namespace GACDRest.Controllers
             if (typeTestFlag) return BadRequest();
             else return Ok();
         }
-	}
+        
+    }
 }
