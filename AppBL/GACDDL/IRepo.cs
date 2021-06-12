@@ -80,5 +80,18 @@ namespace GACDDL
         /// <param name="userId">Id for user whose stats are being requested</param>
         /// <returns>List of stats if found, null otherwise</returns>
         Task<List<UserStat>> GetUserStats(int userId);
+        /// <summary>
+        /// Creates a competition and then sends back the ID of the competition for
+        /// front end processing
+        /// </summary>
+        /// <param name="comp">Competition to be added to the database</param>
+        /// <returns>int of the competitionId, -1 if failed</returns>
+        Task<int> AddCompetition(Competition comp);
+        /// <summary>
+        /// Gets a competition string based on competition id sent into the method
+        /// </summary>
+        /// <param name="compId">id of competition to participate in</param>
+        /// <returns>string of competition</returns>
+        Task<string> GetCompetitionString(int compId);
     }
 }
