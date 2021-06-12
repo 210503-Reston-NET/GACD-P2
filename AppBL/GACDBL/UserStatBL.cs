@@ -35,7 +35,9 @@ namespace GACDBL
 
                 userStat.TotalTestTime += typeTest.TimeTaken;
                 double numWords = (double)typeTest.NumberOfWords;
+                numWords = numWords / 5;
                 double numErrors = (double)typeTest.NumberOfErrors;
+                numErrors = numErrors / 5;
                 double intermediateCalc = (numWords - numErrors) / numWords;
                 userStat.AverageAccuracy = ((userStat.AverageAccuracy * userStat.NumberOfTests) + intermediateCalc) / (userStat.NumberOfTests + 1);
                 userStat.AverageWPM = ((userStat.AverageWPM * userStat.NumberOfTests) + typeTest.WPM) / (userStat.NumberOfTests + 1);
@@ -158,8 +160,8 @@ namespace GACDBL
         public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int wpm, DateTime date)
         {
             TypeTest test = new TypeTest();
-            test.NumberOfErrors = errors / 5;
-            test.NumberOfWords = (charactersTyped/5);
+            test.NumberOfErrors = errors;
+            test.NumberOfWords = charactersTyped;
             test.TimeTaken = timeTaken;
             test.Date = date;
             //double time = timeTaken / 60000;
