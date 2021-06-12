@@ -22,7 +22,7 @@ namespace GACDBL
            UserStat userStat;
             try
             {
-                if(await _repo.GetSatUserCat(userId, categoryId) != null) userStat = await _repo.GetSatUserCat(userId, categoryId);
+                if(await _repo.GetSatUserCat(categoryId,userId) != null) userStat = await _repo.GetSatUserCat(categoryId, userId);
                 else
                 {
                     userStat = new UserStat();
@@ -155,7 +155,7 @@ namespace GACDBL
         public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int wpm, DateTime date)
         {
             TypeTest test = new TypeTest();
-            test.NumberOfErrors = errors;
+            test.NumberOfErrors = errors / 5;
             test.NumberOfWords = (charactersTyped/5);
             test.TimeTaken = timeTaken;
             test.Date = date;
