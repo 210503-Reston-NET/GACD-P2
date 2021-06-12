@@ -16,7 +16,7 @@ namespace GACDBL
         public Snippets(IOptions<ApiSettings> settings){
             _ApiSettings = settings.Value;
         }
-
+        
         public async Task<TestMaterial> GetRandomQuote()
         {
             try{

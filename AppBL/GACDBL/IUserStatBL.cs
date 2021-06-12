@@ -49,8 +49,9 @@ namespace GACDBL
         /// <param name="errors">errors from the test</param>
         /// <param name="charactersTyped">total char typed</param>
         /// <param name="timeTaken">how long type test has taken</param>
+        /// <param name="WPM">WPM of user's test</param>
         /// <param name="date">date test performed</param>
         /// <returns>type test for database</returns>
-        Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, DateTime date);
+        Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int WPM, DateTime date);
     }
 }

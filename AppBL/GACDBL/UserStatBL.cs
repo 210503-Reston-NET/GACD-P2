@@ -152,7 +152,7 @@ namespace GACDBL
             return await _repo.GetUserStats(userId);
         }
 
-        public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, DateTime date)
+        public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int wpm, DateTime date)
         {
             TypeTest test = new TypeTest();
             test.NumberOfErrors = errors;
@@ -160,12 +160,7 @@ namespace GACDBL
             test.TimeTaken = timeTaken;
             test.Date = date;
             //double time = timeTaken / 60000;
-            double numerator = (test.NumberOfWords - test.NumberOfErrors) * 60000;
-            try
-            {
-                test.WPM = (numerator) / (timeTaken);
-            }
-            catch (Exception) { Log.Error("Error in calculation"); }
+            test.WPM = wpm;
             return test;
 
                
