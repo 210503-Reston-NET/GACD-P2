@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using RestSharp;
 using Newtonsoft.Json;
+using Serilog;
 
 /// <summary>
 /// Summary description for Class1
@@ -56,7 +57,7 @@ namespace GACDRest.Controllers
         [Authorize]
         public async Task<ActionResult> CreateTypeTest(TypeTestInput typeTest)
         {
-            
+            Log.Information(typeTest.categoryId.ToString());
             string UserID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if(await _userBL.GetUser(UserID) == null)
             {
