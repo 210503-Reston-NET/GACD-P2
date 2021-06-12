@@ -8,6 +8,7 @@ using GACDBL;
 using Serilog;
 using GACDRest.DTO;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GACDRest.Controllers
@@ -52,12 +53,13 @@ namespace GACDRest.Controllers
         /// <returns></returns>
         // POST api/<UserController>
         [HttpPost]
+        [Authorize]
         //[Route("CreateUser/{userName}/{email}/{name}")]
         public async Task<ActionResult> Post()
         {
            
             User u = new User();
-            
+            u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             bool AddUserFlag = (await _userBL.AddUser(u) == null);
             if (!AddUserFlag) return Ok();
             else return BadRequest();

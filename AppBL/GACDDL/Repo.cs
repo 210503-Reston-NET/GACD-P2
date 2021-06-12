@@ -36,6 +36,21 @@ namespace GACDDL
             }
         }
 
+        public async Task<int> AddCompetition(Competition comp)
+        {
+            try
+            {
+                await _context.Competitions.AddAsync(comp);
+                return comp.Id;
+            }
+            catch( Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error("Error adding competition returning -1");
+                return -1;
+            }
+        }
+
         public async Task<TypeTest> AddTest(TypeTest typeTest)
         {
             try
@@ -140,6 +155,21 @@ namespace GACDDL
                 Log.Information("No such category found");
                 return null;
 
+            }
+        }
+
+        public async Task<string> GetCompetitionString(int compId)
+        {
+            try
+            {
+                return await (from comp in _context.Competitions
+                              where comp.Id == compId
+                              select comp.TestString).SingleAsync();
+            }
+            catch( Exception e)
+            {
+                Log.Error("Error retrieving string");
+                return null;
             }
         }
 
