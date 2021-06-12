@@ -34,6 +34,10 @@ namespace GACDTests
                 Assert.Equal(expected, userCount);
             }
         }
+        /// <summary>
+        /// Makes sure that Categories can be added
+        /// </summary>
+        /// <returns>True if successful/False on fail</returns>
         [Fact]
         public async Task AddCatShouldAddCatAsync()
         {
@@ -54,6 +58,10 @@ namespace GACDTests
                 Assert.Equal(expected, catCount);
             }
         }
+        /// <summary>
+        /// Makes sure UserStats updates and doesn't fail
+        /// </summary>
+        /// <returns>True if successful/False on fail</returns>
         [Fact]
         public async Task UserStatShouldAddUserStatAsync()
         {
@@ -78,6 +86,10 @@ namespace GACDTests
                 Assert.NotNull(ust);
             }
         }
+        /// <summary>
+        /// Makes sure that there aren't any critical failures in Leaderboard / Stat methods
+        /// </summary>
+        /// <returns>True if successful/False on fail</returns>
         [Fact]
         public async Task OverallLeaderBoardShouldReturnAnyNumberofUsers()
         {
@@ -115,6 +127,10 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure there aren't any critical failures in Category Leaderboard / Stat methods
+        /// </summary>
+        /// <returns>True if successful/False on fail</returns>
         [Fact]
         public async Task CategoryLeaderBoardShouldReturnAnyNumberofUsers()
         {
@@ -147,6 +163,10 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure all added users are returned correctly in overall leaderboard
+        /// </summary>
+        /// <returns>True if successful/False on fail</returns>
         [Fact]
         public async Task OverallLeaderBoardShouldReturnCorrectNumberofUsers()
         {
@@ -184,6 +204,10 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure all users are returned correctly for a given category
+        /// </summary>
+        /// <returns>True if successful/False on fail</returns>
         [Fact]
         public async Task CategoryLeaderBoardShouldReturnCorrectNumberofUsers()
         {
@@ -216,6 +240,10 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure Average WPM is actual average
+        /// </summary>
+        /// <returns>True if successful/False on fail</returns>
         [Fact]
         public async Task AverageWPMShouldBeAverage()
         {
