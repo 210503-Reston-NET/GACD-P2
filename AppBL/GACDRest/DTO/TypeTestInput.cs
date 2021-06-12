@@ -9,10 +9,11 @@ namespace GACDRest.DTO
     public class TypeTestInput 
     {
         public TypeTestInput() { }
-        public int Category { get; set; }
-        public int Errors { get; set; }
-        public int CharTyped { get; set; }
-        public int TimeTaken { get; set; }
-        public DateTime Date { get; set; }
+        public int categoryId { get; set; }
+        public int numberofcharacters { get; set; }
+        public int numberoferrors { get; set; }
+        public int wpm { get; set; }
+        public int timetakenms { get; set; }
+        public DateTime date { get; set; }
     }
 }

@@ -116,11 +116,11 @@ namespace GACDTests
                 User user2 = new User();
                 user2.Auth0Id = "test2";
                 await userBL.AddUser(user2);
-                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
-                testToBeInserted = await userStatBL.SaveTypeTest(2, 50, 100, DateTime.Now);
+                testToBeInserted = await userStatBL.SaveTypeTest(2, 50, 100, 100,DateTime.Now);
                 await userStatBL.AddTestUpdateStat(2, 2, testToBeInserted);
-                testToBeInserted = await userStatBL.SaveTypeTest(3, 50, 100, DateTime.Now);
+                testToBeInserted = await userStatBL.SaveTypeTest(3, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(3, 3, testToBeInserted);
                 bool expected = true;
                 bool actual = (await userStatBL.GetOverallBestUsers()).Count > 0;
@@ -152,11 +152,11 @@ namespace GACDTests
                 User user2 = new User();
                 user2.Auth0Id = "test2";
                 await userBL.AddUser(user2);
-                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
-                TypeTest testToBeInserted1 = await userStatBL.SaveTypeTest(2, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted1 = await userStatBL.SaveTypeTest(2, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(2, 1, testToBeInserted1);
-                TypeTest testToBeInserted2 = await userStatBL.SaveTypeTest(3, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted2 = await userStatBL.SaveTypeTest(3, 50, 100, 100,  DateTime.Now);
                 await userStatBL.AddTestUpdateStat(3, 1, testToBeInserted2);
                 bool expected = true;
                 bool actual = (await userStatBL.GetBestUsersForCategory(1)).Count > 0;
@@ -193,11 +193,11 @@ namespace GACDTests
                 User user2 = new User();
                 user2.Auth0Id = "test2";
                 await userBL.AddUser(user2);
-                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
-                testToBeInserted = await userStatBL.SaveTypeTest(2, 50, 100, DateTime.Now);
+                testToBeInserted = await userStatBL.SaveTypeTest(2, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(2, 2, testToBeInserted);
-                testToBeInserted = await userStatBL.SaveTypeTest(3, 50, 100, DateTime.Now);
+                testToBeInserted = await userStatBL.SaveTypeTest(3, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(3, 3, testToBeInserted);
                 int expected = 3;
                 int actual = (await userStatBL.GetOverallBestUsers()).Count;
@@ -229,11 +229,11 @@ namespace GACDTests
                 User user2 = new User();
                 user2.Auth0Id = "test2";
                 await userBL.AddUser(user2);
-                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
-                TypeTest testToBeInserted1 = await userStatBL.SaveTypeTest(2, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted1 = await userStatBL.SaveTypeTest(2, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(2, 1, testToBeInserted1);
-                TypeTest testToBeInserted2 = await userStatBL.SaveTypeTest(3, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted2 = await userStatBL.SaveTypeTest(3, 50, 100, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(3, 1, testToBeInserted2);
                 int expected = 3;
                 int actual = (await userStatBL.GetBestUsersForCategory(1)).Count;
@@ -259,15 +259,17 @@ namespace GACDTests
                 await categoryBL.AddCategory(category);
                 await userBL.AddUser(user);
                 Double avgExpected;
-                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, 100, DateTime.Now);
                 avgExpected = testToBeInserted.WPM/2;
                 await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
-                TypeTest testToBeInserted1 = await userStatBL.SaveTypeTest(1, 50, 100, DateTime.Now);
+                TypeTest testToBeInserted1 = await userStatBL.SaveTypeTest(1, 50, 100, 100, DateTime.Now);
                 avgExpected += testToBeInserted1.WPM/2;
                 Double actual = (await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted)).AverageWPM;
                 Assert.Equal(avgExpected, actual);
             }
         }
+
+        
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
