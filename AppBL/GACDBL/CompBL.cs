@@ -34,6 +34,11 @@ namespace GACDBL
             return await _repo.GetCompStats(competitionId);
         }
 
+        public async Task<string> GetCompString(int compId)
+        {
+            return await _repo.GetCompetitionString(compId);
+        }
+
         public async Task<int> InsertCompStatUpdate(CompetitionStat competitionStat,int numberWords, int numberErrors)
         {
             try
