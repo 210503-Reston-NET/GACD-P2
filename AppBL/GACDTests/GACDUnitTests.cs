@@ -355,6 +355,103 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure competition updates rank (last person should be second)
+        /// </summary>
+        /// <returns>True on success/False on fail</returns>
+        [Fact]
+        public async Task CompetitionShouldUpdateRank()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                Competition c = new Competition();
+                User user = new User();
+                user.Auth0Id = "test";
+                IUserBL userBL = new UserBL(context);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                ICompBL compBL = new CompBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                await categoryBL.AddCategory(category);
+                await userBL.AddUser(user);
+                user = new User();
+                user.Auth0Id = "test1";
+                await userBL.AddUser(user);
+                user = new User();
+                user.Auth0Id = "test2";
+                await userBL.AddUser(user);
+                Category category1 = await categoryBL.GetCategory(1);
+                string testForComp = "Console.WriteLine('Hello World');";
+                int compId = await compBL.AddCompetition(DateTime.Now, DateTime.Now, category1.Id, "name", 1, testForComp);
+                CompetitionStat competitionStat = new CompetitionStat();
+                competitionStat.WPM = 50;
+                competitionStat.UserId = 1;
+                competitionStat.CompetitionId = compId;
+                await compBL.InsertCompStatUpdate(competitionStat, 100, 6);
+                competitionStat = new CompetitionStat();
+                competitionStat.WPM = 30;
+                competitionStat.UserId = 2;
+                competitionStat.CompetitionId = compId;
+                await compBL.InsertCompStatUpdate(competitionStat, 100, 6);
+                competitionStat = new CompetitionStat();
+                competitionStat.WPM = 40;
+                competitionStat.UserId = 3;
+                competitionStat.CompetitionId = compId;
+                int actual = await compBL.InsertCompStatUpdate(competitionStat, 100, 6);
+                int expected = 2;
+                Assert.Equal(expected, actual);
+            }
+        }
+        /// <summary>
+        /// Checks the GetCompetitionStats method to make sure it correctly returns 3 people
+        /// </summary>
+        /// <returns>True on success/ False on fail</returns>
+        [Fact]
+        public async Task CompetitionStatsShouldGetCompStats()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                Competition c = new Competition();
+                User user = new User();
+                user.Auth0Id = "test";
+                IUserBL userBL = new UserBL(context);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                ICompBL compBL = new CompBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                await categoryBL.AddCategory(category);
+                await userBL.AddUser(user);
+                user = new User();
+                user.Auth0Id = "test1";
+                await userBL.AddUser(user);
+                user = new User();
+                user.Auth0Id = "test2";
+                await userBL.AddUser(user);
+                Category category1 = await categoryBL.GetCategory(1);
+                string testForComp = "Console.WriteLine('Hello World');";
+                int compId = await compBL.AddCompetition(DateTime.Now, DateTime.Now, category1.Id, "name", 1, testForComp);
+                CompetitionStat competitionStat = new CompetitionStat();
+                competitionStat.WPM = 50;
+                competitionStat.UserId = 1;
+                competitionStat.CompetitionId = compId;
+                await compBL.InsertCompStatUpdate(competitionStat, 100, 6);
+                competitionStat = new CompetitionStat();
+                competitionStat.WPM = 30;
+                competitionStat.UserId = 2;
+                competitionStat.CompetitionId = compId;
+                await compBL.InsertCompStatUpdate(competitionStat, 100, 6);
+                competitionStat = new CompetitionStat();
+                competitionStat.WPM = 40;
+                competitionStat.UserId = 3;
+                competitionStat.CompetitionId = compId;
+                await compBL.InsertCompStatUpdate(competitionStat, 100, 6);
+                int actual = (await compBL.GetCompetitionStats(compId)).Count;
+                int expected = 3;
+                Assert.Equal(expected, actual);
+            }
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
