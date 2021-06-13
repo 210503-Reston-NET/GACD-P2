@@ -43,39 +43,7 @@ namespace GACDRest.Controllers
         }
 
         // GET api/<CompeititonStatsController>/5
-        [HttpGet("{id}")]
-        public async Task<IEnumerable<CompStatOutput>> GetAsync(int id)
-        {
-            List<CompetitionStat>competitionStats = await _compBL.GetCompetitionStats(id);
-            List<CompStatOutput> compStatOutputs = new List<CompStatOutput>();
-            foreach(CompetitionStat c in competitionStats)
-            {
-                CompStatOutput compStatOutput = new CompStatOutput();
-                try
-                {
-                    User u = await _userBL.GetUser(c.UserId);
-                    dynamic AppBearerToken = GetApplicationToken();
-                    var client = new RestClient($"https://kwikkoder.us.auth0.com/api/v2/users/{u.Auth0Id}");
-                    var request = new RestRequest(Method.GET);
-                    request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
-                    IRestResponse restResponse = await client.ExecuteAsync(request);
-                    dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
-
-                    compStatOutput.userName = deResponse.username;
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e.Message);
-                    Log.Error("Unexpected error occured in LBController");
-                }
-                
-                compStatOutput.accuracy = c.Accuracy;
-                compStatOutput.wpm = c.WPM;
-                compStatOutput.rank = c.rank;
-            }
-            return compStatOutputs;
-        }
-
+        
         // POST api/<CompeititonStatsController>
         [HttpPost("{id}")]
         [Authorize]
@@ -119,15 +87,6 @@ namespace GACDRest.Controllers
         public void Delete(int id)
         {
         }
-        private dynamic GetApplicationToken()
-        {
-            var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("content-type", "application/json");
-            request.AddParameter("application/json", _ApiSettings.authString, ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
-            //Log.Information("Response: {0}",response.Content);
-            return JsonConvert.DeserializeObject(response.Content);
-        }
+        
     }
 }
