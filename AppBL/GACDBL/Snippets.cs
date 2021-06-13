@@ -13,6 +13,9 @@ namespace GACDBL
     public class Snippets : ISnippets
     {
         private readonly ApiSettings _ApiSettings;
+        public Snippets(){
+            
+        }
         public Snippets(IOptions<ApiSettings> settings){
             _ApiSettings = settings.Value;
         }
