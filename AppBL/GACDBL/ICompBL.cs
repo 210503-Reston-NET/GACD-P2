@@ -40,5 +40,10 @@ namespace GACDBL
         /// <param name="compId">competition id to get</param>
         /// <returns>string to be competed upon</returns>
         Task<string> GetCompString(int compId);
+        /// <summary>
+        /// Method that returns all the competitions in the database
+        /// </summary>
+        /// <returns>List of Competitions in database</returns>
+        Task<List<Competition>> GetAllCompetitions();
     }
 }

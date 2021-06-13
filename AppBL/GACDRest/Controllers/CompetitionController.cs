@@ -30,6 +30,22 @@ namespace GACDRest.Controllers
             _userBL = uBL;
             _snippets = snippets;
         }
+        [HttpGet]
+        public async Task<IEnumerable<CompetitionObject>> GetAsync()
+        {
+            try
+            {
+                List<Competition> competitions = await _compBL.GetAllCompetitions();
+                List<CompetitionObject> competitionObjects = new List<CompetitionObject>();
+                foreach (Competition c in competitions)
+                {
+                    Category cat = await _categoryBL.GetCategoryById(c.Id);
+                    CompetitionObject competitionObject = new CompetitionObject(c.CompetitionName, c.StartDate, c.EndDate, cat.Id);
+                }
+            }
+            catch (Exception) { Log.Error("unexpected error in Competition get method"); }
+            return null;
+        }
         [HttpGet("{id}")]
         public async Task<IEnumerable<CompStatOutput>> GetAsync(int id)
         {
