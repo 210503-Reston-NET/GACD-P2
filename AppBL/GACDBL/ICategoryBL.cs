@@ -26,5 +26,11 @@ namespace GACDBL
         /// <param name="name">name of language </param>
         /// <returns>category requested</returns>
         Task<Category> GetCategory(int name);
+        /// <summary>
+        /// Getting category by it's id, not name
+        /// </summary>
+        /// <param name="id">id in database</param>
+        /// <returns>category with a given id</returns>
+        Task<Category> GetCategoryById(int id);
     }
 }

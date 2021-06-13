@@ -111,5 +111,16 @@ namespace GACDDL
         /// <param name="c">competition stat to be added</param>
         /// <returns>null on fail, competitionstat on success</returns>
         Task<CompetitionStat> UpdateCompStat(CompetitionStat c);
+        /// <summary>
+        /// Returns all competitions in db
+        /// </summary>
+        /// <returns>Returns all competitions in the database</returns>
+        Task<List<Competition>> GetAllCompetitions();
+        /// <summary>
+        /// Gets a category by its id in the database
+        /// </summary>
+        /// <param name="id">category id to get category from </param>
+        /// <returns>Category with id</returns>
+        Task<Category> GetCategoryById(int id);
     }
 }

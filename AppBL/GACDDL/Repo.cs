@@ -147,6 +147,20 @@ namespace GACDDL
             }
         }
 
+        public async Task<List<Competition>> GetAllCompetitions()
+        {
+            try
+            {
+                return await(from c in _context.Competitions
+                             select c).ToListAsync();
+            }
+            catch (Exception)
+            {
+                Log.Information("No competitions found, returning empty list");
+                return new List<Competition>();
+            }
+        }
+
         public async Task<List<User>> GetAllUsers()
         {
             try {
@@ -157,6 +171,20 @@ namespace GACDDL
             {
                 Log.Error(e.Message);
                 return new List<User>();
+            }
+        }
+
+        public async Task<Category> GetCategoryById(int id)
+        {
+            try
+            {
+                return await(from c in _context.Categories
+                             where c.Id == id
+                             select c).SingleAsync();
+            }catch(Exception e)
+            {
+                Log.Error("Error finding category returning null");
+                return null;
             }
         }
 

@@ -29,6 +29,11 @@ namespace GACDBL
             return  await _repo.AddCompetition(competition);
         }
 
+        public async Task<List<Competition>> GetAllCompetitions()
+        {
+            return await _repo.GetAllCompetitions();
+        }
+
         public async Task<List<CompetitionStat>> GetCompetitionStats(int competitionId)
         {
             return await _repo.GetCompStats(competitionId);

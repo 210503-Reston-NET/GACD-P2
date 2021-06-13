@@ -29,5 +29,10 @@ namespace GACDBL
         {
             return await _repo.GetCategoryByName(name);
         }
+
+        public async Task<Category> GetCategoryById(int id)
+        {
+            return await _repo.GetCategoryById(id);
+        }
     }
 }
