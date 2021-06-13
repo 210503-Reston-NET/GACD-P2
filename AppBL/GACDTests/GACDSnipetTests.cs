@@ -13,45 +13,44 @@ namespace GACDTests
 
         public class GACDSnipetTest
         {
-                private Mock<ISnippets> _snipetService;
+                private readonly IOptions<ApiSettings> s = Options.Create(new ApiSettings());
+
                 public GACDSnipetTest()
                 {
-                this._snipetService = new Mock<ISnippets>();
-                }
 
+                }
                 //ISnippets Coverage
                 [Fact]
                 public async Task RandomQuoteShouldNotBeNull()
                 {
-                        var response = _snipetService.Setup(x => 
-                        x.GetRandomQuote());
-                        Assert.NotNull(response);
+                        ISnippets _snipetService = new Snippets();
+                        TestMaterial test1 = await _snipetService.GetRandomQuote();
+                        Assert.NotNull(test1);
                 }
                 [Fact]
                 public async Task RandomQuoteShouldReturnRandom()
                 {
-                        var response1 =  _snipetService.Setup(x => 
-                        x.GetRandomQuote());
-                        var response2 = _snipetService.Setup(x => 
-                        x.GetRandomQuote());
-                        Assert.NotEqual(response1, response2);
+                        ISnippets _snipetService = new Snippets();
+                        TestMaterial test1 = await _snipetService.GetRandomQuote();
+                        TestMaterial test2 = await _snipetService.GetRandomQuote();
+                        Assert.NotEqual(test1, test2);
+                
                 }
-                [Fact]
+
+                
+                /*[Fact]
                 public async Task RandomCodeShouldNotBeNull()
                 {
-                var response = _snipetService.Setup(x => 
-                x.GetCodeSnippet(1));
-                Assert.NotNull(response);
+                        ISnippets _snipetService = new Snippets(s);
+                        TestMaterial test1 = await _snipetService.GetCodeSnippet(1);
+                        Assert.NotNull(test1);
+               
                 }
                 [Fact]
                 public async Task RandomCodeShouldReturnRandom()
                 {
-                var response1 = _snipetService.Setup(x => 
-                x.GetCodeSnippet(1));
-                var response2 = _snipetService.Setup(x => 
-                x.GetCodeSnippet(1));
-                Assert.NotEqual(response1, response2);
-                }
+                
+                }*/
 
         }
 }
