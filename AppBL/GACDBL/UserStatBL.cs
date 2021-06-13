@@ -58,7 +58,13 @@ namespace GACDBL
 
         public async Task<UserStat> GetAvgUserStat(int userId)
         {
-            List <UserStat> userStats = await _repo.GetUserStats(userId);
+            List <UserStatCatJoin> uscjs = await _repo.GetUserStats(userId);
+            List<UserStat> userStats = new List<UserStat>();
+            foreach(UserStatCatJoin uscj in uscjs)
+            {
+                UserStat userStat = await _repo.GetUserStatById(uscj.UserStatId);
+                userStats.Add(userStat);
+            }
             if (userStats.Count == 0) return new UserStat();
             else
             {
@@ -152,7 +158,12 @@ namespace GACDBL
             }
         }
 
-        public async Task<List<UserStat>> GetUserStats(int userId)
+        public async Task<UserStat> GetUserStatByUSId(int userstatid)
+        {
+            return await _repo.GetUserStatById(userstatid);
+        }
+
+        public async Task<List<UserStatCatJoin>> GetUserStats(int userId)
         {
             return await _repo.GetUserStats(userId);
         }

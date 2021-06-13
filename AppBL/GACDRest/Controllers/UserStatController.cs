@@ -5,6 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using GACDModels;
 using GACDBL;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Serilog;
+using GACDRest.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,21 +19,45 @@ namespace GACDRest.Controllers
     public class UserStatController : ControllerBase
     {
         private IUserStatBL _userStatBL;
-        public UserStatController(IUserStatBL userstat)
+        private IUserBL _userBL;
+        private ICategoryBL _categoryBL;
+        public UserStatController(IUserStatBL userstat, IUserBL userBL, ICategoryBL categoryBL)
 
         {
             _userStatBL = userstat;
+            _userBL = userBL;
+            _categoryBL = categoryBL;
         }
         // GET: api/<UserStatController>
         /// <summary>
-        /// Method for getting all the users stats as a list per category
+        /// Method for getting all the users stats listed per category
         /// </summary>
         /// <param name="id">Id of user whose stats you are looking for</param>
         /// <returns>List of user stats for the given user</returns>
-        [HttpGet("all/{id}")]
-        public async Task<IEnumerable<UserStat>> GetAsync(int id)
+        [HttpGet("all")]
+        [Authorize]
+        public async Task<IEnumerable<StatModel>> GetAsync()
         {
-            return await _userStatBL.GetUserStats(id);
+            try
+            {
+                User u = new User();
+                u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                u = await _userBL.GetUser(u.Auth0Id);
+                List<UserStatCatJoin> uscjs =  await _userStatBL.GetUserStats(u.Id);
+                List<StatModel> statModels = new List<StatModel>();
+                foreach(UserStatCatJoin userStatCatJoin in uscjs)
+                {
+                    UserStat userStat = await _userStatBL.GetUserStatByUSId(userStatCatJoin.UserStatId);
+                    Category category = await _categoryBL.GetCategoryById(userStatCatJoin.CategoryId);
+                    statModels.Add(new StatModel(u.Auth0Id, userStat.AverageWPM, userStat.AverageAccuracy, userStat.NumberOfTests, userStat.TotalTestTime, category.Name));
+                }
+                return statModels;
+            }
+            catch (Exception)
+            {
+                Log.Error("Can't get stats");
+                return null;
+            }
         }
 
         // GET api/<UserStatController>/5

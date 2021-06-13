@@ -30,7 +30,7 @@ namespace GACDBL
         /// </summary>
         /// <param name="userId">Id of User whose stats you are looking for</param>
         /// <returns>List of user stats associated with the user</returns>
-        Task<List<UserStat>> GetUserStats(int userId);
+        Task<List<UserStatCatJoin>> GetUserStats(int userId);
         /// <summary>
         /// Leaderboard method that returns a list of Users with the best WPM
         /// </summary>
@@ -52,5 +52,12 @@ namespace GACDBL
         /// <param name="date">date test performed</param>
         /// <returns>type test for database</returns>
         Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int WPM, DateTime date);
+        /// <summary>
+        /// DO NOT CALL THIS METHOD WITHOUT GETTING THE USCJS FIRST
+        /// gets the userstat by userstat id, NOT USER ID
+        /// </summary>
+        /// <param name="userstatid">userstat with given userstat id</param>
+        /// <returns>UserStat</returns>
+        Task<UserStat> GetUserStatByUSId(int userstatid);
     }
 }

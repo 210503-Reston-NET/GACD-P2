@@ -79,7 +79,7 @@ namespace GACDDL
         /// </summary>
         /// <param name="userId">Id for user whose stats are being requested</param>
         /// <returns>List of stats if found, null otherwise</returns>
-        Task<List<UserStat>> GetUserStats(int userId);
+        Task<List<UserStatCatJoin>> GetUserStats(int userId);
         /// <summary>
         /// Creates a competition and then sends back the ID of the competition for
         /// front end processing
@@ -122,5 +122,11 @@ namespace GACDDL
         /// <param name="id">category id to get category from </param>
         /// <returns>Category with id</returns>
         Task<Category> GetCategoryById(int id);
+        /// <summary>
+        /// Gets a userstat by the user stat id
+        /// </summary>
+        /// <param name="id">id of userstat to get</param>
+        /// <returns>userstat if found null otherwise</returns>
+        Task<UserStat> GetUserStatById(int id);
     }
 }

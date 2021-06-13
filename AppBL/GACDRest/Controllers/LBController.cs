@@ -21,10 +21,12 @@ namespace GACDRest.Controllers
     {
         private readonly ApiSettings _ApiSettings;
         private IUserStatBL _userStatBL;
-        public LBController(IUserStatBL userStatBL, IOptions<ApiSettings> settings)
+        private ICategoryBL _categoryBL;
+        public LBController(IUserStatBL userStatBL, IOptions<ApiSettings> settings, ICategoryBL categoryBL)
         {
             _userStatBL = userStatBL;
             _ApiSettings = settings.Value;
+            _categoryBL = categoryBL;
         }
         // GET: api/<LBController>
         /// <summary>
@@ -57,7 +59,12 @@ namespace GACDRest.Controllers
         [HttpGet("{id}")]
         public async Task<IEnumerable<LBUserModel>> GetAsync(int id)
         {
-            List<Tuple<User, double, double,int>> statTuples = await _userStatBL.GetBestUsersForCategory(id);
+            Category category;
+            try { category = await _categoryBL.GetCategory(id); }
+            catch (Exception) {
+                Log.Error("Category not found returning empty");
+                return new List<LBUserModel>();  }
+            List<Tuple<User, double, double,int>> statTuples = await _userStatBL.GetBestUsersForCategory(category.Id);
             List<LBUserModel> lBUserModels = new List<LBUserModel>();
             foreach (Tuple<User, double, double,int> tuple in statTuples)
             {
