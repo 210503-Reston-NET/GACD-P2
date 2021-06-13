@@ -12,7 +12,7 @@ namespace GACDDL
         /// </summary>
         /// <param name="userName">username of user</param>
         /// <param name="email">email of user</param>
-        /// <returns>User with the given username and email</returns>
+        /// /// <returns>User with the given username and email</returns>
         Task<User> GetUser(string auth0id);
         /// <summary>
         /// Return a user based on id
@@ -93,5 +93,11 @@ namespace GACDDL
         /// <param name="compId">id of competition to participate in</param>
         /// <returns>string of competition</returns>
         Task<string> GetCompetitionString(int compId);
+        /// <summary>
+        /// Returns rankings of every User participating in the given competition
+        /// </summary>
+        /// <param name="compId">Id of competition to get stats from</param>
+        /// <returns>List of revelant user scores from competition</returns>
+        Task<List<CompetitionStat>> GetCompStats(int compId);
     }
 }

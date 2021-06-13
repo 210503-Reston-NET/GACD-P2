@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GACDModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,11 @@ namespace GACDBL
         /// <param name="teststring">test string for the competition to be added</param>
         /// <returns>Tuple with int for comp id and string of code to be competed on</returns>
         Task<int> AddCompetition(DateTime startDate, DateTime endDate, int categoryId, string competitionName, int user, string teststring);
+        /// <summary>
+        /// Method which returns the users participated 
+        /// </summary>
+        /// <param name="competitionId"></param>
+        /// <returns></returns>
+        Task <List<CompetitionStat>> GetCompetitionStats (int competitionId);
     }
 }

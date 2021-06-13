@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GACDModels;
 
-
 namespace GACDBL
 {
     public interface IUserStatBL
