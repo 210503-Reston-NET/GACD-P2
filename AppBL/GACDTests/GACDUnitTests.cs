@@ -268,8 +268,33 @@ namespace GACDTests
                 Assert.Equal(avgExpected, actual);
             }
         }
-
-        
+        /// <summary>
+        /// Makes sure a competition can be created and the string can be accessed
+        /// </summary>
+        /// <returns>True if hello world found, false otherwise</returns>
+        [Fact]
+        public async Task CompetitionShouldBeCreated()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                Competition c = new Competition();
+                User user = new User();
+                user.Auth0Id = "test";
+                IUserBL userBL = new UserBL(context);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                ICompBL compBL = new CompBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                await categoryBL.AddCategory(category);
+                await userBL.AddUser(user);
+                Category category1 = await categoryBL.GetCategory(1);
+                string testForComp = "Console.WriteLine('Hello World');";
+                int compId = await compBL.AddCompetition(DateTime.Now, DateTime.Now, category1.Id, "name", 1, testForComp);
+                string actual = await compBL.GetCompString(compId);
+                Assert.Equal(testForComp, actual);
+            }
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
