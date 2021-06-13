@@ -283,26 +283,43 @@ namespace GACDDL
             }
         }
 
-        public async Task<List<UserStat>> GetUserStats(int userId)
+        public async Task<UserStat> GetUserStatById(int id)
         {
             try
             {
-                List<int> userStatIds = await (from uscj in _context.UserStatCatJoins
+                return await (from u in _context.UserStats
+                              where u.Id == id
+                              select u
+                        ).SingleAsync();
+            }
+            catch(Exception)
+            {
+                Log.Fatal("UserStatJoin not maintained correctly returning null");
+                return null;
+            }
+        }
+
+        public async Task<List<UserStatCatJoin>> GetUserStats(int userId)
+        {
+            try
+            {
+                List<UserStatCatJoin> uscjs = await (from uscj in _context.UserStatCatJoins
                                         where uscj.UserId == userId
-                                        select uscj.UserStatId).ToListAsync();
-                List<UserStat> userStats = new List<UserStat>();
-                foreach (int i in userStatIds) {
+                                        select uscj).ToListAsync();
+               /* List<UserStat> userStats = new List<UserStat>();
+                foreach (UserStatCatJoin i in ucsjs) {
                     UserStat uStatInDB = await (from uS in _context.UserStats
                                                 where uS.Id == i
                                                 select uS).SingleAsync();
+
                     userStats.Add(uStatInDB);
-                }
-                return userStats;
+                }*/
+                return uscjs;
             }catch(Exception e)
             {
                 Log.Error("No stats for user were found");
                 Log.Error(e.Message);
-                return new List<UserStat>();
+                return new List<UserStatCatJoin>();
             }
             throw new NotImplementedException();
         }
