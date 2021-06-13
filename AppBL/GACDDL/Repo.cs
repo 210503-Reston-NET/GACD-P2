@@ -173,6 +173,22 @@ namespace GACDDL
             }
         }
 
+        public async Task<List<CompetitionStat>> GetCompStats(int compId)
+        {
+            try
+            {
+                return await (from compStat in _context.CompetitionStats
+                              where compStat.CompetitionId == compId
+                              orderby compStat.rank
+                              select compStat).ToListAsync();
+
+            }catch(Exception e)
+            {
+                Log.Information("No relevant stats foound returning empty list");
+                return new List<CompetitionStat>();
+            }
+        }
+
         public async Task<UserStat> GetSatUserCat(int categoryId, int userId)
         {
             try
