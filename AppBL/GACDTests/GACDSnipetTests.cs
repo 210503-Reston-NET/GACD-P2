@@ -24,14 +24,14 @@ namespace GACDTests
                 public async Task RandomQuoteShouldNotBeNull()
                 {
                         var response = _snipetService.Setup(x => 
-                        x.GetRandomQuote()).ReturnsAsync(new TestMaterial("Hello", "none", 5));
+                        x.GetRandomQuote()).ReturnsAsync(new TestMaterial("Hello", "none1", 5));
                         Assert.NotNull(response);
                 }
                 [Fact]
                 public async Task RandomQuoteShouldReturnRandom()
                 {
                         var response1 =  _snipetService.Setup(x => 
-                        x.GetRandomQuote()).ReturnsAsync(new TestMaterial("Hello", "none", 5));
+                        x.GetRandomQuote()).ReturnsAsync(new TestMaterial("Hello", "none2", 5));
                         var response2 = _snipetService.Setup(x => 
                         x.GetRandomQuote()).ReturnsAsync(new TestMaterial("Goodbye", "none1", 7));
                         Assert.NotEqual(response1, response2);
@@ -40,7 +40,7 @@ namespace GACDTests
                 public async Task RandomCodeShouldNotBeNull()
                 {
                 var response = _snipetService.Setup(x => 
-                x.GetCodeSnippet(1)).ReturnsAsync(new TestMaterial("Hello", "none", 5));
+                x.GetCodeSnippet(1)).ReturnsAsync(new TestMaterial("Hello", "none1", 5));
                 Assert.NotNull(response);
                 }
                 [Fact]
@@ -49,7 +49,7 @@ namespace GACDTests
                 var response1 = _snipetService.Setup(x => 
                 x.GetCodeSnippet(1)).ReturnsAsync(new TestMaterial("Goodbye", "none1", 7));
                 var response2 = _snipetService.Setup(x => 
-                x.GetCodeSnippet(1)).ReturnsAsync(new TestMaterial("Hello", "none", 5));
+                x.GetCodeSnippet(1)).ReturnsAsync(new TestMaterial("Hello", "none2", 5));
                 Assert.NotEqual(response1, response2);
                 }
 
