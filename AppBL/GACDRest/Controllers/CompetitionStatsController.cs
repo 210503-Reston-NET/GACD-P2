@@ -36,16 +36,27 @@ namespace GACDRest.Controllers
             _userStatService = _userstat;
         }
         // GET: api/<CompeititonStatsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("{id}")]
+        public async Task<CompetitionContent> Get(int id)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                CompetitionContent c = new CompetitionContent();
+                c.testString = await _compBL.GetCompString(id);
+                c.id = id;
+                return c;
+            }catch (Exception)
+            {
+                Log.Error("Error with retrieving comp string, returning null");
+                return null;
+            }
+
         }
 
         // GET api/<CompeititonStatsController>/5
         
         // POST api/<CompeititonStatsController>
-        [HttpPost("{id}")]
+        [HttpPost]
         [Authorize]
         public async Task<int> Post(CompInput compInput)
         {

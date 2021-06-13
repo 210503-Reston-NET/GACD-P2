@@ -34,5 +34,11 @@ namespace GACDBL
         /// <param name="numberErrors">number of errors in test</param>
         /// <returns>rank in the competition, -1 on error</returns>
         Task<int> InsertCompStatUpdate(CompetitionStat competitionStat, int numberWords, int numberErrors);
+        /// <summary>
+        /// Method that returns the string for the given competition
+        /// </summary>
+        /// <param name="compId">competition id to get</param>
+        /// <returns>string to be competed upon</returns>
+        Task<string> GetCompString(int compId);
     }
 }
