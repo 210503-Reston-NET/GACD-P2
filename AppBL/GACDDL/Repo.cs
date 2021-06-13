@@ -41,6 +41,7 @@ namespace GACDDL
             try
             {
                 await _context.Competitions.AddAsync(comp);
+                await _context.SaveChangesAsync();
                 return comp.Id;
             }
             catch( Exception e)
@@ -48,6 +49,22 @@ namespace GACDDL
                 Log.Error(e.Message);
                 Log.Error("Error adding competition returning -1");
                 return -1;
+            }
+        }
+
+        public async Task<CompetitionStat> AddCompStat(CompetitionStat c)
+        {
+            try
+            {
+                await _context.CompetitionStats.AddAsync(c);
+                await _context.SaveChangesAsync();
+                return c;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error("Error adding competitionstat returning null");
+                return null;
             }
         }
 
@@ -179,7 +196,7 @@ namespace GACDDL
             {
                 return await (from compStat in _context.CompetitionStats
                               where compStat.CompetitionId == compId
-                              orderby compStat.rank
+                              orderby compStat.WPM descending
                               select compStat).ToListAsync();
 
             }catch(Exception e)
@@ -260,6 +277,22 @@ namespace GACDDL
                 return new List<UserStat>();
             }
             throw new NotImplementedException();
+        }
+
+        public async Task<CompetitionStat> UpdateCompStat(CompetitionStat c)
+        {
+            try
+            {
+                 _context.CompetitionStats.Update(c);
+                await _context.SaveChangesAsync();
+                return c;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error("Error adding competitionstat returning null");
+                return null;
+            }
         }
 
         public async Task<User> UpdateUser(User user)
