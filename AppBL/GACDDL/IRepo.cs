@@ -99,5 +99,17 @@ namespace GACDDL
         /// <param name="compId">Id of competition to get stats from</param>
         /// <returns>List of revelant user scores from competition</returns>
         Task<List<CompetitionStat>> GetCompStats(int compId);
+        /// <summary>
+        /// Adds the competitionStat to the db, null on fail
+        /// </summary>
+        /// <param name="c">CompetitionStat to be added</param>
+        /// <returns>null on fail, competitionstat on success</returns>
+        Task<CompetitionStat> AddCompStat(CompetitionStat c);
+        /// <summary>
+        /// Updates the given competition stat in the database
+        /// </summary>
+        /// <param name="c">competition stat to be added</param>
+        /// <returns>null on fail, competitionstat on success</returns>
+        Task<CompetitionStat> UpdateCompStat(CompetitionStat c);
     }
 }
