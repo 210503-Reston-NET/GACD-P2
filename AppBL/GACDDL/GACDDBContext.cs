@@ -34,8 +34,7 @@ namespace GACDDL
                 .Property(comp => comp.Id)
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<UserStatCatJoin>()
-                .Property(uscj => uscj.Id)
-                .ValueGeneratedOnAdd();
+                .HasKey(uscj => new { uscj.UserStatId, uscj.UserId, uscj.CategoryId });
             modelBuilder.Entity<CompetitionStat>()
                 .HasKey(cS => new { cS.UserId, cS.CompetitionId });
             modelBuilder.Entity<TypeTest>()

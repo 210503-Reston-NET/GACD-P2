@@ -128,5 +128,11 @@ namespace GACDDL
         /// <param name="id">id of userstat to get</param>
         /// <returns>userstat if found null otherwise</returns>
         Task<UserStat> GetUserStatById(int id);
+        /// <summary>
+        /// Gets all the necessary things for a user to participate in a competition
+        /// </summary>
+        /// <param name="compId">competition Id for user to get stuff from</param>
+        /// <returns>tuple with author, test, category of competition/null on fail</returns>
+        Task<Tuple<string, string, int>> GetCompStuff(int compId);
     }
 }
