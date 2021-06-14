@@ -29,7 +29,18 @@ namespace GACDBL
             competition.UserCreatedId = userId;
             return  await _repo.AddCompetition(competition);
         }
-
+        public async Task<int> AddCompetition(DateTime startDate, DateTime endDate, int categoryId, string competitionName, int userId, string teststring, string author)
+        {
+            Competition competition = new Competition();
+            competition.StartDate = startDate;
+            competition.EndDate = endDate;
+            competition.CategoryId = categoryId;
+            competition.CompetitionName = competitionName;
+            competition.TestString = teststring;
+            competition.UserCreatedId = userId;
+            competition.TestAuthor = author;
+            return await _repo.AddCompetition(competition);
+        }
         public async Task<List<Competition>> GetAllCompetitions()
         {
             return await _repo.GetAllCompetitions();
@@ -43,6 +54,11 @@ namespace GACDBL
         public async Task<string> GetCompString(int compId)
         {
             return await _repo.GetCompetitionString(compId);
+        }
+
+        public async Task<Tuple<string, string, int>> GetCompStuff(int compId)
+        {
+            return await _repo.GetCompStuff(compId);
         }
 
         public async Task<int> InsertCompStatUpdate(CompetitionStat competitionStat,int numberWords, int numberErrors)

@@ -234,6 +234,21 @@ namespace GACDDL
             }
         }
 
+        public async Task<Tuple<string, string, int>> GetCompStuff(int compId)
+        {
+            try
+            {
+                return await(from comp in _context.Competitions
+                             where comp.Id == compId
+                             select Tuple.Create(comp.TestAuthor, comp.TestString, comp.CategoryId)).SingleAsync();
+            }
+            catch (Exception)
+            {
+                Log.Error("Competition not found returning null");
+                return null;
+            }
+        }
+
         public async Task<UserStat> GetSatUserCat(int categoryId, int userId)
         {
             try

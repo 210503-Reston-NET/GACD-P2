@@ -18,6 +18,7 @@ namespace GACDModels
         public Category Category { get; set; }
         public string CompetitionName { get; set; }
         public string TestString { get; set; }
+        public string TestAuthor { get; set; }
 
         public List<CompetitionStat> CompetitionStats { get; set; }
     }

@@ -43,7 +43,11 @@ namespace GACDRest.Controllers
             try
             {
                 CompetitionContent c = new CompetitionContent();
-                c.testString = await _compBL.GetCompString(id);
+                Tuple<string, string, int> compTuple = await _compBL.GetCompStuff(id);
+                c.author = compTuple.Item1;
+                c.testString = compTuple.Item2;
+                Category category = await _categoryBL.GetCategory(compTuple.Item3);
+                c.categoryId = category.Name;
                 c.id = id;
                 return c;
             }catch (Exception)
