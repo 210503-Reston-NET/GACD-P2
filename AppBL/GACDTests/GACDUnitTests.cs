@@ -355,6 +355,7 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+
         /// <summary>
         /// Makes sure competition updates rank (last person should be second)
         /// </summary>
@@ -452,6 +453,7 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
