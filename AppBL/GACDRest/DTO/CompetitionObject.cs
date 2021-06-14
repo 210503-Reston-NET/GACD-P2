@@ -18,6 +18,8 @@ namespace GACDRest.DTO{
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int Category { get; set; }
+        public string snippet { get; set; }
+        public string author { get; set; }
         
     }
 
