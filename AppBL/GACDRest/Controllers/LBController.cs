@@ -44,6 +44,7 @@ namespace GACDRest.Controllers
                 LBUserModel lBUserModel = new LBUserModel();
                 lBUserModel.AverageWPM = tuple.Item2;
                 lBUserModel.AverageAcc = tuple.Item3;
+                lBUserModel.Ranking = tuple.Item4;
                 try
                 {
                     dynamic AppBearerToken = GetApplicationToken();

@@ -345,7 +345,7 @@ namespace GACDTests
                 await userBL.AddUser(user);
                 Category category1 = await categoryBL.GetCategory(1);
                 string testForComp = "Console.WriteLine('Hello World');";
-                int compId = await compBL.AddCompetition(DateTime.Now, DateTime.Now, category1.Id, "name", 1, testForComp);
+                int compId = await compBL.AddCompetition(DateTime.Now, DateTime.Now, category1.Id, "name", 1, testForComp, "testauthor");
                 CompetitionStat competitionStat = new CompetitionStat();
                 competitionStat.WPM = 50;
                 competitionStat.UserId = 1;
@@ -453,7 +453,18 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
-
+        [Fact]
+        public async Task AddingCategoryTwiceShouldBeNull()
+        {
+            using( var context  = new GACDDBContext(options))
+            {
+                ICategoryBL categoryBL = new CategoryBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                await categoryBL.AddCategory(category);
+                Assert.Null(categoryBL.AddCategory(category));
+            }        
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
