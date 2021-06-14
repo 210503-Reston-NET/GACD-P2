@@ -15,7 +15,8 @@ using System.Threading.Tasks;
 
 namespace GACDRest.Controllers
 {
-    
+    [Route("api/[controller]")]
+    [ApiController]
     public class CompetitionController : ControllerBase{
         private ICompBL _compBL;
         private ICategoryBL _categoryBL;
@@ -29,6 +30,7 @@ namespace GACDRest.Controllers
             _categoryBL = catBL;
             _userBL = uBL;
             _snippets = snippets;
+            _ApiSettings = settings.Value;
         }
         [HttpGet]
         public async Task<IEnumerable<CompetitionObject>> GetAsync()
@@ -46,7 +48,7 @@ namespace GACDRest.Controllers
             catch (Exception) { Log.Error("unexpected error in Competition get method"); }
             return null;
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "Get")]
         public async Task<IEnumerable<CompStatOutput>> GetAsync(int id)
         {
             List<CompetitionStat> competitionStats = await _compBL.GetCompetitionStats(id);
@@ -80,7 +82,6 @@ namespace GACDRest.Controllers
         }
         [HttpPost]
         [Authorize]
-        //[Route("CreateCompetition/{Name}/{Start}/{End}/{Category}")]
         public async Task<ActionResult> Post(CompetitionObject cObject)
         {
             Competition c = new Competition();
@@ -99,19 +100,15 @@ namespace GACDRest.Controllers
                 await _categoryBL.AddCategory(category);
             }
             TestMaterial t;
-            if (cObject.Category == -1) t = await _snippets.GetRandomQuote();
-            else  t = await _snippets.GetCodeSnippet(cObject.Category);
+            if (cObject.Category == -1) { t = await _snippets.GetRandomQuote(); }
+            else { t = await _snippets.GetCodeSnippet(cObject.Category); }
+
             User u = await _userBL.GetUser(UserID);
             Category category1 = await _categoryBL.GetCategory(cObject.Category);
-            int compId = await _compBL.AddCompetition(cObject.Start, cObject.End, category1.Id, cObject.Name, u.Id, t.content);
-            bool AddCompetitionFlag = compId == -1;
-            if (!AddCompetitionFlag) return CreatedAtRoute("Get", new { compId }, compId);
+            int compId = await _compBL.AddCompetition(cObject.Start, cObject.End, category1.Id, cObject.Name, u.Id, "test");
+            bool AddCompetitionFlag = (compId == -1);
+            if (!AddCompetitionFlag) { return CreatedAtRoute("Get", new { i = compId }, compId); }
             else return BadRequest();
-        }
-        [HttpGet]
-        public async Task<User> GetCompAsync(){
-            //return await _compBL.GetCompetitions();
-            return null;
         }
 
         

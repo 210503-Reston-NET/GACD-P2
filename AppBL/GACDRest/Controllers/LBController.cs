@@ -44,6 +44,22 @@ namespace GACDRest.Controllers
                 LBUserModel lBUserModel = new LBUserModel();
                 lBUserModel.AverageWPM = tuple.Item2;
                 lBUserModel.AverageAcc = tuple.Item3;
+                try
+                {
+                    dynamic AppBearerToken = GetApplicationToken();
+                    var client = new RestClient($"https://kwikkoder.us.auth0.com/api/v2/users/{tuple.Item1.Auth0Id}");
+                    var request = new RestRequest(Method.GET);
+                    request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
+                    IRestResponse restResponse = await client.ExecuteAsync(request);
+                    dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
+
+                    lBUserModel.UserName = deResponse.username;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.Message);
+                    Log.Error("Unexpected error occured in LBController");
+                }
                 //lBUserModel.Name = tuple.Item1.Name;
                 //lBUserModel.UserName = tuple.Item1.UserName;
                 lBUserModels.Add(lBUserModel);
