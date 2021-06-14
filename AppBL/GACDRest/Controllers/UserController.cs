@@ -71,27 +71,6 @@ namespace GACDRest.Controllers
                 return null;
             }
         }
-        /// <summary>
-        /// Posting a new user to the db
-        /// TODO:think of a better way
-        /// </summary>
-        /// <param name="userName">user name to be added</param>
-        /// <param name="email">email to be added</param>
-        /// <param name="name">Name to be added</param>
-        /// <returns></returns>
-        // POST api/<UserController>
-        [HttpPost]
-        [Authorize]
-        //[Route("CreateUser/{userName}/{email}/{name}")]
-        public async Task<ActionResult> Post()
-        {
-           
-            User u = new User();
-            u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            bool AddUserFlag = (await _userBL.AddUser(u) == null);
-            if (!AddUserFlag) return Ok();
-            else return BadRequest();
-        }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
