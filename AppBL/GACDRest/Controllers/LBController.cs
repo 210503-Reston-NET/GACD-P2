@@ -80,7 +80,12 @@ namespace GACDRest.Controllers
             catch (Exception) {
                 Log.Error("Category not found returning empty");
                 return new List<LBUserModel>();  }
-            List<Tuple<User, double, double,int>> statTuples = await _userStatBL.GetBestUsersForCategory(category.Id);
+            List<Tuple<User, double, double, int>> statTuples;
+            try { statTuples = await _userStatBL.GetBestUsersForCategory(category.Id); }
+            catch(Exception e ) {
+                Log.Error("Category not found returning empty");
+                return new List<LBUserModel>();
+            }
             List<LBUserModel> lBUserModels = new List<LBUserModel>();
             foreach (Tuple<User, double, double,int> tuple in statTuples)
             {
