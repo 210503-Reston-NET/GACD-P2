@@ -453,6 +453,10 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure adding two of the same category returns null
+        /// </summary>
+        /// <returns>True on success</returns>
         [Fact]
         public async Task AddingCategoryTwiceShouldBeNull()
         {
@@ -462,8 +466,54 @@ namespace GACDTests
                 Category category = new Category();
                 category.Name = 1;
                 await categoryBL.AddCategory(category);
-                Assert.Null(categoryBL.AddCategory(category));
+                Assert.Null(await categoryBL.AddCategory(category));
             }        
+        }
+        /// <summary>
+        /// Makes sure adding two of the same user returns null
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task AddingUserTwiceShouldBeNull()
+        {
+            using (var context = new GACDDBContext(options)) {
+                IUserBL userBL = new UserBL(context);
+                User user  = new User();
+                user.Auth0Id = "test";
+                await userBL.AddUser(user);
+                Assert.Null(await userBL.AddUser(user));
+            }
+        }
+        /// <summary>
+        /// Makes sure we are able to get a user by their id
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task GetUserByIdShouldWork()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                IUserBL userBL = new UserBL(context);
+                User user = new User();
+                user.Auth0Id = "test";
+                await userBL.AddUser(user);
+                string expected = "test";
+                string actual = (await userBL.GetUser(1)).Auth0Id;
+                Assert.Equal(expected, actual);
+            }
+        }
+        /// <summary>
+        /// Makes sure that a user not in the database returns null
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task GetBadUserIdShouldBeNull()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                IUserBL userBL = new UserBL(context);
+                Assert.Null(await userBL.GetUser(1));
+            }
         }
         private void Seed()
         {

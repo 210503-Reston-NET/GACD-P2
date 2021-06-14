@@ -100,7 +100,7 @@ namespace GACDRest.Controllers
                 await _categoryBL.AddCategory(category);
             }
             TestMaterial t;
-           
+            if (String.IsNullOrEmpty(cObject.snippet) || String.IsNullOrWhiteSpace(cObject.snippet)) return BadRequest();
             User u = await _userBL.GetUser(UserID);
             Category category1 = await _categoryBL.GetCategory(cObject.Category);
             int compId = await _compBL.AddCompetition(cObject.Start, cObject.End, category1.Id, cObject.Name, u.Id, cObject.snippet, cObject.author);
