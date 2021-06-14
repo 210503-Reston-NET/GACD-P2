@@ -26,6 +26,7 @@ namespace GACDBL
             competition.CategoryId = categoryId;
             competition.CompetitionName = competitionName;
             competition.TestString = teststring;
+            competition.UserCreatedId = userId;
             return  await _repo.AddCompetition(competition);
         }
 

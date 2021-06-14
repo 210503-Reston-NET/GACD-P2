@@ -34,6 +34,7 @@ namespace GACDRest.Controllers
             _userBL = userBL;
             _categoryBL = categoryBL;
             _userStatService = _userstat;
+            _ApiSettings = settings.Value;
         }
         // GET: api/<CompeititonStatsController>
         [HttpGet("{id}")]

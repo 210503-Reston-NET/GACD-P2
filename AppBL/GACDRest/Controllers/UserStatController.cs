@@ -67,10 +67,22 @@ namespace GACDRest.Controllers
         /// </summary>
         /// <param name="id">Id of user whose stats you are looking for</param>
         /// <returns>Average user stats for the given user</returns>
-        [HttpGet("{id}")]
-        public async Task<UserStat> GetAvgAsync(int id)
+        [HttpGet]
+        public async Task<StatModel> GetAvgAsync()
         {
-            return await _userStatBL.GetAvgUserStat(id);
+            try
+            {
+                User u = new User();
+                u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                u = await _userBL.GetUser(u.Auth0Id);
+                UserStat userStat = await _userStatBL.GetAvgUserStat(u.Id);
+                return new StatModel(u.Auth0Id, userStat.AverageWPM, userStat.AverageAccuracy, userStat.NumberOfTests, userStat.TotalTestTime, -2);
+            }
+            catch (Exception)
+            {
+                Log.Error("Error in getting userstat average");
+                return null;
+            }
         }
 
         // POST api/<UserStatController>
