@@ -52,8 +52,8 @@ namespace GACDRest.Controllers
                     request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
                     IRestResponse restResponse = await client.ExecuteAsync(request);
                     dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
-
                     lBUserModel.UserName = deResponse.username;
+                    lBUserModel.Name = deResponse.name;
                 }
                 catch (Exception e)
                 {
@@ -93,7 +93,7 @@ namespace GACDRest.Controllers
                     request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
                     IRestResponse restResponse = await client.ExecuteAsync(request);
                     dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
-
+                    lBUserModel.Name = deResponse.name;
                     lBUserModel.UserName = deResponse.username;
                 }
                 catch(Exception e)
