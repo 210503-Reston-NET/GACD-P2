@@ -515,6 +515,48 @@ namespace GACDTests
                 Assert.Null(await userBL.GetUser(1));
             }
         }
+        /// <summary>
+        /// Just makes sure that a bogus comp id will return no competitionstats
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task EmptyCompetitionShouldHaveEmptyStats()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                int expected = 0;
+                ICompBL compBL = new CompBL(context);
+                int actual = (await compBL.GetCompetitionStats(1)).Count;
+                Assert.Equal(expected, actual);
+            }
+        }
+        /// <summary>
+        /// Makes sure that we can retrieve the competition stuff from the database
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task CompStuffShouldBeRetrieved()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                Competition c = new Competition();
+                User user = new User();
+                user.Auth0Id = "test";
+                IUserBL userBL = new UserBL(context);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                ICompBL compBL = new CompBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                await categoryBL.AddCategory(category);
+                await userBL.AddUser(user);
+                Category category1 = await categoryBL.GetCategory(1);
+                string testForComp = "Console.WriteLine('Hello World');";
+                int compId = await compBL.AddCompetition(DateTime.Now, DateTime.Now, category1.Id, "name", 1, testForComp, "Ada Lovelace");
+                Tuple<string, string, int> tuple = await compBL.GetCompStuff(compId);
+                Assert.Equal(testForComp, tuple.Item2);
+            }
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
