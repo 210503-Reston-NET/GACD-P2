@@ -68,6 +68,7 @@ namespace GACDRest.Controllers
         /// <param name="id">Id of user whose stats you are looking for</param>
         /// <returns>Average user stats for the given user</returns>
         [HttpGet]
+        [Authorize]
         public async Task<StatModel> GetAvgAsync()
         {
             try
