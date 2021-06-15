@@ -91,7 +91,7 @@ namespace GACDBL
             {
                 List<User> users = await _repo.GetAllUsers();
                 List<Tuple<User, double, double>> userStats = new List<Tuple<User, double, double>>();
-
+                List<Tuple<User, double, double>> returnUsersChecked = new List<Tuple<User, double, double>>();
                 foreach (User u in users)
                 {
                     if (await _repo.GetSatUserCat(categoryId, u.Id) != null)
@@ -106,8 +106,12 @@ namespace GACDBL
                                                                 orderby tuple.Item2 descending
                                                                 select tuple).ToList();
                 List<Tuple<User, double, double, int>> usersRanked = new List<Tuple<User, double, double, int>>();
+                foreach (Tuple<User, double, double> tuple1 in returnUsers)
+                {
+                    if ((!Double.IsInfinity(tuple1.Item2)) && ((!Double.IsInfinity(tuple1.Item3)))) returnUsersChecked.Add(tuple1);
+                }
                 int i = 0;
-                foreach (Tuple<User, double, double> t in returnUsers)
+                foreach (Tuple<User, double, double> t in returnUsersChecked)
                 {
                     i += 1;
                     Tuple<User, double, double, int> tuple = Tuple.Create(t.Item1, t.Item2, t.Item3, i);
