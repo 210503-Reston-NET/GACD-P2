@@ -36,37 +36,45 @@ namespace GACDRest.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LBUserModel>>> GetAsync()
         {
-
-            List<Tuple<User, double, double, int>> statTuples = await _userStatBL.GetOverallBestUsers();
-            List<LBUserModel> lBUserModels = new List<LBUserModel>();
-            foreach (Tuple<User, double, double, int> tuple in statTuples)
+            try
             {
-                LBUserModel lBUserModel = new LBUserModel();
-                lBUserModel.AverageWPM = tuple.Item2;
-                lBUserModel.AverageAcc = tuple.Item3;
-                lBUserModel.Ranking = tuple.Item4;
-                try
+                List<Tuple<User, double, double, int>> statTuples = await _userStatBL.GetOverallBestUsers();
+                List<LBUserModel> lBUserModels = new List<LBUserModel>();
+                foreach (Tuple<User, double, double, int> tuple in statTuples)
                 {
-                    dynamic AppBearerToken = GetApplicationToken();
-                    var client = new RestClient($"https://kwikkoder.us.auth0.com/api/v2/users/{tuple.Item1.Auth0Id}");
-                    var request = new RestRequest(Method.GET);
-                    request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
-                    IRestResponse restResponse = await client.ExecuteAsync(request);
-                    dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
-                    lBUserModel.UserName = deResponse.username;
-                    lBUserModel.Name = deResponse.name;
+                    LBUserModel lBUserModel = new LBUserModel();
+                    lBUserModel.AverageWPM = tuple.Item2;
+                    lBUserModel.AverageAcc = tuple.Item3;
+                    lBUserModel.Ranking = tuple.Item4;
+                    try
+                    {
+                        dynamic AppBearerToken = GetApplicationToken();
+                        var client = new RestClient($"https://kwikkoder.us.auth0.com/api/v2/users/{tuple.Item1.Auth0Id}");
+                        var request = new RestRequest(Method.GET);
+                        request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
+                        IRestResponse restResponse = await client.ExecuteAsync(request);
+                        dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
+                        lBUserModel.UserName = deResponse.username;
+                        lBUserModel.Name = deResponse.name;
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e.Message);
+                        Log.Error("Unexpected error occured in LBController");
+                    }
+                    //lBUserModel.Name = tuple.Item1.Name;
+                    //lBUserModel.UserName = tuple.Item1.UserName;
+                    if ((!Double.IsInfinity(lBUserModel.AverageWPM)) && ((!Double.IsInfinity(lBUserModel.AverageAcc))))
+                        lBUserModels.Add(lBUserModel);
                 }
-                catch (Exception e)
-                {
-                    Log.Error(e.Message);
-                    Log.Error("Unexpected error occured in LBController");
-                }
-                //lBUserModel.Name = tuple.Item1.Name;
-                //lBUserModel.UserName = tuple.Item1.UserName;
-                if((!Double.IsInfinity(lBUserModel.AverageWPM)) && ((!Double.IsInfinity(lBUserModel.AverageAcc))))
-                lBUserModels.Add(lBUserModel);
+                return lBUserModels;
+            }catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error("Error found returning 404");
+                return NotFound();
+
             }
-            return lBUserModels;
         }
         /// <summary>
         /// Gets the best User for a given category
