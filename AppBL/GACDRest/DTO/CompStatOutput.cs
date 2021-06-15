@@ -12,5 +12,6 @@ namespace GACDRest.DTO
         public int rank { get; set; }
         public string userName { get; set; }
         public double accuracy { get; set; }
+        public string Name { get; set; }
     }
 }

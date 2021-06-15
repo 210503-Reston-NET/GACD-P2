@@ -116,11 +116,12 @@ namespace GACDTests
                 User user2 = new User();
                 user2.Auth0Id = "test2";
                 await userBL.AddUser(user2);
-                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100, 100, DateTime.Now);
+                TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100000, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
-                testToBeInserted = await userStatBL.SaveTypeTest(2, 50, 100, 100,DateTime.Now);
+                await userStatBL.AddTestUpdateStat(1, 2, testToBeInserted);
+                testToBeInserted = await userStatBL.SaveTypeTest(2, 50, 100000, 100,DateTime.Now);
                 await userStatBL.AddTestUpdateStat(2, 2, testToBeInserted);
-                testToBeInserted = await userStatBL.SaveTypeTest(3, 50, 100, 100, DateTime.Now);
+                testToBeInserted = await userStatBL.SaveTypeTest(3, 50, 100000, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(3, 3, testToBeInserted);
                 bool expected = true;
                 bool actual = (await userStatBL.GetOverallBestUsers()).Count > 0;
