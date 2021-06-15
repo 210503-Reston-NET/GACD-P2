@@ -79,17 +79,6 @@ namespace GACDRest.Controllers
             }
         }
 
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
         private dynamic GetApplicationToken()
         {
             var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");

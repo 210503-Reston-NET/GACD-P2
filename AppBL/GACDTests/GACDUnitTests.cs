@@ -557,6 +557,60 @@ namespace GACDTests
                 Assert.Equal(testForComp, tuple.Item2);
             }
         }
+        /// <summary>
+        /// Makes sure that we are able to get category by id
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task GetCategoryByIdShouldWork()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                ICategoryBL categoryBL = new CategoryBL(context);
+                Category category = new Category();
+                category.Name = 3;
+                await categoryBL.AddCategory(category);
+                Category category1 = await categoryBL.GetCategoryById(1);
+                int expected = 3;
+                int actual = category1.Name;
+                Assert.Equal(expected, actual);
+            }
+        }
+        [Fact]
+        public async Task GetCompetitionsShouldGetAComp()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                Competition c = new Competition();
+                User user = new User();
+                user.Auth0Id = "test";
+                IUserBL userBL = new UserBL(context);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                ICompBL compBL = new CompBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                await categoryBL.AddCategory(category);
+                await userBL.AddUser(user);
+                Category category1 = await categoryBL.GetCategory(1);
+                string testForComp = "Console.WriteLine('Hello World');";
+                await compBL.AddCompetition(DateTime.Now, DateTime.Now, category1.Id, "name", 1, testForComp, "testauthor");
+                int expected = 1;
+                int actual = (await compBL.GetAllCompetitions()).Count;
+                Assert.Equal(expected, actual);
+            }
+        }
+        [Fact]
+        public async Task GetCompetitionsOnEmptyIsNewList()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                ICompBL compBL = new CompBL(context);
+                int expected = 0;
+                int actual = (await compBL.GetAllCompetitions()).Count;
+                Assert.Equal(expected, actual);
+            }
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
