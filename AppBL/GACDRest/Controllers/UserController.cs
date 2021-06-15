@@ -62,7 +62,14 @@ namespace GACDRest.Controllers
                 request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
                 IRestResponse restResponse = await client.ExecuteAsync(request);
                 dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
-                return new UserNameModel(deResponse.username, deResponse.name);
+                UserNameModel userNameModel = new UserNameModel();
+                try
+                {
+                    userNameModel.UserName = deResponse.username;
+                    userNameModel.Name = deResponse.name;
+                }
+                catch (Exception) { }
+                return userNameModel;
             }
             catch (Exception e)
             {
