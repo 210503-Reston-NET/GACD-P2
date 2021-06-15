@@ -32,12 +32,6 @@ namespace GACDDL
         /// <returns>user aded</returns>
         Task<User> AddUser(User user);
         /// <summary>
-        /// Updates a give user in the database
-        /// </summary>
-        /// <param name="user">user to update</param>
-        /// <returns>User updated</returns>
-        Task<User> UpdateUser(User user);
-        /// <summary>
         /// Adds a category to the database
         /// </summary>
         /// <param name="cat">category to be added</param>
