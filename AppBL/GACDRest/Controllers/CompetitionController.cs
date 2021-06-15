@@ -43,7 +43,9 @@ namespace GACDRest.Controllers
                 {
                     Category cat = await _categoryBL.GetCategoryById(c.Id);
                     CompetitionObject competitionObject = new CompetitionObject(c.CompetitionName, c.StartDate, c.EndDate, cat.Id);
+                    competitionObjects.Add(competitionObject);
                 }
+                return competitionObjects;
             }
             catch (Exception) { Log.Error("unexpected error in Competition get method"); }
             return null;
@@ -105,7 +107,10 @@ namespace GACDRest.Controllers
             Category category1 = await _categoryBL.GetCategory(cObject.Category);
             int compId = await _compBL.AddCompetition(cObject.Start, cObject.End, category1.Id, cObject.Name, u.Id, cObject.snippet, cObject.author);
             bool AddCompetitionFlag = (compId == -1);
-            if (!AddCompetitionFlag) { return CreatedAtRoute("Get", new { i = compId }, compId); }
+            if (!AddCompetitionFlag) { return CreatedAtRoute(
+                routeName: "Get", 
+                routeValues: new { id = compId }, 
+                value: compId);}
             else return BadRequest();
         }
 
