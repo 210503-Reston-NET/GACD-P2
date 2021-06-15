@@ -119,6 +119,7 @@ namespace GACDTests
                 TypeTest testToBeInserted = await userStatBL.SaveTypeTest(1, 50, 100000, 100, DateTime.Now);
                 await userStatBL.AddTestUpdateStat(1, 1, testToBeInserted);
                 await userStatBL.AddTestUpdateStat(1, 2, testToBeInserted);
+                await userStatBL.AddTestUpdateStat(1, 3, testToBeInserted);
                 testToBeInserted = await userStatBL.SaveTypeTest(2, 50, 100000, 100,DateTime.Now);
                 await userStatBL.AddTestUpdateStat(2, 2, testToBeInserted);
                 testToBeInserted = await userStatBL.SaveTypeTest(3, 50, 100000, 100, DateTime.Now);
