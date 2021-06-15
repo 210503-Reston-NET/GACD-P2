@@ -43,7 +43,9 @@ namespace GACDRest.Controllers
                 {
                     Category cat = await _categoryBL.GetCategoryById(c.Id);
                     CompetitionObject competitionObject = new CompetitionObject(c.CompetitionName, c.StartDate, c.EndDate, cat.Id);
+                    competitionObjects.Add(competitionObject);
                 }
+                return competitionObjects;
             }
             catch (Exception) { Log.Error("unexpected error in Competition get method"); }
             return NotFound();
