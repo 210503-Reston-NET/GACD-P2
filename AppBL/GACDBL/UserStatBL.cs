@@ -78,7 +78,7 @@ namespace GACDBL
                 {
                     userStat.NumberOfTests += us.NumberOfTests;
                     userStat.AverageAccuracy += (us.AverageAccuracy * us.TotalTestTime) / userStat.TotalTestTime;
-                    userStat.AverageWPM += (us.AverageWPM * us.TotalTestTime) / us.TotalTestTime;
+                    userStat.AverageWPM += (us.AverageWPM * us.TotalTestTime) / userStat.TotalTestTime;
                 }
                 return userStat;
             }

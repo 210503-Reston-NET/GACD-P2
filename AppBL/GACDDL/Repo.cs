@@ -355,19 +355,5 @@ namespace GACDDL
             }
         }
 
-        public async Task<User> UpdateUser(User user)
-        {
-            try
-            {
-               _context.Users.Update(user);
-               await _context.SaveChangesAsync();
-                return user;
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.Message);
-                return null;
-            }
-        }
     }
 }
