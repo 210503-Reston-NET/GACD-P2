@@ -42,7 +42,7 @@ namespace GACDRest.Controllers
                 foreach (Competition c in competitions)
                 {
                     Category cat = await _categoryBL.GetCategoryById(c.CategoryId);
-                    CompetitionObject competitionObject = new CompetitionObject(c.CompetitionName, c.StartDate, c.EndDate, cat.Id);
+                    CompetitionObject competitionObject = new CompetitionObject(c.CompetitionName, c.StartDate, c.EndDate, cat.Name);
                     competitionObjects.Add(competitionObject);
                 }
                 return competitionObjects;

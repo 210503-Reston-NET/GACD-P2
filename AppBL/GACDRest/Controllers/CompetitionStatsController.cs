@@ -50,8 +50,9 @@ namespace GACDRest.Controllers
                 c.categoryId = category.Name;
                 c.id = id;
                 return c;
-            }catch (Exception)
+            }catch (Exception e)
             {
+                Log.Error(e.Message);
                 Log.Error("Error with retrieving comp string, returning not found");
                 return NotFound();
             }
