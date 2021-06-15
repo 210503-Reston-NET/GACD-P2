@@ -38,7 +38,7 @@ namespace GACDRest.Controllers
         }
         // GET: api/<CompeititonStatsController>
         [HttpGet("{id}")]
-        public async Task<CompetitionContent> Get(int id)
+        public async Task<ActionResult<CompetitionContent>> Get(int id)
         {
             try
             {
@@ -52,8 +52,8 @@ namespace GACDRest.Controllers
                 return c;
             }catch (Exception)
             {
-                Log.Error("Error with retrieving comp string, returning null");
-                return null;
+                Log.Error("Error with retrieving comp string, returning not found");
+                return NotFound();
             }
 
         }
@@ -63,7 +63,7 @@ namespace GACDRest.Controllers
         // POST api/<CompeititonStatsController>
         [HttpPost]
         [Authorize]
-        public async Task<int> Post(CompInput compInput)
+        public async Task<ActionResult<int>> Post(CompInput compInput)
         {
             TypeTestInput typeTest = compInput;
             Log.Information(typeTest.categoryId.ToString());
@@ -89,7 +89,9 @@ namespace GACDRest.Controllers
             competitionStat.WPM = typeTest.wpm;
             competitionStat.UserId = user1.Id;
             competitionStat.CompetitionId = compInput.compId;
-            return await _compBL.InsertCompStatUpdate(competitionStat, typeTest.numberofcharacters, typeTest.numberoferrors);
+            int returnValue =  await _compBL.InsertCompStatUpdate(competitionStat, typeTest.numberofcharacters, typeTest.numberoferrors);
+            if (returnValue == -1) return NotFound();
+            else return returnValue;
         }
 
         // PUT api/<CompeititonStatsController>/5

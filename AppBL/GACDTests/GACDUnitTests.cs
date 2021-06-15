@@ -576,6 +576,10 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure competition will show that count is one when we add a competition
+        /// </summary>
+        /// <returns>True on success</returns>
         [Fact]
         public async Task GetCompetitionsShouldGetAComp()
         {
@@ -600,6 +604,10 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure that the get competitions is empty without adding a competition
+        /// </summary>
+        /// <returns>True on success</returns>
         [Fact]
         public async Task GetCompetitionsOnEmptyIsNewList()
         {

@@ -34,7 +34,7 @@ namespace GACDRest.Controllers
         /// </summary>
         /// <returns>List of best users in the database sorted by WPM</returns>
         [HttpGet]
-        public async Task<IEnumerable<LBUserModel>> GetAsync()
+        public async Task<ActionResult<IEnumerable<LBUserModel>>> GetAsync()
         {
 
             List<Tuple<User, double, double, int>> statTuples = await _userStatBL.GetOverallBestUsers();
