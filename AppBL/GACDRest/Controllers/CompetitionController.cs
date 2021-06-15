@@ -114,10 +114,7 @@ namespace GACDRest.Controllers
             Category category1 = await _categoryBL.GetCategory(cObject.Category);
             int compId = await _compBL.AddCompetition(cObject.Start, cObject.End, category1.Id, cObject.Name, u.Id, cObject.snippet, cObject.author);
             bool AddCompetitionFlag = (compId == -1);
-            if (!AddCompetitionFlag) { return CreatedAtRoute(
-                routeName: "Get", 
-                routeValues: new { id = compId }, 
-                value: compId);}
+            if (!AddCompetitionFlag) { return CreatedAtRoute("Get", new { i = compId }, compId); }
             else return BadRequest();
         }
 

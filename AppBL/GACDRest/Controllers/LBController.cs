@@ -63,6 +63,7 @@ namespace GACDRest.Controllers
                 }
                 //lBUserModel.Name = tuple.Item1.Name;
                 //lBUserModel.UserName = tuple.Item1.UserName;
+                if((!Double.IsInfinity(lBUserModel.AverageWPM)) && ((!Double.IsInfinity(lBUserModel.AverageAcc))))
                 lBUserModels.Add(lBUserModel);
             }
             return lBUserModels;
