@@ -44,7 +44,7 @@ namespace GACDRest.Controllers
         // GET api/<UserController>/5
         [Authorize]
         [HttpGet("username")]
-        public async Task<UserNameModel> Get()
+        public async Task<ActionResult<UserNameModel>> Get()
         {
             try
             {
@@ -75,7 +75,7 @@ namespace GACDRest.Controllers
             {
                 Log.Error(e.Message);
                 Log.Error("Unexpected error occured in LBController");
-                return null;
+                return NotFound();
             }
         }
 
