@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GACDDL
 {
-    interface IRepo
+    public interface IRepo
     {
         /// <summary>
         /// Get a user based on username and email
