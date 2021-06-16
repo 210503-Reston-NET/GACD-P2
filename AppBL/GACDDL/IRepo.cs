@@ -128,5 +128,11 @@ namespace GACDDL
         /// <param name="compId">competition Id for user to get stuff from</param>
         /// <returns>tuple with author, test, category of competition/null on fail</returns>
         Task<Tuple<string, string, int>> GetCompStuff(int compId);
+        /// <summary>
+        /// Gets a competition by its comp id
+        /// </summary>
+        /// <param name="id">Id of competition to get</param>
+        /// <returns>Competition or null on fail</returns>
+        Task<Competition> GetCompetition(int id);
     }
 }

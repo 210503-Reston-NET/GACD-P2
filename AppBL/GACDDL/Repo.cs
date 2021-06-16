@@ -203,6 +203,21 @@ namespace GACDDL
             }
         }
 
+        public async Task<Competition> GetCompetition(int id)
+        {
+            try
+            {
+                return await (from c in _context.Competitions
+                              where c.Id == id
+                              select c).SingleAsync();
+            }
+            catch (Exception)
+            {
+                Log.Error("No competition found");
+                return null;
+            }
+        }
+
         public async Task<string> GetCompetitionString(int compId)
         {
             try

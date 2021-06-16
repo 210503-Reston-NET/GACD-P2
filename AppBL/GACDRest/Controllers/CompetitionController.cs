@@ -43,6 +43,7 @@ namespace GACDRest.Controllers
                 {
                     Category cat = await _categoryBL.GetCategoryById(c.CategoryId);
                     CompetitionObject competitionObject = new CompetitionObject(c.CompetitionName, c.StartDate, c.EndDate, cat.Name);
+                    competitionObject.compId = c.Id;
                     competitionObjects.Add(competitionObject);
                 }
                 return competitionObjects;
@@ -70,13 +71,14 @@ namespace GACDRest.Controllers
                         dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
                         compStatOutput.Name = deResponse.name;
                         compStatOutput.userName = deResponse.username;
+                        compStatOutput.CompName = (await _compBL.GetCompetition(id)).CompetitionName;
                     }
                     catch (Exception e)
                     {
                         Log.Error(e.Message);
                         Log.Error("Unexpected error occured in LBController");
                     }
-
+                    
                     compStatOutput.accuracy = c.Accuracy;
                     compStatOutput.wpm = c.WPM;
                     compStatOutput.rank = c.rank;
