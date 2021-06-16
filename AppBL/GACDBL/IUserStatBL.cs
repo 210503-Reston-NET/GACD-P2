@@ -65,14 +65,6 @@ namespace GACDBL
         /// <param name="userId">Id of user to find type tests for</param>
         /// <returns>List of TypeTests, or empty if not found</returns>
         Task<List<TypeTest>> GetTypeTestsForUser(int userId);
-        /// <summary>
-        /// Places a bet, returns null on error
-        /// </summary>
-        /// <param name="better">string of user authId</param>
-        /// <param name="bettee">number id of better</param>
-        /// <param name="compId">number id of competition</param>
-        /// <param name="betAmount"></param>
-        /// <returns></returns>
-        Task<Bet> PlaceBet(string better, int bettee, int compId, int betAmount);
+       
     }
 }

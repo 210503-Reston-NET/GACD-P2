@@ -14,5 +14,6 @@ namespace GACDRest.DTO
         public double accuracy { get; set; }
         public string Name { get; set; }
         public string CompName { get; set; }
+        public int userId { get; set; }
     }
 }
