@@ -82,7 +82,9 @@ namespace GACDRest.Controllers
                     compStatOutput.accuracy = c.Accuracy;
                     compStatOutput.wpm = c.WPM;
                     compStatOutput.rank = c.rank;
+                    compStatOutputs.Add(compStatOutput);
                 }
+                return compStatOutputs;
             }           
             catch (Exception)
             {
