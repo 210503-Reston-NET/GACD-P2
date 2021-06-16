@@ -294,6 +294,31 @@ namespace GACDDL
             }
         }
 
+        public async Task<List<TypeTest>> GetTypeTestsForUser(int userId)
+        {
+            try
+            {
+                List<int> userStatIds= await (from uscj in _context.UserStatCatJoins
+                                                                where uscj.UserId == userId
+                                                                select uscj.UserStatId).ToListAsync();
+                List<TypeTest> typeTests = new List<TypeTest>();
+                foreach(int usId in userStatIds)
+                {
+                    List<TypeTest> testForStat = await (from test in _context.TypeTests
+                                                        where test.UserStatId == usId
+                                                        select test).ToListAsync();
+                    typeTests.AddRange(testForStat);
+                }
+                typeTests = typeTests.OrderByDescending(t => t.Date).ToList();
+                typeTests = typeTests.Take(100).ToList();
+                return typeTests;
+            }catch(Exception)
+            {
+                Log.Error("No Type Tests found returning empty list");
+                return new List<TypeTest>();
+            }
+        }
+
         public async  Task<User> GetUser(int id)
         {
             try

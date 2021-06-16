@@ -134,5 +134,11 @@ namespace GACDDL
         /// <param name="id">Id of competition to get</param>
         /// <returns>Competition or null on fail</returns>
         Task<Competition> GetCompetition(int id);
+        /// <summary>
+        /// Gets the relevant type tests for a given user Id
+        /// </summary>
+        /// <param name="id">User Id to get tests for</param>
+        /// <returns>List of type tests user has taken</returns>
+        Task<List<TypeTest>> GetTypeTestsForUser(int userId);
     }
 }
