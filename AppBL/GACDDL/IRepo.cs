@@ -140,5 +140,14 @@ namespace GACDDL
         /// <param name="id">User Id to get tests for</param>
         /// <returns>List of type tests user has taken</returns>
         Task<List<TypeTest>> GetTypeTestsForUser(int userId);
+        /// <summary>
+        /// Method which allows users to place bet on a user in a competition 
+        /// </summary>
+        /// <param name="better">id of person betting</param>
+        /// <param name="bettee">id of personing being bet on</param>
+        /// <param name="compId">id of competition bettee is participating in</param>
+        /// <paran name="betAmount">amount that better is betting on bettee</paran>
+        /// <returns></returns>
+        Task<Bet> PlaceBetOnCompUser(int better, int bettee, int compId, int betAmount);
     }
 }

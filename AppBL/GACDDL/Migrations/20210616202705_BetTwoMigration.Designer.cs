@@ -3,15 +3,17 @@ using System;
 using GACDDL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace GACDDL.Migrations
 {
     [DbContext(typeof(GACDDBContext))]
-    partial class GACDDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210616202705_BetTwoMigration")]
+    partial class BetTwoMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
