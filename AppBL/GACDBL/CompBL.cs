@@ -93,5 +93,22 @@ namespace GACDBL
                 return -1;
             }
         }
+
+        public async Task<Bet> PlaceBet(string better, int bettee, int compId, int betAmount)
+        {
+            try
+            {
+                User u = await _repo.GetUser(better);
+                Bet bet = await _repo.PlaceBetOnCompUser(u.Id, bettee, compId, betAmount);
+                return bet;
+            }
+            catch(Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error("Error with betting returning null");
+                return null;
+            }
+
+        }
     }
 }

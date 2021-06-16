@@ -69,9 +69,11 @@ namespace GACDRest.Controllers
                         request.AddHeader("authorization", "Bearer " + AppBearerToken.access_token);
                         IRestResponse restResponse = await client.ExecuteAsync(request);
                         dynamic deResponse = JsonConvert.DeserializeObject(restResponse.Content);
+                        compStatOutput.userId = c.UserId;
                         compStatOutput.Name = deResponse.name;
                         compStatOutput.userName = deResponse.username;
                         compStatOutput.CompName = (await _compBL.GetCompetition(id)).CompetitionName;
+                        
                     }
                     catch (Exception e)
                     {
@@ -92,6 +94,15 @@ namespace GACDRest.Controllers
                 return NotFound();
             }
             return compStatOutputs;
+        }
+        [HttpPut("bet")]
+        [Authorize]
+        public async Task<ActionResult> PutBet(CompBetInput compBetInput) {
+            string UserID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (await _userBL.GetUser(UserID) == null) return BadRequest();
+            else if (await _compBL.PlaceBet(UserID, compBetInput.UserBetOn, compBetInput.CompId, compBetInput.BetAmount) == null) return BadRequest();
+            else return Ok();
         }
         [HttpPost]
         [Authorize]

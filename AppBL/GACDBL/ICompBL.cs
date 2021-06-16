@@ -69,5 +69,14 @@ namespace GACDBL
         /// <param name="compId">id of competition to be found</param>
         /// <returns>Competition or null if not found</returns>
         Task<Competition> GetCompetition(int compId);
+        /// <summary>
+        /// Places a bet, returns null on error
+        /// </summary>
+        /// <param name="better">string of user authId</param>
+        /// <param name="bettee">number id of better</param>
+        /// <param name="compId">number id of competition</param>
+        /// <param name="betAmount"></param>
+        /// <returns></returns>
+        Task<Bet> PlaceBet(string better, int bettee, int compId, int betAmount);
     }
 }
