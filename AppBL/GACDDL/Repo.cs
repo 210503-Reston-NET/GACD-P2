@@ -62,6 +62,7 @@ namespace GACDDL
                 cstat.WPM = c.WPM;
                 cstat.Accuracy = c.Accuracy;
                 await _context.SaveChangesAsync();
+                _context.Entry(cstat).State = EntityState.Detached;
                 return c;
             }
             catch (Exception) { }
