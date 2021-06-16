@@ -11,6 +11,7 @@ namespace GACDModels
         public User() { }
         public int  Id { get; set; }
         public string Auth0Id { get; set; }
+        public int Revapoints { get; set; }
         public List<UserStatCatJoin> UserStatCatJoins { get; set; }
         public List<CompetitionStat> CompetitionStats { get; set; }
     }

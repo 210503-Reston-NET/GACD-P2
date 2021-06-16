@@ -3,15 +3,17 @@ using System;
 using GACDDL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace GACDDL.Migrations
 {
     [DbContext(typeof(GACDDBContext))]
-    partial class GACDDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210616194026_BetMigration")]
+    partial class BetMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,13 +28,16 @@ namespace GACDDL.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("BettingUserId")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("Claimed")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("CompetitionId")
+                    b.Property<int>("CompetitionStatCompetitionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CompetitionStatId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CompetitionStatUserId")
                         .HasColumnType("integer");
 
                     b.Property<int>("PointsBet")
@@ -46,7 +51,9 @@ namespace GACDDL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId", "CompetitionId");
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("CompetitionStatUserId", "CompetitionStatCompetitionId");
 
                     b.ToTable("Bets");
                 });
@@ -237,7 +244,7 @@ namespace GACDDL.Migrations
 
                     b.HasOne("GACDModels.CompetitionStat", "CompetitionStat")
                         .WithMany()
-                        .HasForeignKey("UserId", "CompetitionId")
+                        .HasForeignKey("CompetitionStatUserId", "CompetitionStatCompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

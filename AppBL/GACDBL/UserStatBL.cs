@@ -45,6 +45,8 @@ namespace GACDBL
                 userStat = await _repo.AddUpdateStats(categoryId, userId, userStat);
                 typeTest.UserStatId = userStat.Id;
                 await _repo.AddTest(typeTest);
+                User u = await _repo.GetUser(userId);
+                u.Revapoints += (int)(typeTest.TimeTaken * intermediateCalc);
                 return userStat;
 
 

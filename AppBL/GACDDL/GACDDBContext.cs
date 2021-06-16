@@ -19,6 +19,7 @@ namespace GACDDL
         public DbSet<TypeTest> TypeTests { get; set; }
         public DbSet<Competition> Competitions { get; set; }
         public DbSet<CompetitionStat> CompetitionStats { get; set; }
+        public DbSet<Bet> Bets { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -39,6 +40,9 @@ namespace GACDDL
                 .HasKey(cS => new { cS.UserId, cS.CompetitionId });
             modelBuilder.Entity<TypeTest>()
                 .Property(tT => tT.Id)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Bet>()
+                .Property(b => b.Id)
                 .ValueGeneratedOnAdd();
         }
     }

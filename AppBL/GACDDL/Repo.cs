@@ -133,6 +133,7 @@ namespace GACDDL
             try
             {
                 if (await GetUser(user.Auth0Id) != null) return null;
+                user.Revapoints = 0;
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 return user;
@@ -388,6 +389,55 @@ namespace GACDDL
                 return new List<UserStatCatJoin>();
             }
             throw new NotImplementedException();
+        }
+
+        public async Task<Bet> PlaceBetOnCompUser(int better, int bettee, int compId, int betaAmount)
+        {
+            try
+            {
+                User better1 = await (from usr in _context.Users
+                                      where usr.Id == better
+                                      select usr).SingleAsync();
+                if (better1.Revapoints < betaAmount) return null;
+                else
+                {
+                    CompetitionStat competitionStat = await (from cS in _context.CompetitionStats
+                                                             where cS.CompetitionId == compId
+                                                             && cS.UserId == bettee
+                                                             select cS).SingleAsync();
+                    try
+                    {
+                        Bet bet = await (from bt in _context.Bets
+                                         where bt.UserId == bettee
+                                         && bt.CompetitionId == compId
+                                         select bt).SingleAsync();
+                        bet.PointsBet += betaAmount;
+                        better1.Revapoints -= betaAmount;
+                        await _context.SaveChangesAsync();
+                        return bet;
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Information("e.Message");
+                        Log.Information("Creating new bet");
+                        Bet bet = new Bet();
+                        bet.UserId = bettee;
+                        bet.CompetitionId = compId;
+                        bet.BettingUserId = better;
+                        bet.Claimed = false;
+                        bet.PointsBet = betaAmount;
+                        await _context.Bets.AddAsync(bet);
+                        better1.Revapoints -= betaAmount;
+                        await _context.SaveChangesAsync();
+                        return bet;
+                    }
+                }
+            }catch(Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error("Can't find relavent info, returning null");
+                return null;
+            }
         }
 
         public async Task<CompetitionStat> UpdateCompStat(CompetitionStat c)
