@@ -56,6 +56,17 @@ namespace GACDDL
         {
             try
             {
+                CompetitionStat cstat = await (from compStat in _context.CompetitionStats
+                                               where compStat.UserId == c.UserId
+                                               select compStat).SingleAsync();
+                cstat.WPM = c.WPM;
+                cstat.Accuracy = c.Accuracy;
+                await _context.SaveChangesAsync();
+                return c;
+            }
+            catch (Exception) { }
+            try
+            {
                 await _context.CompetitionStats.AddAsync(c);
                 await _context.SaveChangesAsync();
                 return c;

@@ -86,7 +86,7 @@ namespace GACDRest.Controllers
             TypeTest testToBeInserted = await _userStatService.SaveTypeTest(typeTest.numberoferrors, typeTest.numberofcharacters, typeTest.timetakenms, typeTest.wpm, typeTest.date);
             CompetitionStat competitionStat = new CompetitionStat();
             bool typeTestFlag = (await _userStatService.AddTestUpdateStat(user1.Id, category1.Id, testToBeInserted) == null);
-            if (typeTestFlag) return -1;
+            if (typeTestFlag) return BadRequest();
             competitionStat.WPM = typeTest.wpm;
             competitionStat.UserId = user1.Id;
             competitionStat.CompetitionId = compInput.compId;
