@@ -20,7 +20,7 @@ namespace GACDRest.DTO{
         public int Category { get; set; }
         public string snippet { get; set; }
         public string author { get; set; }
-        
+        public int compId { get; set; }
     }
 
 }

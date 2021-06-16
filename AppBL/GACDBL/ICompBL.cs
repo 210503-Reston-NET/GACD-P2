@@ -63,5 +63,11 @@ namespace GACDBL
         /// <param name="compId">competition id to get things from</param>
         /// <returns>tuple with author, test, category of competition/null on fail</returns>
         Task<Tuple<string, string, int>> GetCompStuff(int compId);
+        /// <summary>
+        /// Gets a competition by id, null if not found
+        /// </summary>
+        /// <param name="compId">id of competition to be found</param>
+        /// <returns>Competition or null if not found</returns>
+        Task<Competition> GetCompetition(int compId);
     }
 }
