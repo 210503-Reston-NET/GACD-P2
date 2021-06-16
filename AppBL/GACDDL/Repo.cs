@@ -58,6 +58,7 @@ namespace GACDDL
             {
                 CompetitionStat cstat = await (from compStat in _context.CompetitionStats
                                                where compStat.UserId == c.UserId
+                                               && compStat.CompetitionId == c.CompetitionId
                                                select compStat).SingleAsync();
                 cstat.WPM = c.WPM;
                 cstat.Accuracy = c.Accuracy;
