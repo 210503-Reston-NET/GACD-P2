@@ -36,7 +36,7 @@ namespace GACDRest.Controllers
         /// <returns>List of user stats for the given user</returns>
         [HttpGet("all")]
         [Authorize]
-        public async Task<IEnumerable<StatModel>> GetAsync()
+        public async Task<ActionResult<IEnumerable<StatModel>>> GetAsync()
         {
             try
             {
@@ -56,10 +56,38 @@ namespace GACDRest.Controllers
             catch (Exception)
             {
                 Log.Error("Can't get stats");
-                return null;
+                return NotFound();
             }
         }
-
+        [HttpGet("tests")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<TestStatOutput>>> GetTests()
+        {
+            try
+            {
+                User u = new User();
+                u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                u = await _userBL.GetUser(u.Auth0Id);
+                List<TypeTest> typeTests = await _userStatBL.GetTypeTestsForUser(u.Id);
+                List<TestStatOutput> typeTestOutputs = new List<TestStatOutput>();
+                foreach (TypeTest t in typeTests)
+                {
+                    TestStatOutput typeTestOutput = new TestStatOutput();
+                    typeTestOutput.date = t.Date;
+                    typeTestOutput.numberofcharacters = t.NumberOfWords;
+                    typeTestOutput.numberoferrors = t.NumberOfErrors;
+                    typeTestOutput.timetakenms = t.TimeTaken;
+                    typeTestOutput.wpm = t.WPM;
+                    typeTestOutputs.Add(typeTestOutput);
+                }
+                return typeTestOutputs;
+            }catch(Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error("Unable to retrive tests");
+                return NotFound();
+            }
+        }
         // GET api/<UserStatController>/5
         /// <summary>
         /// Method for getting the average user stats accross the board
@@ -69,7 +97,7 @@ namespace GACDRest.Controllers
         /// <returns>Average user stats for the given user</returns>
         [HttpGet]
         [Authorize]
-        public async Task<StatModel> GetAvgAsync()
+        public async Task<ActionResult<StatModel>> GetAvgAsync()
         {
             try
             {
@@ -82,8 +110,9 @@ namespace GACDRest.Controllers
             catch (Exception)
             {
                 Log.Error("Error in getting userstat average");
-                return null;
+                return NotFound();
             }
         }
+        
     }
 }

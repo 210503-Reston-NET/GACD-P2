@@ -620,6 +620,36 @@ namespace GACDTests
                 Assert.Equal(expected, actual);
             }
         }
+        /// <summary>
+        /// Makes sure the typetest getting method returns a test we add
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task GetTypeTestsShouldGetaTypeTest()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                IUserBL userBL = new UserBL(context);
+                User user = new User();
+                user.Auth0Id = "testid";
+                user = await userBL.AddUser(user);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                category = await categoryBL.AddCategory(category);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                TypeTest typeTest = new TypeTest();
+                typeTest.Date = DateTime.Now;
+                typeTest.NumberOfErrors = 1;
+                typeTest.NumberOfWords = 3;
+                typeTest.WPM = 30;
+                typeTest.TimeTaken = 5;
+                UserStat ust = await userStatBL.AddTestUpdateStat(1, 1, typeTest);
+                int expected = 1;
+                int actual = (await userStatBL.GetTypeTestsForUser(1)).Count;
+                Assert.Equal(expected,actual);
+            }
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))

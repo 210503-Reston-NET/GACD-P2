@@ -59,5 +59,11 @@ namespace GACDBL
         /// <param name="userstatid">userstat with given userstat id</param>
         /// <returns>UserStat</returns>
         Task<UserStat> GetUserStatByUSId(int userstatid);
+        /// <summary>
+        /// Given a user Id, calls the database to get required typetests
+        /// </summary>
+        /// <param name="userId">Id of user to find type tests for</param>
+        /// <returns>List of TypeTests, or empty if not found</returns>
+        Task<List<TypeTest>> GetTypeTestsForUser(int userId);
     }
 }

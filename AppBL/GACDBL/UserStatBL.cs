@@ -162,6 +162,11 @@ namespace GACDBL
             }
         }
 
+        public async Task<List<TypeTest>> GetTypeTestsForUser(int userId)
+        {
+            return await _repo.GetTypeTestsForUser(userId);
+        }
+
         public async Task<UserStat> GetUserStatByUSId(int userstatid)
         {
             return await _repo.GetUserStatById(userstatid);
