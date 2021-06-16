@@ -179,6 +179,11 @@ namespace GACDBL
             return await _repo.GetUserStats(userId);
         }
 
+        public Task<Bet> PlaceBet(string better, int bettee, int compId, int betAmount)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int wpm, DateTime date)
         {
             TypeTest test = new TypeTest();
