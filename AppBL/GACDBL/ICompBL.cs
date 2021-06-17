@@ -78,5 +78,11 @@ namespace GACDBL
         /// <param name="betAmount"></param>
         /// <returns></returns>
         Task<Bet> PlaceBet(string better, int bettee, int compId, int betAmount);
+        /// <summary>
+        /// Gets all bets a user has won and returns them, updating revapoints
+        /// </summary>
+        /// <param name="userId">Id of user to claim bets</param>
+        /// <returns>List of Bets/empty if there aren't any</returns>
+        Task<List<Bet>> ClaimBets(int userId);
     }
 }

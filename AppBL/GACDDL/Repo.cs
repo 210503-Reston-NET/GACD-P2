@@ -147,6 +147,45 @@ namespace GACDDL
             }
         }
 
+        public async Task<List<Bet>> ClaimBets(int userId)
+        {
+            try
+            {
+                User u = await GetUser(userId);
+                List<Bet> bets = await (from b in _context.Bets
+                                        where b.BettingUserId == userId
+                                        && b.Claimed == false
+                                        select b).ToListAsync();
+                List<Bet> wonBets = new List<Bet>();
+                foreach(Bet bt in bets)
+                {
+                    CompetitionStat cStat = await (from cS in _context.CompetitionStats
+                                                   where cS.CompetitionId == bt.CompetitionId
+                                                   && cS.UserId == bt.UserId
+                                                   select cS).SingleAsync();
+                    if((cStat.rank == 1)&&(!bt.Claimed))
+                    {
+                        bt.Won = true;
+                        bt.Claimed = true;
+                        u.Revapoints += (bt.PointsBet * 2);
+                        wonBets.Add(bt);
+                    }
+                    else
+                    {
+                        bt.Won = false;
+                        bt.Claimed = true;
+                    }
+                }
+                await _context.SaveChangesAsync();
+                return wonBets;
+            }catch(Exception e)
+            {
+                Log.Error(e.StackTrace);
+                Log.Error("No bets found");
+                return new List<Bet>();
+            }
+        }
+
         public async Task<List<Category>> GetAllCategories()
         {
             try
@@ -375,14 +414,6 @@ namespace GACDDL
                 List<UserStatCatJoin> uscjs = await (from uscj in _context.UserStatCatJoins
                                         where uscj.UserId == userId
                                         select uscj).ToListAsync();
-               /* List<UserStat> userStats = new List<UserStat>();
-                foreach (UserStatCatJoin i in ucsjs) {
-                    UserStat uStatInDB = await (from uS in _context.UserStats
-                                                where uS.Id == i
-                                                select uS).SingleAsync();
-
-                    userStats.Add(uStatInDB);
-                }*/
                 return uscjs;
             }catch(Exception e)
             {

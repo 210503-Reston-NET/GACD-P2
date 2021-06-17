@@ -149,5 +149,11 @@ namespace GACDDL
         /// <paran name="betAmount">amount that better is betting on bettee</paran>
         /// <returns></returns>
         Task<Bet> PlaceBetOnCompUser(int better, int bettee, int compId, int betAmount);
+        /// <summary>
+        /// Clains all the bets for a given user
+        /// </summary>
+        /// <param name="userId">userId to claim bets from</param>
+        /// <returns>Bets claimed empty if none found </returns>
+        Task<List<Bet>> ClaimBets(int userId);
     }
 }
