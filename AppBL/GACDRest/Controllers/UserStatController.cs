@@ -105,7 +105,7 @@ namespace GACDRest.Controllers
                 u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 u = await _userBL.GetUser(u.Auth0Id);
                 UserStat userStat = await _userStatBL.GetAvgUserStat(u.Id);
-                return new StatModel(u.Auth0Id, userStat.AverageWPM, userStat.AverageAccuracy, userStat.NumberOfTests, userStat.TotalTestTime, -2);
+                return new StatModel(u.Auth0Id, userStat.AverageWPM, userStat.AverageAccuracy, userStat.NumberOfTests, userStat.TotalTestTime, u.Revapoints);
             }
             catch (Exception)
             {

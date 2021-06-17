@@ -41,6 +41,12 @@ namespace GACDBL
             competition.TestAuthor = author;
             return await _repo.AddCompetition(competition);
         }
+
+        public Task<List<Bet>> ClaimBets(int userId)
+        {
+            return _repo.ClaimBets(userId);
+        }
+
         public async Task<List<Competition>> GetAllCompetitions()
         {
             return await _repo.GetAllCompetitions();

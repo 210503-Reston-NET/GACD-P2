@@ -104,6 +104,13 @@ namespace GACDRest.Controllers
             else if (await _compBL.PlaceBet(UserID, compBetInput.UserBetOn, compBetInput.CompId, compBetInput.BetAmount) == null) return BadRequest();
             else return Ok();
         }
+        [HttpPut("bet/{id}")]
+        [Authorize]
+        public async Task<ActionResult> ClaimBet(int id)
+        {
+            if ((await _compBL.ClaimBets(id)).Count == 0) return NotFound();
+            else return Ok();
+        }
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Post(CompetitionObject cObject)
