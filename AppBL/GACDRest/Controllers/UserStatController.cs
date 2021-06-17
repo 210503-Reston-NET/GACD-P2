@@ -125,34 +125,35 @@ namespace GACDRest.Controllers
             }
         }
 
-        [HttpGet("avg")]
-        [Authorize]
-        public async Task<ActionResult<AvgStatModel>> GetNewAvgAsync()
-        {
+    }
+    [HttpGet("avg")]
+    [Authorize]
+    public async Task<ActionResult<AvgStatModel>> GetNewAvgAsync()
+    {
+            try
+            {
+                User u = new User();
+                u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                u = await _userBL.GetUser(u.Auth0Id);
+                UserStat userStat = await _userStatBL.GetAvgUserStat(u.Id);
+                AvgStatModel avgStatModel = new AvgStatModel();
                 try
                 {
-                    User u = new User();
-                    u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    u = await _userBL.GetUser(u.Auth0Id);
-                    UserStat userStat = await _userStatBL.GetAvgUserStat(u.Id);
-                    AvgStatModel avgStatModel = new AvgStatModel();
-                    try
-                    {
-                        avgStatModel.userID = u.Id;
-                        avgStatModel.averagewpm = userStat.AverageWPM;
-                        avgStatModel.averageaccuracy = userStat.AverageAccuracy;
-                        avgStatModel.numberoftests = userStat.NumberOfTests;
-                        avgStatModel.totaltesttime = userStat.TotalTestTime;
-                        avgStatModel.revapoints = u.Revapoints;
-                    }catch(Exception e) { Log.Error(e.StackTrace); }
-                    return avgStatModel;
-                }
-                catch (Exception)
-                {
-                    Log.Error("Error in getting userstat average");
-                    return NotFound();
-                }
-         }
+                    avgStatModel.userID = u.Id;
+                    avgStatModel.averagewpm = userStat.AverageWPM;
+                    avgStatModel.averageaccuracy = userStat.AverageAccuracy;
+                    avgStatModel.numberoftests = userStat.NumberOfTests;
+                    avgStatModel.totaltesttime = userStat.TotalTestTime;
+                    avgStatModel.revapoints = u.Revapoints;
+                }catch(Exception e) { Log.Error(e.StackTrace); }
+                return avgStatModel;
+            }
+            catch (Exception)
+            {
+                Log.Error("Error in getting userstat average");
+                return NotFound();
+            }
+     }
         
     }
 }
