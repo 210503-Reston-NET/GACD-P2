@@ -90,6 +90,7 @@ namespace GACDRest.Controllers
             competitionStat.WPM = typeTest.wpm;
             competitionStat.UserId = user1.Id;
             competitionStat.CompetitionId = compInput.compId;
+            if ((await _compBL.GetCompetition(compInput.compId)).EndDate < DateTime.Now) return BadRequest();
             int returnValue =  await _compBL.InsertCompStatUpdate(competitionStat, typeTest.numberofcharacters, typeTest.numberoferrors);
             if (returnValue == -1) return NotFound();
             else return returnValue;

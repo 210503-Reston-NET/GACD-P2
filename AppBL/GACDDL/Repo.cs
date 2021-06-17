@@ -163,17 +163,23 @@ namespace GACDDL
                                                    where cS.CompetitionId == bt.CompetitionId
                                                    && cS.UserId == bt.UserId
                                                    select cS).SingleAsync();
-                    if((cStat.rank == 1)&&(!bt.Claimed))
+                    Competition c = await (from comp in _context.Competitions
+                                           where comp.Id == bt.CompetitionId
+                                           select comp).SingleAsync();
+                    if (DateTime.Now >= c.EndDate)
                     {
-                        bt.Won = true;
-                        bt.Claimed = true;
-                        u.Revapoints += (bt.PointsBet * 2);
-                        wonBets.Add(bt);
-                    }
-                    else
-                    {
-                        bt.Won = false;
-                        bt.Claimed = true;
+                        if ((cStat.rank == 1) && (!bt.Claimed))
+                        {
+                            bt.Won = true;
+                            bt.Claimed = true;
+                            u.Revapoints += (bt.PointsBet * 2);
+                            wonBets.Add(bt);
+                        }
+                        else
+                        {
+                            bt.Won = false;
+                            bt.Claimed = true;
+                        }
                     }
                 }
                 await _context.SaveChangesAsync();
