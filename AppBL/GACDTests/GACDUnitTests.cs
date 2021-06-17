@@ -689,6 +689,10 @@ namespace GACDTests
                 Assert.NotNull(await compBL.PlaceBet("testid", 2, 1, 1));
             }
         }
+        /// <summary>
+        /// Making sure that user can place a bet and get a payout
+        /// </summary>
+        /// <returns>True on success</returns>
         [Fact]
         public async Task ClaimingWinSHouldGivePoints()
         {
@@ -730,6 +734,11 @@ namespace GACDTests
 
             }
         }
+        /// <summary>
+        /// Making sure you can place two bets and get even more points
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
         public async Task ClaimingWinOnDoubleShouldGivePoints()
         {
             using (var context = new GACDDBContext(options))
@@ -771,8 +780,32 @@ namespace GACDTests
 
             }
         }
-        
-        
+        /// <summary>
+        /// Makes sure that placing an incorrect bet returns null
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task PlacingBadBetShouldBeNull()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                ICompBL compBL = new CompBL(context);
+                Assert.Null(await compBL.PlaceBet("testid", 2, 1, 1));
+            }
+        }
+        /// <summary>
+        /// Making sure getting a bad competition is null
+        /// </summary>
+        /// <returns>True on success</returns>
+        [Fact]
+        public async Task GettingBadCompetitionByIdShouldBeNull()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                ICompBL compBL = new CompBL(context);
+                Assert.Null(await compBL.GetCompetition(1));
+            }
+        }
         private void Seed()
         {
             using(var context = new GACDDBContext(options))

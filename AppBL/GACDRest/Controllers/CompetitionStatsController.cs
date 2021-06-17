@@ -94,18 +94,6 @@ namespace GACDRest.Controllers
             if (returnValue == -1) return NotFound();
             else return returnValue;
         }
-
-        // PUT api/<CompeititonStatsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<CompeititonStatsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
         
     }
 }
