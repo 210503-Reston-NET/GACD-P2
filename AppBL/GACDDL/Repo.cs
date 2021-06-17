@@ -450,6 +450,7 @@ namespace GACDDL
                         Bet bet = await (from bt in _context.Bets
                                          where bt.UserId == bettee
                                          && bt.CompetitionId == compId
+                                         && bt.BettingUserId == better
                                          select bt).SingleAsync();
                         bet.PointsBet += betaAmount;
                         better1.Revapoints -= betaAmount;
