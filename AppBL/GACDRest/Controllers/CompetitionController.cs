@@ -99,7 +99,7 @@ namespace GACDRest.Controllers
         [Authorize]
         public async Task<ActionResult> PutBet(CompBetInput compBetInput) {
             string UserID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            if ((await _compBL.GetCompetition(compBetInput.CompId)).EndDate < DateTime.Now) return BadRequest();
             if (await _userBL.GetUser(UserID) == null) return BadRequest();
             else if (await _compBL.PlaceBet(UserID, compBetInput.UserBetOn, compBetInput.CompId, compBetInput.BetAmount) == null) return BadRequest();
             else return Ok();
