@@ -135,23 +135,5 @@ namespace GACDRest.Controllers
             //Log.Information("Response: {0}",response.Content);
             return JsonConvert.DeserializeObject(response.Content);
         }
-
-        // POST api/<LBController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<LBController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<LBController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

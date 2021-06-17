@@ -27,16 +27,6 @@ namespace GACDRest.Controllers
             _userBL = userBL;
             _ApiSettings = settings.Value;
         }
-        // GET: api/<UserController>
-        /// <summary>
-        /// Gets all the users in the database
-        /// </summary>
-        /// <returns>List of Users</returns>
-        [HttpGet]
-        public async Task<IEnumerable<User>> GetAsync()
-        {
-            return await _userBL.GetUsers();
-        }
         /// <summary>
         /// Gets a username with a given user
         /// </summary>
@@ -67,6 +57,8 @@ namespace GACDRest.Controllers
                 {
                     userNameModel.UserName = deResponse.username;
                     userNameModel.Name = deResponse.name;
+                    userNameModel.Revapoints = u.Revapoints;
+                    userNameModel.UserId = u.Id;
                 }
                 catch (Exception) { }
                 return userNameModel;
