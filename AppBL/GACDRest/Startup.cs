@@ -55,8 +55,13 @@ namespace GACDRest
                 options.AddPolicy("read:Account", policy => policy.Requirements.Add(new CheckScopeAuth("read:Account", authAddress)));
             });
             services.AddCors(c =>  
-                {  
-                    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());  
+                {
+                    c.AddDefaultPolicy(
+                        builder =>
+                        {
+                            builder.WithOrigins("https://kwikkoder.azurewebsites.net/",
+                                "http://localhost:4200/");
+                        });
                 });
             services.AddDbContext<GACDDBContext>(options => options.UseNpgsql(parseElephantSQLURL(Configuration.GetConnectionString("GACDB"))));
             services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
@@ -119,10 +124,7 @@ namespace GACDRest
             // .ReadFrom.Configuration(Configuration)
             // .CreateLogger();
             
-            app.UseCors(x => x
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+            app.UseCors();
 
             app.UseHttpsRedirection();
             
