@@ -97,7 +97,7 @@ namespace GACDRest.Controllers
         /// <returns>Average user stats for the given user</returns>
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<StatModel>> GetAvgAsync()
+        public async Task<ActionResult<AvgStatModel>> GetAvgAsync()
         {
             try
             {
@@ -105,7 +105,18 @@ namespace GACDRest.Controllers
                 u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 u = await _userBL.GetUser(u.Auth0Id);
                 UserStat userStat = await _userStatBL.GetAvgUserStat(u.Id);
-                return new StatModel(u.Auth0Id, userStat.AverageWPM, userStat.AverageAccuracy, userStat.NumberOfTests, userStat.TotalTestTime, u.Revapoints);
+                AvgStatModel avgStatModel = new AvgStatModel();
+                try
+                {
+                    avgStatModel.userID = u.Id;
+                    avgStatModel.averagewpm = userStat.AverageWPM;
+                    avgStatModel.averageaccuracy = userStat.AverageAccuracy;
+                    avgStatModel.numberoftests = userStat.NumberOfTests;
+                    avgStatModel.totaltesttime = userStat.TotalTestTime;
+                    avgStatModel.revapoints = u.Revapoints;
+                }
+                catch (Exception e) { Log.Error(e.StackTrace); }
+                return avgStatModel;
             }
             catch (Exception)
             {
@@ -113,6 +124,36 @@ namespace GACDRest.Controllers
                 return NotFound();
             }
         }
+
+    }
+    [HttpGet("avg")]
+    [Authorize]
+    public async Task<ActionResult<AvgStatModel>> GetNewAvgAsync()
+    {
+            try
+            {
+                User u = new User();
+                u.Auth0Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                u = await _userBL.GetUser(u.Auth0Id);
+                UserStat userStat = await _userStatBL.GetAvgUserStat(u.Id);
+                AvgStatModel avgStatModel = new AvgStatModel();
+                try
+                {
+                    avgStatModel.userID = u.Id;
+                    avgStatModel.averagewpm = userStat.AverageWPM;
+                    avgStatModel.averageaccuracy = userStat.AverageAccuracy;
+                    avgStatModel.numberoftests = userStat.NumberOfTests;
+                    avgStatModel.totaltesttime = userStat.TotalTestTime;
+                    avgStatModel.revapoints = u.Revapoints;
+                }catch(Exception e) { Log.Error(e.StackTrace); }
+                return avgStatModel;
+            }
+            catch (Exception)
+            {
+                Log.Error("Error in getting userstat average");
+                return NotFound();
+            }
+     }
         
     }
 }
