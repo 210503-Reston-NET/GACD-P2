@@ -353,6 +353,7 @@ namespace GACDDL
                 }
                 typeTests = typeTests.OrderByDescending(t => t.Date).ToList();
                 typeTests = typeTests.Take(100).ToList();
+                typeTests = typeTests.OrderBy(t => t.Date).ToList();
                 return typeTests;
             }catch(Exception)
             {

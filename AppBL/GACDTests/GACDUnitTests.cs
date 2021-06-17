@@ -730,6 +730,49 @@ namespace GACDTests
 
             }
         }
+        public async Task ClaimingWinOnDoubleShouldGivePoints()
+        {
+            using (var context = new GACDDBContext(options))
+            {
+                IUserBL userBL = new UserBL(context);
+                User user = new User();
+                user.Auth0Id = "testid";
+                user = await userBL.AddUser(user);
+                User user1 = new User();
+                user1.Auth0Id = "testid1";
+                user1 = await userBL.AddUser(user1);
+                ICategoryBL categoryBL = new CategoryBL(context);
+                ICompBL compBL = new CompBL(context);
+                Category category = new Category();
+                category.Name = 1;
+                category = await categoryBL.AddCategory(category);
+                IUserStatBL userStatBL = new UserStatBL(context);
+                TypeTest typeTest = new TypeTest();
+                typeTest.Date = DateTime.Now;
+                typeTest.NumberOfErrors = 100;
+                typeTest.NumberOfWords = 3000;
+                typeTest.WPM = 30;
+                typeTest.TimeTaken = 500000;
+                UserStat ust = await userStatBL.AddTestUpdateStat(1, 1, typeTest);
+                string testForComp = "Console.WriteLine('Hello World');";
+                int compId = await compBL.AddCompetition(DateTime.Now, DateTime.Now, 1, "name", 1, testForComp, "author");
+                CompetitionStat competitionStat = new CompetitionStat();
+                competitionStat.WPM = 30;
+                competitionStat.UserId = 2;
+                competitionStat.CompetitionId = compId;
+                await compBL.InsertCompStatUpdate(competitionStat, 100, 6);
+                await compBL.PlaceBet("testid", 2, 1, 1);
+                await compBL.PlaceBet("testid", 2, 1, 1);
+                int points = (await userBL.GetUser(1)).Revapoints;
+                await compBL.ClaimBets(1);
+                bool expected = true;
+                bool actual = ((await userBL.GetUser(1)).Revapoints) > points;
+                Assert.Equal(expected, actual);
+
+            }
+        }
+        
+        
         private void Seed()
         {
             using(var context = new GACDDBContext(options))
