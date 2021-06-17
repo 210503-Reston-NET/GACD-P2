@@ -93,7 +93,7 @@ namespace GACDRest.Controllers
                 Log.Error("Id not found");
                 return NotFound();
             }
-            return compStatOutputs;
+            
         }
         [HttpPut("bet")]
         [Authorize]
