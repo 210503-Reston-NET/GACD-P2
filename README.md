@@ -4,18 +4,18 @@ The best way to improve your coding speed!
 
 ## Functionality
 - Account Services
-    - [ ] Login/auth
+    - [x] Login/auth
 - Typing statistics
-    - [ ] Speed
-    - [ ] Accuracy
-    - [ ] Line graph to show progression
+    - [x] Speed
+    - [x] Accuracy
+    - [x] Line graph to show progression
 - Categories
-    - [ ] Quotes
-    - [ ] Random words
-    - [ ] Categories for different programming language
-    - [ ] Average stats by user by category
+    - [x] Quotes
+    - [x] Random words
+    - [x] Categories for different programming language
+    - [x] Average stats by user by category
 - vs
-    - [ ] Competitions
+    - [x] Competitions
     - [ ] Tournaments
     - [ ] Musical Chairs (Typing)
 - Chat room powered by Socket.io
@@ -53,4 +53,4 @@ The best way to improve your coding speed!
 - Musical Chairs(Typing elimination game)
 - Tournament chatrooms
 - Cosmetic Cash Shop
-- Revapoint gambling
+- [x] Revapoint gambling
