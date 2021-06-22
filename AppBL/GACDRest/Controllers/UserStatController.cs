@@ -18,9 +18,9 @@ namespace GACDRest.Controllers
     [ApiController]
     public class UserStatController : ControllerBase
     {
-        private IUserStatBL _userStatBL;
-        private IUserBL _userBL;
-        private ICategoryBL _categoryBL;
+        private readonly IUserStatBL _userStatBL;
+        private readonly IUserBL _userBL;
+        private readonly ICategoryBL _categoryBL;
         public UserStatController(IUserStatBL userstat, IUserBL userBL, ICategoryBL categoryBL)
 
         {

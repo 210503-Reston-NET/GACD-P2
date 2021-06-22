@@ -43,16 +43,16 @@ namespace GACDBL
         {
             return _ApiSettings.authString;
         }
-        public async Task<TestMaterial> GetCodeSnippet(int language)
+        public async Task<TestMaterial> GetCodeSnippet(int id)
         {
             try{
-                Log.Debug("Getting code snipped for language: {0}",language);
+                Log.Debug("Getting code snipped for language: {0}",id);
                 var client = new GitHubClient(new ProductHeaderValue("Not-sure-why-I-need-this"));
                 var tokenAuth = new Credentials(_ApiSettings.githubApiKey); // NOTE: not real token
                 client.Credentials = tokenAuth;
 
                 var request = new SearchCodeRequest{
-                    Language = (Language)language
+                    Language = (Language)id
                 };
 
                 SearchCodeResult searchResult= await client.Search.SearchCode(request);
@@ -78,7 +78,7 @@ namespace GACDBL
                 StreamReader reader = new StreamReader(rawSnippet);
                 string parsedSnippet = await reader.ReadToEndAsync();
                 TestMaterial testMaterial = new TestMaterial(parsedSnippet, author, parsedSnippet.Length );
-                testMaterial.categoryId = language;
+                testMaterial.categoryId = id;
                 return testMaterial;
             }catch(Exception ex){
                 Log.Error("Error Getting Code Snippet {0}\nStackTrace: {1}", ex.Message, ex.StackTrace);

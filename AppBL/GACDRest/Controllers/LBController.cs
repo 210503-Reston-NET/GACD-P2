@@ -20,8 +20,8 @@ namespace GACDRest.Controllers
     public class LBController : ControllerBase
     {
         private readonly ApiSettings _ApiSettings;
-        private IUserStatBL _userStatBL;
-        private ICategoryBL _categoryBL;
+        private readonly IUserStatBL _userStatBL;
+        private readonly ICategoryBL _categoryBL;
         public LBController(IUserStatBL userStatBL, IOptions<ApiSettings> settings, ICategoryBL categoryBL)
         {
             _userStatBL = userStatBL;

@@ -20,7 +20,7 @@ namespace GACDRest.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserBL _userBL;
+        private readonly IUserBL _userBL;
         private readonly ApiSettings _ApiSettings;
         public UserController(IUserBL userBL, IOptions<ApiSettings> settings)
         {
@@ -61,7 +61,7 @@ namespace GACDRest.Controllers
                     userNameModel.Revapoints = u.Revapoints;
                     userNameModel.UserId = u.Id;
                 }
-                catch (Exception) { }
+                catch (Exception e ) { Log.Information(e.Message); }
                 return userNameModel;
             }
             catch (Exception e)

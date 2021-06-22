@@ -20,11 +20,11 @@ namespace GACDRest.Controllers
     [ApiController]
     public class TypeTestController : ControllerBase
 	{
-		private ISnippets _snippetsService;
+		private readonly ISnippets _snippetsService;
         
-        private IUserStatBL _userStatService;
-        private IUserBL _userBL;
-        private ICategoryBL _categoryBL;
+        private readonly IUserStatBL _userStatService;
+        private readonly IUserBL _userBL;
+        private readonly ICategoryBL _categoryBL;
         public TypeTestController(ISnippets snip, IUserStatBL _userstat, IUserBL userBL, ICategoryBL categoryBL)
 
         {

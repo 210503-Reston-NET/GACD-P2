@@ -19,20 +19,18 @@ namespace GACDRest.Controllers
     [ApiController]
     public class CompetitonStatsController : ControllerBase
     {
-        private ICategoryBL _categoryBL;
-        private ICompBL _compBL;
-        private IUserBL _userBL;
-        private IUserStatBL _userStatService;
-        private readonly ApiSettings _ApiSettings;
+        private readonly ICategoryBL _categoryBL;
+        private readonly ICompBL _compBL;
+        private readonly IUserBL _userBL;
+        private readonly IUserStatBL _userStatService;
 
-        public CompetitonStatsController(IUserBL userBL, ICategoryBL categoryBL, IUserStatBL _userstat, ICompBL compBL, IOptions<ApiSettings> settings)
+        public CompetitonStatsController(IUserBL userBL, ICategoryBL categoryBL, IUserStatBL _userstat, ICompBL compBL)
         {
             _compBL = compBL;
             _compBL = compBL;
             _userBL = userBL;
             _categoryBL = categoryBL;
             _userStatService = _userstat;
-            _ApiSettings = settings.Value;
         }
         /// <summary>
         /// GET /api/CompetitionStats/{id}

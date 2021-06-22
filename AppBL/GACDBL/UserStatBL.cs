@@ -11,7 +11,7 @@ namespace GACDBL
 {
     public class UserStatBL : IUserStatBL
     {
-        private Repo _repo;
+        private readonly Repo _repo;
         public UserStatBL(GACDDBContext context)
         {
             _repo = new Repo(context);
@@ -110,7 +110,7 @@ namespace GACDBL
                 List<Tuple<User, double, double, int>> usersRanked = new List<Tuple<User, double, double, int>>();
                 foreach (Tuple<User, double, double> tuple1 in returnUsers)
                 {
-                    if ((!Double.IsInfinity(tuple1.Item2)) && ((!Double.IsInfinity(tuple1.Item3)))) returnUsersChecked.Add(tuple1);
+                    if ((!Double.IsInfinity(tuple1.Item2)) && (!Double.IsInfinity(tuple1.Item3))) returnUsersChecked.Add(tuple1);
                 }
                 int i = 0;
                 foreach (Tuple<User, double, double> t in returnUsersChecked)
@@ -179,17 +179,18 @@ namespace GACDBL
             return await _repo.GetUserStats(userId);
         }
 
-        public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int wpm, DateTime date)
+        public async Task<TypeTest> SaveTypeTest(int errors, int charactersTyped, int timeTaken, int WPM, DateTime date)
         {
-            TypeTest test = new TypeTest();
-            test.NumberOfErrors = errors;
-            test.NumberOfWords = charactersTyped;
-            test.TimeTaken = timeTaken;
-            test.Date = date;
-            //double time = timeTaken / 60000;
-            test.WPM = wpm;
-            return test;
-
+            return await Task.Run(() =>
+            {
+                TypeTest test = new TypeTest();
+                test.NumberOfErrors = errors;
+                test.NumberOfWords = charactersTyped;
+                test.TimeTaken = timeTaken;
+                test.Date = date;
+                test.WPM = WPM;
+                return test;
+            });
                
 
         }
