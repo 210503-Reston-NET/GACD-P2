@@ -12,13 +12,13 @@ namespace GACDBL
 {
     public class CompBL : ICompBL
     {
-        private Repo _repo;
+        private readonly Repo _repo;
         public CompBL(GACDDBContext context)
         {
             _repo = new Repo(context);
             
         }
-        public async Task<int> AddCompetition(DateTime startDate, DateTime endDate, int categoryId, string competitionName, int userId, string teststring)
+        public async Task<int> AddCompetition(DateTime startDate, DateTime endDate, int categoryId, string competitionName, int user, string teststring)
         {
             Competition competition = new Competition();
             competition.StartDate = startDate;
@@ -26,10 +26,10 @@ namespace GACDBL
             competition.CategoryId = categoryId;
             competition.CompetitionName = competitionName;
             competition.TestString = teststring;
-            competition.UserCreatedId = userId;
+            competition.UserCreatedId = user;
             return  await _repo.AddCompetition(competition);
         }
-        public async Task<int> AddCompetition(DateTime startDate, DateTime endDate, int categoryId, string competitionName, int userId, string teststring, string author)
+        public async Task<int> AddCompetition(DateTime startDate, DateTime endDate, int categoryId, string competitionName, int user, string teststring, string author)
         {
             Competition competition = new Competition();
             competition.StartDate = startDate;
@@ -37,7 +37,7 @@ namespace GACDBL
             competition.CategoryId = categoryId;
             competition.CompetitionName = competitionName;
             competition.TestString = teststring;
-            competition.UserCreatedId = userId;
+            competition.UserCreatedId = user;
             competition.TestAuthor = author;
             return await _repo.AddCompetition(competition);
         }
@@ -81,7 +81,7 @@ namespace GACDBL
                 double numErrors = (double)numberErrors;
                 numErrors = numErrors / 5;
                 competitionStat.Accuracy = (numWords - numErrors) / numWords;
-                if (await _repo.AddCompStat(competitionStat) == null) throw new Exception("Error adding competition stat");
+                if (await _repo.AddCompStat(competitionStat) == null) throw new ArgumentNullException("Error adding competition stat");
                 List<CompetitionStat> competitionStats = await _repo.GetCompStats(competitionStat.CompetitionId);
                 int i = 0;
                 foreach(CompetitionStat c in competitionStats)

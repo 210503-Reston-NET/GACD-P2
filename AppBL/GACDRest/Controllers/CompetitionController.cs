@@ -18,18 +18,16 @@ namespace GACDRest.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class CompetitionController : ControllerBase{
-        private ICompBL _compBL;
-        private ICategoryBL _categoryBL;
-        private IUserBL _userBL;
-        private ISnippets _snippets;
+        private readonly ICompBL _compBL;
+        private readonly ICategoryBL _categoryBL;
+        private readonly IUserBL _userBL;
         private readonly ApiSettings _ApiSettings;
 
-        public CompetitionController(ICompBL compBL, ICategoryBL catBL, IUserBL uBL, ISnippets snippets, IOptions<ApiSettings> settings)
+        public CompetitionController(ICompBL compBL, ICategoryBL catBL, IUserBL uBL, IOptions<ApiSettings> settings)
         {
             _compBL = compBL;
             _categoryBL = catBL;
             _userBL = uBL;
-            _snippets = snippets;
             _ApiSettings = settings.Value;
         }
         /// <summary>
@@ -160,7 +158,6 @@ namespace GACDRest.Controllers
                 category.Name = cObject.Category;
                 await _categoryBL.AddCategory(category);
             }
-            TestMaterial t;
             if (String.IsNullOrEmpty(cObject.snippet) || String.IsNullOrWhiteSpace(cObject.snippet)) return BadRequest();
             User u = await _userBL.GetUser(UserID);
             Category category1 = await _categoryBL.GetCategory(cObject.Category);

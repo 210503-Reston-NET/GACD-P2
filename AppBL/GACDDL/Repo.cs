@@ -11,7 +11,7 @@ namespace GACDDL
 {
     public class Repo : IRepo
     {
-        private GACDDBContext _context;
+        private readonly GACDDBContext _context;
         public Repo(GACDDBContext context)
         {
             _context = context;
@@ -66,7 +66,7 @@ namespace GACDDL
                 _context.Entry(cstat).State = EntityState.Detached;
                 return c;
             }
-            catch (Exception) { }
+            catch (Exception) { Log.Information("Could not find stat, adding new entry in competition."); }
             try
             {
                 await _context.CompetitionStats.AddAsync(c);
@@ -242,6 +242,7 @@ namespace GACDDL
                              select c).SingleAsync();
             }catch(Exception e)
             {
+                Log.Error(e.StackTrace);
                 Log.Error("Error finding category returning null");
                 return null;
             }
@@ -256,6 +257,7 @@ namespace GACDDL
                              select cat).SingleAsync();
             } catch(Exception e)
             {
+                Log.Information(e.StackTrace);
                 Log.Information("No such category found");
                 return null;
 
@@ -287,6 +289,7 @@ namespace GACDDL
             }
             catch( Exception e)
             {
+                Log.Error(e.StackTrace);
                 Log.Error("Error retrieving string");
                 return null;
             }
@@ -383,12 +386,12 @@ namespace GACDDL
             }
         }
 
-        public async Task<User> GetUser(string auth0Id)
+        public async Task<User> GetUser(string auth0id)
         {
             try
             {
                 return await (from u in _context.Users
-                        where u.Auth0Id == auth0Id
+                        where u.Auth0Id == auth0id
                         select u).SingleAsync();
             }
             catch(Exception)
@@ -431,14 +434,14 @@ namespace GACDDL
             throw new NotImplementedException();
         }
 
-        public async Task<Bet> PlaceBetOnCompUser(int better, int bettee, int compId, int betaAmount)
+        public async Task<Bet> PlaceBetOnCompUser(int better, int bettee, int compId, int betAmount)
         {
             try
             {
                 User better1 = await (from usr in _context.Users
                                       where usr.Id == better
                                       select usr).SingleAsync();
-                if (better1.Revapoints < betaAmount) return null;
+                if (better1.Revapoints < betAmount) return null;
                 else
                 {
                     CompetitionStat competitionStat = await (from cS in _context.CompetitionStats
@@ -452,23 +455,23 @@ namespace GACDDL
                                          && bt.CompetitionId == compId
                                          && bt.BettingUserId == better
                                          select bt).SingleAsync();
-                        bet.PointsBet += betaAmount;
-                        better1.Revapoints -= betaAmount;
+                        bet.PointsBet += betAmount;
+                        better1.Revapoints -= betAmount;
                         await _context.SaveChangesAsync();
                         return bet;
                     }
                     catch(Exception e)
                     {
-                        Log.Information("e.Message");
+                        Log.Information(e.Message);
                         Log.Information("Creating new bet");
                         Bet bet = new Bet();
                         bet.UserId = bettee;
                         bet.CompetitionId = compId;
                         bet.BettingUserId = better;
                         bet.Claimed = false;
-                        bet.PointsBet = betaAmount;
+                        bet.PointsBet = betAmount;
                         await _context.Bets.AddAsync(bet);
-                        better1.Revapoints -= betaAmount;
+                        better1.Revapoints -= betAmount;
                         await _context.SaveChangesAsync();
                         return bet;
                     }

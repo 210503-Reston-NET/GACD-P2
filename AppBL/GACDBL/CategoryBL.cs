@@ -10,7 +10,7 @@ namespace GACDBL
 {
     public class CategoryBL : ICategoryBL
     {
-        private Repo _repo;
+        private readonly Repo _repo;
         public CategoryBL(GACDDBContext context)
         {
             _repo = new Repo(context);

@@ -113,11 +113,6 @@ namespace GACDRest
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GACDRest v1"));
             }
-
-            //Setup Serilog
-            // Log.Logger = new LoggerConfiguration()
-            // .ReadFrom.Configuration(Configuration)
-            // .CreateLogger();
             
             app.UseCors(x => x
             .AllowAnyOrigin()
