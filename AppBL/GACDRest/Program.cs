@@ -29,7 +29,6 @@ namespace GACDRest
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
-                return;
             }
         }
 

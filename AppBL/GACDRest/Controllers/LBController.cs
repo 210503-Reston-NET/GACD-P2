@@ -92,6 +92,7 @@ namespace GACDRest.Controllers
             List<Tuple<User, double, double, int>> statTuples;
             try { statTuples = await _userStatBL.GetBestUsersForCategory(category.Id); }
             catch(Exception e ) {
+                Log.Error(e.StackTrace);
                 Log.Error("Category not found returning empty");
                 return new List<LBUserModel>();
             }
