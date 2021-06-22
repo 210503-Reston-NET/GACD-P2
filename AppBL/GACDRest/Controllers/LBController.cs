@@ -28,11 +28,11 @@ namespace GACDRest.Controllers
             _ApiSettings = settings.Value;
             _categoryBL = categoryBL;
         }
-        // GET: api/<LBController>
         /// <summary>
+        /// GET /api/LB
         /// General leaderboard, gets the best users in general to send to client
         /// </summary>
-        /// <returns>List of best users in the database sorted by WPM</returns>
+        /// <returns>List of best users in the database sorted by WPM or 404 if it cannot be found</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LBUserModel>>> GetAsync()
         {
@@ -62,8 +62,7 @@ namespace GACDRest.Controllers
                         Log.Error(e.Message);
                         Log.Error("Unexpected error occured in LBController");
                     }
-                    //lBUserModel.Name = tuple.Item1.Name;
-                    //lBUserModel.UserName = tuple.Item1.UserName;
+                    
                     if ((!Double.IsNaN(lBUserModel.AverageWPM)) && (!Double.IsNaN(lBUserModel.AverageAcc)) && (!Double.IsInfinity(lBUserModel.AverageWPM)) && (!Double.IsInfinity(lBUserModel.AverageAcc)))
                         lBUserModels.Add(lBUserModel);
                 }
@@ -77,10 +76,10 @@ namespace GACDRest.Controllers
             }
         }
         /// <summary>
-        /// Gets the best User for a given category
+        /// Gets the best Users for a given category
         /// </summary>
         /// <param name="id">category of Id to search</param>
-        /// <returns>List of best users in that category</returns>
+        /// <returns>List of best users in the database sorted by WPM in that category or 404 if it cannot be found</returns>
         // GET api/<LBController>/5
         [HttpGet("{id}")]
         public async Task<IEnumerable<LBUserModel>> GetAsync(int id)
@@ -119,12 +118,14 @@ namespace GACDRest.Controllers
                 lBUserModel.AverageWPM = tuple.Item2;
                 lBUserModel.AverageAcc = tuple.Item3;
                 lBUserModel.Ranking = tuple.Item4;
-                //lBUserModel.Name = tuple.Item1.Name;
-                //lBUserModel.UserName = tuple.Item1.UserName;
                 lBUserModels.Add(lBUserModel);
             }
             return lBUserModels;
         }
+        /// <summary>
+        /// Private method to get application token for auth0 management 
+        /// </summary>
+        /// <returns>dynamic object with token for Auth0 call</returns>
         private dynamic GetApplicationToken()
         {
             var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
@@ -132,7 +133,7 @@ namespace GACDRest.Controllers
             request.AddHeader("content-type", "application/json");
             request.AddParameter("application/json", _ApiSettings.authString, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
-            //Log.Information("Response: {0}",response.Content);
+            Log.Information("Response: {0}",response.Content);
             return JsonConvert.DeserializeObject(response.Content);
         }
     }

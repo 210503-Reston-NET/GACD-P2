@@ -13,8 +13,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace GACDRest.Controllers
 {
     [Route("api/[controller]")]
@@ -36,7 +34,12 @@ namespace GACDRest.Controllers
             _userStatService = _userstat;
             _ApiSettings = settings.Value;
         }
-        // GET: api/<CompeititonStatsController>
+        /// <summary>
+        /// GET /api/CompetitionStats/{id}
+        /// Gets the information needed for a user to participate in the competition and update their related statistics
+        /// </summary>
+        /// <param name="id">Competition Id for the competition</param>
+        /// <returns>Output or 404 if competition cannot be found</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CompetitionContent>> Get(int id)
         {
@@ -58,10 +61,13 @@ namespace GACDRest.Controllers
             }
 
         }
-
-        // GET api/<CompeititonStatsController>/5
-        
-        // POST api/<CompeititonStatsController>
+        /// <summary>
+        /// POST /api/CompetitionStats
+        /// Posts the user's competition statistics, updates competition standings and user statistics
+        /// </summary>
+        /// <param name="compInput">DTO for competition input, extension of type test input with competition ID</param>
+        /// <returns>200 with rank in the body or 400 if the test input is incorrect or the competition is already 
+        /// done.Returns 404 if competition cannot be found.</returns>
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<int>> Post(CompInput compInput)

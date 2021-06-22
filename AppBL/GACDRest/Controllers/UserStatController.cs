@@ -28,12 +28,13 @@ namespace GACDRest.Controllers
             _userBL = userBL;
             _categoryBL = categoryBL;
         }
-        // GET: api/<UserStatController>
+
         /// <summary>
+        /// GET /api/UserStat/all
         /// Method for getting all the users stats listed per category
         /// </summary>
         /// <param name="id">Id of user whose stats you are looking for</param>
-        /// <returns>List of user stats for the given user</returns>
+        /// <returns>List of DTO of user stats for the given user or 404 if none found</returns>
         [HttpGet("all")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<StatModel>>> GetAsync()
@@ -59,6 +60,12 @@ namespace GACDRest.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// GET /api/UserStat/tests
+        /// Used to get current user’s latest 100 tests as a list of tests sorted by date (oldest to newest).
+        /// </summary>
+        /// <returns>List of DTO of user tests for the given user or 404 if user not found</returns>
         [HttpGet("tests")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<TestStatOutput>>> GetTests()
@@ -88,13 +95,12 @@ namespace GACDRest.Controllers
                 return NotFound();
             }
         }
-        // GET api/<UserStatController>/5
+
         /// <summary>
-        /// Method for getting the average user stats accross the board
-        /// for a user
+        /// GET /api/UserStat
+        /// Used to get user’s average statistics, category returned is set to be user’s revapoints.
         /// </summary>
-        /// <param name="id">Id of user whose stats you are looking for</param>
-        /// <returns>Average user stats for the given user</returns>
+        /// <returns>DTO for Average user stats for the given user ir 404 if not found</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<StatModel>> GetAvgAsync()

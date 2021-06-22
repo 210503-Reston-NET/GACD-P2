@@ -14,9 +14,6 @@ using RestSharp;
 using Newtonsoft.Json;
 using Serilog;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
 namespace GACDRest.Controllers
 {
     [Route("api/[controller]")]
@@ -36,11 +33,23 @@ namespace GACDRest.Controllers
             _userStatService = _userstat;
             _categoryBL = categoryBL;
         }
+        /// <summary>
+        /// GET /api/TypeTest
+        /// Gets a random quote, author, and length from http://api.quotable.io/random
+        /// </summary>
+        /// <returns>TestMaterial DTO or 500 on internal server error</returns>
         [HttpGet]
         public async Task<TestMaterial> GetQuote()
         {
             return await _snippetsService.GetRandomQuote();
         }
+        /// <summary>
+        /// GET /api/TypeTest/{id}
+        /// Used to get a random quote on -1 or language number from Octokit.Language to search in 
+        /// https://raw.githubusercontent.com/ for a random file in that language to get for coding test
+        /// </summary>
+        /// <param name="id">Category to get test from</param>
+        /// <returns> TestMaterial DTO or 500 on internal server error</returns>
         [HttpGet("{id}")]
         public async Task<TestMaterial> CodeSnippet(int id)
         {
@@ -49,7 +58,9 @@ namespace GACDRest.Controllers
         }
 
         /// <summary>
-        /// Method which adds a test to the database
+        /// POST /api/TypeTest
+        /// Used to post the results of a type test to the database, adding a category and/or user if necessary and 
+        /// updating user stats.
         /// </summary>
         /// <param name="typeTest">Typetest to insert</param>
         /// <returns>400 if request can't be processed, 200 if successful</returns>
