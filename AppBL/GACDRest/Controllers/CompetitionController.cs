@@ -143,7 +143,6 @@ namespace GACDRest.Controllers
         [Authorize]
         public async Task<ActionResult> Post(CompetitionObject cObject)
         {
-            Competition c = new Competition();
             string UserID = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             if(await _userBL.GetUser(UserID) == null)

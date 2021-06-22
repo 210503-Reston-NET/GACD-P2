@@ -12,7 +12,7 @@ namespace GACDBL
 {
     public class UserBL : IUserBL
     {
-        private Repo _repo;
+        private readonly Repo _repo;
         public UserBL(GACDDBContext context)
         {
             _repo = new Repo(context);

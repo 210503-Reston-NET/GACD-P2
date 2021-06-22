@@ -23,9 +23,9 @@ namespace GACDDL
             try
             {
                 //Make sure category doesn't already exists
-                Category category = await (from c in _context.Categories
-                                     where c.Name == cat.Name
-                                     select c).SingleAsync();
+                await (from c in _context.Categories
+                       where c.Name == cat.Name
+                       select c).SingleAsync();
                 return null;
             }catch (Exception)
             {
@@ -154,7 +154,7 @@ namespace GACDDL
                 User u = await GetUser(userId);
                 List<Bet> bets = await (from b in _context.Bets
                                         where b.BettingUserId == userId
-                                        && b.Claimed == false
+                                        && !b.Claimed
                                         select b).ToListAsync();
                 List<Bet> wonBets = new List<Bet>();
                 foreach(Bet bt in bets)
@@ -306,7 +306,8 @@ namespace GACDDL
 
             }catch(Exception e)
             {
-                Log.Information("No relevant stats foound returning empty list");
+                Log.Information(e.StackTrace);
+                Log.Information("No relevant stats found returning empty list");
                 return new List<CompetitionStat>();
             }
         }
@@ -444,10 +445,10 @@ namespace GACDDL
                 if (better1.Revapoints < betAmount) return null;
                 else
                 {
-                    CompetitionStat competitionStat = await (from cS in _context.CompetitionStats
-                                                             where cS.CompetitionId == compId
-                                                             && cS.UserId == bettee
-                                                             select cS).SingleAsync();
+                    await (from cS in _context.CompetitionStats
+                           where cS.CompetitionId == compId
+                           && cS.UserId == bettee
+                           select cS).SingleAsync();
                     try
                     {
                         Bet bet = await (from bt in _context.Bets
