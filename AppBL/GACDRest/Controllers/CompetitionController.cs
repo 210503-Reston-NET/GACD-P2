@@ -32,6 +32,11 @@ namespace GACDRest.Controllers
             _snippets = snippets;
             _ApiSettings = settings.Value;
         }
+        /// <summary>
+        /// GET /api/Competition
+        /// Gets a List of competitions in the database
+        /// </summary>
+        /// <returns>List of competitions or 404 if they can't be found</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompetitionObject>>> GetAsync()
         {
@@ -51,6 +56,12 @@ namespace GACDRest.Controllers
             catch (Exception) { Log.Error("unexpected error in Competition get method"); }
             return NotFound();
         }
+        /// <summary>
+        /// GET /api/Competition/{id}
+        /// Gets a list of competition results for a given competition
+        /// </summary>
+        /// <param name="id">competition Id</param>
+        /// <returns>List of competitions or 404 if not found</returns>
         [HttpGet("{id}", Name = "Get")]
         public async Task<ActionResult<IEnumerable<CompStatOutput>>> GetAsync(int id)
         {
@@ -95,6 +106,12 @@ namespace GACDRest.Controllers
             }
             
         }
+        /// <summary>
+        /// PUT /api/Competition/bet
+        /// Places a bet on a given competitor for user based on input
+        /// </summary>
+        /// <param name="compBetInput">DTO for input, Competition Bet Information</param>
+        /// <returns>400 if given a bad input (such as betting on a finished competition) or 200 otherwise</returns>
         [HttpPut("bet")]
         [Authorize]
         public async Task<ActionResult> PutBet(CompBetInput compBetInput) {
@@ -104,6 +121,12 @@ namespace GACDRest.Controllers
             else if (await _compBL.PlaceBet(UserID, compBetInput.UserBetOn, compBetInput.CompId, compBetInput.BetAmount) == null) return BadRequest();
             else return Ok();
         }
+        /// <summary>
+        /// PUT /api/Competition/bet/{id}
+        /// Claims the bets for a given user
+        /// </summary>
+        /// <param name="id">id of user for whose bets you wish to collect</param>
+        /// <returns>404 if no such bets can be found, 200 otherwise</returns>
         [HttpPut("bet/{id}")]
         [Authorize]
         public async Task<ActionResult> ClaimBet(int id)
@@ -111,6 +134,13 @@ namespace GACDRest.Controllers
             if ((await _compBL.ClaimBets(id)).Count == 0) return NotFound();
             else return Ok();
         }
+        /// <summary>
+        /// POST /api/Competition
+        /// Posts a new competition to the created
+        /// </summary>
+        /// <param name="cObject">DTO for input, Competition information</param>
+        /// <returns>Returns: 201 with route and then new competition Id in body, otherwise 400 if user tries to enter bad 
+        /// data.</returns>
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Post(CompetitionObject cObject)
@@ -143,7 +173,10 @@ namespace GACDRest.Controllers
             else return BadRequest();
         }
 
-        
+        /// <summary>
+        /// Private method to get application token for auth0 management 
+        /// </summary>
+        /// <returns>dynamic object with token for Auth0 call</returns>
         private dynamic GetApplicationToken()
         {
             var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
@@ -151,7 +184,7 @@ namespace GACDRest.Controllers
             request.AddHeader("content-type", "application/json");
             request.AddParameter("application/json", _ApiSettings.authString, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
-            //Log.Information("Response: {0}",response.Content);
+            Log.Information("Response: {0}",response.Content);
             return JsonConvert.DeserializeObject(response.Content);
         }
     }

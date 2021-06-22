@@ -28,9 +28,10 @@ namespace GACDRest.Controllers
             _ApiSettings = settings.Value;
         }
         /// <summary>
-        /// Gets a username with a given user
+        /// GET /api/User/username
+        /// Gets a username and basic information with a given user
         /// </summary>
-        /// <returns>username / name associated with user</returns>
+        /// <returns>DTO with username / basic information associated with user or 404 if user can't be found</returns>
         // GET api/<UserController>/5
         [Authorize]
         [HttpGet("username")]
@@ -71,6 +72,10 @@ namespace GACDRest.Controllers
             }
         }
 
+        /// <summary>
+        /// Private method to get application token for auth0 management 
+        /// </summary>
+        /// <returns>dynamic object with token for Auth0 call</returns>
         private dynamic GetApplicationToken()
         {
             var client = new RestClient("https://kwikkoder.us.auth0.com/oauth/token");
@@ -78,7 +83,7 @@ namespace GACDRest.Controllers
             request.AddHeader("content-type", "application/json");
             request.AddParameter("application/json", _ApiSettings.authString, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
-            //Log.Information("Response: {0}",response.Content);
+            Log.Information("Response: {0}",response.Content);
             return JsonConvert.DeserializeObject(response.Content);
         }
     }
