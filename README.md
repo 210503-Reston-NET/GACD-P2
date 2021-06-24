@@ -6,6 +6,8 @@ Users can test their limits in over 60 different programming languages.
 
 Users can see how they stand against others with overall as well as category specific leaderboards.
 
+Users can compete against their friends in competitions.
+
 We reward users with revapoints through competition participation, and provide them with eye catching graphs that show their progress over time.
 
 
