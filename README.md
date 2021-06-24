@@ -1,6 +1,14 @@
 # Kwik Koder
 
-The best way to improve your coding speed!
+Many coders are bottlenecked by lackluster typing skills, we aim to provide these developers with a place to hone their abilities and improve themselves.
+
+Users can test their limits in over 60 different programming languages.
+
+Users can see how they stand against others with overall as well as category specific leaderboards.
+
+We reward users with revapoints through competition participation, and provide them with eye catching graphs that show their progress over time.
+
+
 
 ## Functionality
 - Account Services
@@ -23,15 +31,20 @@ The best way to improve your coding speed!
     - [ ] Category Based Boards
 
 ### Technologies:
-- C#
+
 - Angular
-- ASP.NET
-- PostGreSQL DB
+- Karma/Jasmine
+- Auth0 User Authentication
+- .NET 5
+- C#
 - XUnit
+- EF Core
+- PostgreSQL
+- Elephantsql.com
+- Azure App Services
 - Serilog
-- REST
 - Github api, quotable api
-- Socket.io
+
 
 ### MVP:
 - Accounts
@@ -45,12 +58,3 @@ The best way to improve your coding speed!
     - Overall 
     - Categories
 - Basic asynchronous competition (multiple people testing against the same assessment)
-
-
-#### Stretch Goals:
-- Live Session Multiplayer
-- XP/Level Functionality
-- Musical Chairs(Typing elimination game)
-- Tournament chatrooms
-- Cosmetic Cash Shop
-- [x] Revapoint gambling
